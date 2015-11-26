@@ -1,5 +1,4 @@
 source "https://rubygems.org"
-ruby "2.2.2"
 gem "rails", "4.2.4"
 
 gem "app_konfig"
@@ -29,9 +28,7 @@ gem "whenever"
 
 gem "airbrussh", require: false
 gem "capistrano"
-gem "capistrano-rails"
-gem "capistrano-bundler"
-gem "capistrano-passenger"
+gem 'capistrano-docker', github: 'netguru/capistrano-docker', tag: 'v0.2.3'
 
 gem "rvm1-capistrano3", require: false
 

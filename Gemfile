@@ -28,7 +28,7 @@ gem "whenever"
 
 gem "airbrussh", require: false
 gem "capistrano"
-gem 'capistrano-docker', github: 'netguru/capistrano-docker', tag: 'v0.2.3'
+gem "capistrano-docker", github: "netguru/capistrano-docker", tag: "v0.2.3"
 
 gem "rvm1-capistrano3", require: false
 

@@ -23,7 +23,9 @@ users = ["John Smith", "Jane Doe", "Charles Adams", "Lisa Morris"]
 
 #create projects
 projects.each do |project_name|
-  Project.find_or_create_by(name: project_name)
+  Project.find_or_create_by(name: project_name,
+                            email: "team-#{project_name.downcase}@domain.com",
+                            channel_name: "project-#{project_name.downcase}")
 end
 
 #create reminders

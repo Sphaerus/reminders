@@ -1,6 +1,5 @@
 class ProjectCheckDecorator < Draper::Decorator
-  delegate :id, :enabled?, :last_check_user, :project_id,
-           :reminder_id, :reminder
+  delegate_all
 
   def check_assignments
     CheckAssignmentDecorator.decorate_collection(object.check_assignments)

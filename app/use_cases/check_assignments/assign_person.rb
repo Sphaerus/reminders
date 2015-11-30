@@ -22,7 +22,7 @@ module CheckAssignments
         checker: person,
         project_check: check,
         assignments_repository: assignments_repo,
-        contact_person: contact_person
+        contact_person: contact_person,
       ).call
     end
 

@@ -2,11 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+# 2015-11-29
+
+## Added
+
+* Docker integration
+* Automatic deploys on production
+* Reorganized project tabs (archived projects visible under 'archived' tab)
+* Project seeds
+
+## Fixed
+
+* Only admins are allowed to change project check's change
+* Use `Time.current` all over the place
+* Aligned buttons
+* If user is assigned for a project check - email won't be sent to project team
+
 # 2015-09-16
 
 ## Added
 
-* Archivization of projects
+* Ability to archive projects
 * Fixed destroying reminders and dependents project_checks, check_assignments and skills
 
 # 2015-09-15

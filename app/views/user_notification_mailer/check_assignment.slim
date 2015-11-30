@@ -1,6 +1,8 @@
 p Hi #{@user.name},
 p
-  | You have been assigned to do next
+  | You have been assigned by
+  strong  #{@contact_person.name}
+  |  to do next
   strong  #{@project_check.reminder.name}
   |  in
   strong  #{@project_check.project.name}
@@ -8,4 +10,3 @@ p
   | Additional info:
 p
   = @project_check.info
-

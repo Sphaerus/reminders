@@ -7,6 +7,7 @@ describe CheckAssignments::Create do
       assignments_repository: assignments_repo,
       checker: checker,
       project_check: project_check,
+      contact_person: create(:admin),
     }
   end
   let(:assignments_repo) { CheckAssignmentsRepository.new }

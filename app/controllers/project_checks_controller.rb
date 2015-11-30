@@ -36,6 +36,7 @@ class ProjectChecksController < ApplicationController
       project_check: check,
       assignments_repo: assignments_repo,
       person: users_repo.find(params[:user_id]),
+      contact_person: current_user,
     ).call
     redirect_to reminder_path(check.reminder),
                 notice: notice

@@ -20,6 +20,7 @@ class CheckAssignmentsController < ApplicationController
       checker: current_user,
       project_check: check,
       assignments_repository: assignments_repository,
+      contact_person: current_user,
     )
   end
   expose(:assignment_completer) do

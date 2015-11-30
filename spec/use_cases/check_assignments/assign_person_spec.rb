@@ -13,6 +13,7 @@ describe CheckAssignments::AssignPerson do
            id: 2,
            reminder: reminder,
            project: project,
+           info: Faker::Lorem.sentence,
           )
   end
   let(:assignments_repo) do

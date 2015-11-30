@@ -6,6 +6,7 @@ describe CheckAssignments::AssignPerson do
       project_check: project_check,
       assignments_repo: assignments_repo,
       person: user,
+      contact_person: create(:admin),
     )
   end
   let(:project_check) do

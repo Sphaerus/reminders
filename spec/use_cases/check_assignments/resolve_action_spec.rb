@@ -12,6 +12,7 @@ describe CheckAssignments::ResolveAction do
       checker: double(:user),
       project_check: double(:project_check),
       assignments_repository: repo,
+      contact_person: create(:admin),
     )
   end
   let(:completer) do

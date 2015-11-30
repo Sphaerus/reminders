@@ -1,11 +1,12 @@
 module CheckAssignments
   class AssignPerson
-    attr_reader :check, :assignments_repo, :person
+    attr_reader :check, :assignments_repo, :person, :contact_person
 
-    def initialize(project_check:, assignments_repo:, person:)
+    def initialize(project_check:, assignments_repo:, person:, contact_person:)
       @check = project_check
       @person = person
       @assignments_repo = assignments_repo
+      @contact_person = contact_person
     end
 
     def call
@@ -21,6 +22,7 @@ module CheckAssignments
         checker: person,
         project_check: check,
         assignments_repository: assignments_repo,
+        contact_person: contact_person
       ).call
     end
 
@@ -39,7 +41,7 @@ module CheckAssignments
     end
 
     def notify_user
-      UserNotificationMailer.check_assignment(@person, @check).deliver_now
+      UserNotificationMailer.check_assignment(@person, @check, @contact_person).deliver_now
     end
   end
 end

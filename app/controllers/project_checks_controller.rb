@@ -6,7 +6,7 @@ class ProjectChecksController < ApplicationController
   expose(:check) do
     project_checks_repository.find(
       params[:id] || params[:project_check_id],
-    )
+    ).decorate
   end
   expose(:reminders_repository) { RemindersRepository.new }
   expose(:reminder) do

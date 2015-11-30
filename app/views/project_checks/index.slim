@@ -15,6 +15,7 @@
           th Project
           th Last check
           th Days left
+          th Info
           th Last checked by
           th History
           th Check now?
@@ -43,6 +44,10 @@
                           i.glyphicon.glyphicon-pushpin
               - else
                 = pc.days_to_deadline
+            td
+              = link_to edit_project_check_path(pc) do
+                .btn.btn-info
+                  | Edit
             td = pc.last_checked_by
             td
               = link_to history_project_check_path(pc) do

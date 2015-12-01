@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   end
 
   post "check_assignments/complete_check" => "check_assignments#complete_check", :as => :complete_check
+  post "check_assignments/set_deadline" => "check_assignments#set_deadline", as: :set_deadline
 
   resources :reminders do
     post :sync_projects

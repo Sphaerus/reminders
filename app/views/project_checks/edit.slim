@@ -1,6 +1,7 @@
-h1 #{check.review} info for project #{check.project_name}
+- decorated_check = check.decorate
+h1 #{decorated_check.review} info for project #{decorated_check.project_name}
 
-== render 'form'
+= render 'form'
 
-= link_to "Back to #{check.review}", check.reminder
+= link_to "Back to #{decorated_check.review}", decorated_check.reminder
 

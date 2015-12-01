@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20151127183800) do
     t.datetime "updated_at",                        null: false
     t.integer  "last_check_user_id"
     t.boolean  "enabled",            default: true
+    t.text     "info"
   end
 
   add_index "project_checks", ["project_id"], name: "index_project_checks_on_project_id", using: :btree

@@ -1,0 +1,7 @@
+- decorated_check = check.decorate
+h1 #{decorated_check.review} info for project #{decorated_check.project_name}
+
+= render 'form'
+
+= link_to "Back to #{decorated_check.review}", decorated_check.reminder
+

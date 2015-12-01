@@ -94,4 +94,33 @@ describe ProjectChecksController do
       end
     end
   end
+
+  describe "#update" do
+    let(:params) { { project_check: { info: "New info" }, id: project_check.id } }
+    subject { post :update, params }
+
+    it "updates project check info" do
+      subject
+      expect(project_check.reload.info).to eq("New info")
+    end
+
+    it "renders notice" do
+      subject
+      expect(flash[:notice]).to have_text("Check info updated.")
+    end
+
+    context "when project can't be saved because of errors" do
+      before do
+        allow_any_instance_of(ProjectChecks::Update)
+          .to receive(:call).and_return(false)
+        allow_any_instance_of(ActiveModel::Errors)
+          .to receive(:full_messages).and_return(["Unable to process"])
+      end
+
+      it "renders alert" do
+        subject
+        expect(flash[:alert]).to have_text("Unable to process")
+      end
+    end
+  end
 end

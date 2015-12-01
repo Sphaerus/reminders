@@ -63,7 +63,20 @@ class ProjectChecksController < ApplicationController
     redirect_to reminder_path(check.reminder), redirect_args
   end
 
+  def update
+    if ProjectChecks::Update.new(check: check).call(check_params)
+      redirect_to check.reminder, notice: "Check info updated."
+    else
+      flash.now[:alert] = check.errors.full_messages.join(", ")
+      render :edit
+    end
+  end
+
   private
+
+  def check_params
+    params.require(:project_check).permit(:info)
+  end
 
   def override_deadline_call
     ProjectChecks::OverrideDeadline.new(

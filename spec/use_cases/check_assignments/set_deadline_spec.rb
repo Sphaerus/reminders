@@ -2,8 +2,12 @@ require "rails_helper"
 
 describe CheckAssignments::SetDeadline do
   let(:assignment) { create(:check_assignment, user: create(:user)) }
+  let(:assignments_repository) { CheckAssignmentsRepository.new }
   let(:service) do
-    described_class.new(assignment: assignment, deadline: "2016-01-01")
+    described_class.new(assignment: assignment,
+                        assignments_repository: assignments_repository,
+                        deadline: "2016-01-01",
+                       )
   end
 
   describe "#call" do
@@ -19,9 +23,8 @@ describe CheckAssignments::SetDeadline do
     end
 
     context "when updating fails" do
-      before do
-        allow_any_instance_of(CheckAssignmentsRepository)
-          .to receive(:update).and_return(false)
+      let(:assignments_repository) do
+        double(:assignments_repository, update: false)
       end
 
       it "returns error response" do

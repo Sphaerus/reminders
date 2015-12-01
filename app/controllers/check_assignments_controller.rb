@@ -41,6 +41,7 @@ class CheckAssignmentsController < ApplicationController
   expose(:deadline_setter) do
     CheckAssignments::SetDeadline.new(
       assignment: assignments_repository.find(params[:assignment_id]),
+      assignments_repository: assignments_repository,
       deadline: params[:check_assignment][:deadline],
     )
   end

@@ -2,10 +2,10 @@ module CheckAssignments
   class SetDeadline
     attr_reader :assignment, :assignments_repository, :deadline
 
-    def initialize(assignment:, deadline:)
+    def initialize(assignment:, assignments_repository:, deadline:)
       @assignment = assignment
       @deadline = deadline
-      @assignments_repository = CheckAssignmentsRepository.new
+      @assignments_repository = assignments_repository
     end
 
     def call

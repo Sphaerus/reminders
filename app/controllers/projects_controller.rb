@@ -9,7 +9,7 @@ class ProjectsController < ApplicationController
     ProjectDecorator.decorate_collection projects_repository.with_done_checks
   end
   expose(:project) do
-    projects_repository.find(params[:id])
+    params[:id].present? ? projects_repository.find(params[:id]) : Project.new
   end
   expose(:project_checks_repository) { ProjectChecksRepository.new }
   expose(:reminders_repository) { RemindersRepository.new }

@@ -1,9 +1,10 @@
 .row
   .col-md-6
-    = simple_form_for(project, url: project_path) do |f|
+    = simple_form_for(project) do |f|
       = f.error_notification
 
       .form-inputs
+        = f.input :name
         = f.input :email
         = f.input :channel_name
 

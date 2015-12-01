@@ -3,6 +3,10 @@ class CheckAssignmentsRepository
     CheckAssignment.all
   end
 
+  def find(id)
+    all.find_by_id id
+  end
+
   def latest_assignment(project_check, completed: false)
     query = all.where(project_check_id: project_check.id)
     if completed

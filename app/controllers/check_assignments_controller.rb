@@ -38,6 +38,13 @@ class CheckAssignmentsController < ApplicationController
       skills_repo: SkillsRepository.new,
     )
   end
+  expose(:deadline_setter) do
+    CheckAssignments::SetDeadline.new(
+      assignment: assignments_repository.find(params[:assignment_id]),
+      assignments_repository: assignments_repository,
+      deadline: params[:check_assignment][:deadline],
+    )
+  end
 
   def assign_checker
     if action_resolver.can_create?
@@ -54,5 +61,13 @@ class CheckAssignmentsController < ApplicationController
     action_resolver.resolve
 
     redirect_to reminder_path(check.reminder), notice: "All right"
+  end
+
+  def set_deadline
+    if deadline_setter.call.success?
+      redirect_to root_path, notice: "All right"
+    else
+      redirect_to root_path, alert: "Could not set deadline"
+    end
   end
 end

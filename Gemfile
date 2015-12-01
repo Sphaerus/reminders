@@ -3,6 +3,7 @@ gem "rails", "4.2.5"
 
 gem "app_konfig"
 gem "coffee-rails"
+gem "bootstrap-datepicker-rails"
 gem "decent_exposure"
 gem "draper"
 gem "faker"

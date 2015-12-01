@@ -101,4 +101,13 @@ describe CheckAssignmentsRepository do
       end
     end
   end
+
+  describe "#find" do
+    let(:assignment) { create(:check_assignment, user: create(:user)) }
+    let(:id) { assignment.id }
+
+    it "returns assignment with given id" do
+      expect(repo.find(id)).to eq assignment
+    end
+  end
 end

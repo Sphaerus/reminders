@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151127183800) do
+ActiveRecord::Schema.define(version: 20151127184729) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20151127183800) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.integer  "contact_person_id"
+    t.date     "deadline"
   end
 
   add_index "check_assignments", ["contact_person_id"], name: "index_check_assignments_on_contact_person_id", using: :btree

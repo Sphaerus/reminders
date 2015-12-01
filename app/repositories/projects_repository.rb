@@ -3,6 +3,10 @@ class ProjectsRepository
     Project.where(archived_at: nil).order(:id)
   end
 
+  def add(params)
+    Project.create(params)
+  end
+
   def find(project_id)
     Project.find_by(id: project_id)
   end

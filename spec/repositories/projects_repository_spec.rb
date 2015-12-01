@@ -3,6 +3,14 @@ require "rails_helper"
 describe ProjectsRepository do
   let(:repo) { described_class.new }
 
+  describe "#add" do
+    let(:parameters) { attributes_for(:project) }
+
+    it "creates new project" do
+      expect { repo.add(parameters) }.to change(Project, :count).by(1)
+    end
+  end
+
   describe "#all" do
     before do
       2.times { create(:project) }

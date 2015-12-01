@@ -11,6 +11,7 @@
           th Days left
           th When assigned?
           th Check now?
+          th Deadline
       tbody.project_row
         - user_check_assignments.each do |assignment|
           tr class="#{assignment.decorate.row_class}"
@@ -19,8 +20,8 @@
             td = assignment.project_check.last_check_date
             td = assignment.project_check.decorate.days_to_deadline
             td = assignment.decorate.assigned_days_ago_as_string
-            td
-              - if assignment.project_check.enabled? && assignment.completion_date.nil?
+            - if assignment.project_check.enabled? && assignment.completion_date.nil?
+              td
                 = form_tag complete_check_path, method: :post do
                   = hidden_field_tag :project_check_id, assignment.project_check.id
                   = button_tag type: :submit,
@@ -28,6 +29,18 @@
                     data: { confirm: "Are you sure? You'll be saved as person who completed this reminder.", disable_with: assignment.project_check.decorate.css_disabled_state } do
                       i.glyphicon.glyphicon-ok
                       |  I've done this!
-              - else
+              td
+                - if assignment.deadline.nil?
+                  = form_tag set_deadline_path, method: :post do
+                    = text_field :check_assignment, :deadline, class: "js-datepicker", placeholder: "Pick a date"
+                    = hidden_field_tag :assignment_id, assignment.id
+                    |
+                    = button_tag type: :submit, class: "btn btn-sm" do
+                      |  Set deadline
+                else
+                  = assignment.deadline
+            - else
+              td
                 | Completed
+              td
 

@@ -18,6 +18,18 @@ class ProjectsController < ApplicationController
 
   def index; end
 
+  def create
+    project = Projects::Create.new(attrs: project_params).call
+
+    if project.persisted?
+      redirect_to projects_path,
+                  notice: "Project was successfully created."
+    else
+      flash.now[:alert] = project.errors.full_messages.join(", ")
+      render :new
+    end
+  end
+
   def update
     update_project = Projects::Update
                      .new(project: project, attrs: project_params).call

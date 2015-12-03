@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
   validates :email, presence: true
   validates :channel_name, presence: true
   has_many :project_checks, dependent: :destroy

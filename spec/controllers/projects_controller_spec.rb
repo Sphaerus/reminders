@@ -7,6 +7,40 @@ describe ProjectsController do
     allow(controller).to receive(:current_user) { user }
   end
 
+  describe "create" do
+    let(:params) { { project: attributes_for(:project) } }
+
+    subject { post :create, params }
+
+    context "with valid params" do
+      it "creates new project" do
+        expect { subject }.to change(Project, :count).by(1)
+      end
+
+      it "renders success notice" do
+        subject
+        expect(flash[:notice]).to be_present
+      end
+
+      it { is_expected.to redirect_to(projects_path) }
+    end
+
+    context "with invalid params" do
+      before { params[:project][:name] = "" }
+
+      it "does not create new project" do
+        expect { subject }.not_to change(Project, :count)
+      end
+
+      it "renders error alert" do
+        subject
+        expect(flash[:alert]).to be_present
+      end
+
+      it { is_expected.to render_template(:new) }
+    end
+  end
+
   describe "update" do
     let(:project) { create(:project) }
 

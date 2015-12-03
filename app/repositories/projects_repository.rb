@@ -1,6 +1,10 @@
 class ProjectsRepository
   def all
-    Project.where(archived_at: nil).order(:id)
+    Project.where(archived_at: nil).order(:name)
+  end
+
+  def add(params)
+    Project.create(params)
   end
 
   def find(project_id)
@@ -8,7 +12,7 @@ class ProjectsRepository
   end
 
   def with_archived
-    Project.all.order(:id)
+    Project.all.order(:name)
   end
 
   def with_done_checks

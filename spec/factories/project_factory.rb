@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :project do
-    name "sample_project"
-    email "sample-project@domain.com"
-    channel_name "sample-name"
+    name { Faker::Lorem.word }
+    email { Faker::Internet.email }
+    channel_name { Faker::Lorem.word }
   end
 end

@@ -9,7 +9,7 @@ class ProjectsController < ApplicationController
     ProjectDecorator.decorate_collection projects_repository.with_done_checks
   end
   expose(:project) do
-    projects_repository.find(params[:id])
+    params[:id].present? ? projects_repository.find(params[:id]) : Project.new
   end
   expose(:project_checks_repository) { ProjectChecksRepository.new }
   expose(:reminders_repository) { RemindersRepository.new }
@@ -17,6 +17,18 @@ class ProjectsController < ApplicationController
   def edit; end
 
   def index; end
+
+  def create
+    project = Projects::Create.new(attrs: project_params).call
+
+    if project.persisted?
+      redirect_to projects_path,
+                  notice: "Project was successfully created."
+    else
+      flash.now[:alert] = project.errors.full_messages.join(", ")
+      render :new
+    end
+  end
 
   def update
     update_project = Projects::Update

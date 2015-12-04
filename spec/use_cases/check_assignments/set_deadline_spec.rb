@@ -17,8 +17,8 @@ describe CheckAssignments::SetDeadline do
       end
 
       it "changes assignment's deadline" do
-        service.call
-        expect(assignment.reload.deadline).to eq("2016-01-01".to_date)
+        expect { service.call }.to change { assignment.reload.deadline }
+          .from(nil).to("2016-01-01".to_date)
       end
     end
 
@@ -32,8 +32,8 @@ describe CheckAssignments::SetDeadline do
       end
 
       it "does not change deadline" do
-        service.call
-        expect(assignment.reload.deadline).to be_nil
+        expect { service.call }.to_not change { assignment.reload.deadline }
+          .from(nil)
       end
     end
   end

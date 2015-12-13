@@ -37,7 +37,6 @@ group :development, :test do
   gem "byebug"
   gem "pry-rails"
   gem "pry-rescue"
-  gem "web-console"
   gem "letter_opener"
 end
 
@@ -68,4 +67,5 @@ group :development do
   gem "rack-mini-profiler"
   gem "spring"
   gem "spring-commands-rspec"
+  gem "web-console"
 end

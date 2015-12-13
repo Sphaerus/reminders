@@ -92,8 +92,10 @@ class ProjectCheckDecorator < Draper::Decorator
     check_assignments.first.completion_date.nil?
   end
 
-  def assigned_reviewer
-    check_assignments.first.checker if has_appointed_review?
+  def current_reviewer_info
+    return unless has_appointed_review?
+    check_assignments.first.checker +
+      reviewer_deadline(check_assignments.first.days_till_reviewer_deadline)
   end
 
   def slack_channel

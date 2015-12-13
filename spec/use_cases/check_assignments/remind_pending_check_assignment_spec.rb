@@ -22,7 +22,7 @@ describe CheckAssignments::RemindPendingCheckAssignment do
 
   let(:check_assignments_repository) do
     class CheckAssignmentsInMemoryRepository < InMemoryRepository
-      def latest_assignment(_project_check, completed: false)
+      def latest_assignment(_project_check, _completed: false)
         all.last
       end
     end

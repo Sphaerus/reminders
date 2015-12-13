@@ -3,7 +3,9 @@ require "rails_helper"
 describe Projects::Create do
   let(:attrs) { attributes_for(:project) }
   let(:projects_repo) { ProjectsRepository.new }
-  let(:service) { described_class.new(attrs: attrs, projects_repo: projects_repo) }
+  let(:service) do
+    described_class.new(attrs: attrs, projects_repo: projects_repo)
+  end
 
   describe "#call" do
     context "with valid params" do

@@ -83,10 +83,6 @@ class ProjectCheckDecorator < Draper::Decorator
     check_assignments.select { |c| c.object.completion_date.present? }
   end
 
-  def assignments_table_size
-    assignments.count + 3
-  end
-
   def has_appointed_review?
     return false if check_assignments.empty?
     check_assignments.first.completion_date.nil?
@@ -99,21 +95,21 @@ class ProjectCheckDecorator < Draper::Decorator
   end
 
   def slack_channel
-    if object.reminder.slack_channel.present?
-      object.reminder.slack_channel
-    else
-      object.project.channel_name
-    end
+    object.reminder.slack_channel || object.project.channel_name
   end
 
   private
 
-  def last_check_date_time_diff
-    date_diff_in_words object.last_check_date
+  def reviewer_deadline(days_left)
+    if days_left.is_a?(Integer)
+      " (planned in #{days_left} days)"
+    else
+      " (no deadline set)"
+    end
   end
 
-  def date_diff_in_words(from_date, to_date = Time.zone.today)
-    days_diff = (to_date - from_date).to_i
+  def last_check_date_time_diff
+    days_diff = (Time.zone.today - object.last_check_date).to_i
     case days_diff
     when 0 then "today"
     when 1 then "yesterday"

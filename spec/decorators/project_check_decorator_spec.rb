@@ -1,9 +1,9 @@
 require "rails_helper"
 
 describe ProjectCheckDecorator do
-  let(:check) { OpenStruct.new(reminder: reminder, project: project) }
-  let(:reminder) { OpenStruct.new }
-  let(:project) { OpenStruct.new(reminder: reminder, channel_name: "channel") }
+  let(:check) { ProjectCheck.new(reminder: reminder, project: project) }
+  let(:reminder) { Reminder.new }
+  let(:project) { Project.new(channel_name: "channel") }
   let(:decorator) { described_class.new(check) }
 
   describe "#last_check_date" do
@@ -42,7 +42,8 @@ describe ProjectCheckDecorator do
 
   describe "#slack_channel" do
     context "reminder has slack_channel specified" do
-      it "returns slack_channel of reminder" do
+      let(:reminder) { Reminder.new }
+      it "returns slack_channel of reminder", focus: true do
         check.reminder.slack_channel = "some-channel"
         expect(decorator.slack_channel).to eq("some-channel")
         expect(decorator.slack_channel).to_not eq("channel")
@@ -62,12 +63,14 @@ describe ProjectCheckDecorator do
       allow(decorator).to receive(:overdue?) { overdue }
       allow(decorator).to receive(:checked?) { checked }
     end
+
     subject { decorator.status_text }
 
     context "when project check is enabled" do
       let(:enabled) { true }
       let(:overdue) { false }
       let(:checked) { true }
+
       it { is_expected.to eq "enabled" }
 
       context "and overdue" do

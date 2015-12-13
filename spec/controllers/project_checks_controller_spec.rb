@@ -96,7 +96,12 @@ describe ProjectChecksController do
   end
 
   describe "#update" do
-    let(:params) { { project_check: { info: "New info" }, id: project_check.id } }
+    let(:params) do
+      {
+        project_check: { info: "New info" },
+        id: project_check.id,
+      }
+    end
     subject { post :update, params }
 
     it "updates project check info" do

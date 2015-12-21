@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# 2015-12-21
+
+## Changed
+
+* Email notifications are sent on reminder basis (not everyday)
+
 # 2015-11-29
 
 ## Added

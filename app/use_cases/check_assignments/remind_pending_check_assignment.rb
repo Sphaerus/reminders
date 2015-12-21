@@ -1,15 +1,15 @@
 module CheckAssignments
   class RemindPendingCheckAssignment
     attr_reader :project_check, :users_repository,
-                :check_assignments_repository, :reminders_repository
+                :check_assignments_repository, :remind_after_days
 
-    def initialize(project_check:, users_repository: nil,
-                   check_assignments_repository: nil, reminders_repository: nil)
+    def initialize(project_check:, remind_after_days:, users_repository: nil,
+                   check_assignments_repository: nil)
       @project_check = project_check
+      @remind_after_days = remind_after_days
       @users_repository = users_repository || UsersRepository.new
       @check_assignments_repository = check_assignments_repository ||
                                       CheckAssignmentsRepository.new
-      @reminders_repository = reminders_repository || RemindersRepository.new
     end
 
     def call
@@ -39,7 +39,8 @@ module CheckAssignments
     end
 
     def should_remind?
-      user_assigned? && !user_assigned_today? && !check_assignment_completed?
+      user_assigned? && !user_assigned_today? && !check_assignment_completed? &&
+        remind_after_days.any? { |day| day.to_i == days_diff }
     end
 
     def user_assigned_today?

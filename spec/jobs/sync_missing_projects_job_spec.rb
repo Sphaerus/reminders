@@ -56,36 +56,26 @@ describe SyncMissingProjectsJob do
     InMemoryChecksRepository.new
   end
 
-  describe "#perform" do
-    context "with Slack disabled" do
-      before do
-        AppConfig["slack_enabled"] = false
-      end
+  let(:data_guru_projects) do
+    [double(display_name: "One", slack_project_channel_name: "project-one"),
+    double(display_name: "Two", slack_project_channel_name: "project-two")]
+  end
 
-      it "does nothing" do
-        expect { job.perform }.not_to change { projects_repository.all.count }
-        expect { job.perform }
-          .not_to change { checks_repository.for_reminder(reminder1).count }
-        expect { job.perform }
-          .not_to change { checks_repository.for_reminder(reminder2).count }
-      end
+  describe "#perform" do
+    before do
+      allow_any_instance_of(DataGuruClient).to receive_message_chain("data_guru.projects.all")
+                                               .and_return data_guru_projects
     end
 
-    context "with Slack enabled" do
-      before do
-        AppConfig["slack_enabled"] = true
-      end
+    it "creates project" do
+      expect { job.perform }.to change { projects_repository.all.count }.by(2)
+    end
 
-      it "creates project" do
-        expect { job.perform }.to change { projects_repository.all.count }.by(2)
-      end
-
-      it "synchronises new projects with existing reminders" do
-        expect { job.perform }
-          .to change { checks_repository.for_reminder(reminder1).count }.by(2)
-        expect { job.perform }
-          .to change { checks_repository.for_reminder(reminder2).count }.by(2)
-      end
+    it "synchronises new projects with existing reminders" do
+      expect { job.perform }
+        .to change { checks_repository.for_reminder(reminder1).count }.by(2)
+      expect { job.perform }
+        .to change { checks_repository.for_reminder(reminder2).count }.by(2)
     end
   end
 end

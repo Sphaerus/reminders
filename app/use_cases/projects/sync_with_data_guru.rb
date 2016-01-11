@@ -26,7 +26,7 @@ module Projects
     end
 
     def projects_names
-      @projects_names ||= projects_repository.all.pluck(:name)
+      @projects_names ||= projects_repository.all.map(&:name)
     end
 
     def save_project(name, channel_name)

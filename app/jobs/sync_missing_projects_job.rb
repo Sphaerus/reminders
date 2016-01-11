@@ -12,16 +12,22 @@ class SyncMissingProjectsJob
   end
 
   def perform
-    return unless AppConfig.slack_enabled
-    sync_projects
+    sync_projects_with_data_guru
     sync_with_reminders
   end
 
   private
 
-  def sync_projects
+  def sync_projects_with_slack
+    return unless AppConfig.slack_enabled
     Projects::SyncWithSlackChannels
       .new(projects_repository, slack_channels_repository)
+      .call
+  end
+
+  def sync_projects_with_data_guru
+    Projects::SyncWithDataGuru
+      .new(projects_repository)
       .call
   end
 

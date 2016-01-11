@@ -4,7 +4,6 @@ describe SyncMissingProjectsJob do
   let(:job) do
     described_class.new(
       projects_repo: projects_repository,
-      slack_repo: slack_repository,
       reminders_repo: reminders_repository,
       checks_repo: checks_repository,
     )
@@ -20,18 +19,10 @@ describe SyncMissingProjectsJob do
                       project_checks: [])
   end
 
-  let(:project_channels) do
-    [double(name: "project-one"), double(name: "project-two")]
-  end
-
   let(:reminders_repository) do
     repo = InMemoryRepository.new
     repo.all = [reminder1, reminder2]
     repo
-  end
-
-  let(:slack_repository) do
-    double(:slack_channels_repository, all_project_channels: project_channels)
   end
 
   let(:projects_repository) do

@@ -9,6 +9,9 @@ development: &default
   sendgrid_user_name: username
   sendgrid_password: password
   default_from_email: test@example.com
+  dataguru:
+    api_url: 'https://dataguruapi.com'
+    access_token:
 
 test:
   <<: *default

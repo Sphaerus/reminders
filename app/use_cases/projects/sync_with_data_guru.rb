@@ -9,8 +9,7 @@ module Projects
     end
 
     def call
-      get_projects
-      @projects.each do |project|
+      data_guru.projects.all.each do |project|
         project_name = project.display_name
         channel_name = project.slack_project_channel_name
         unless projects_names.include? project_name
@@ -20,10 +19,6 @@ module Projects
     end
 
     private
-
-    def get_projects
-      @projects = data_guru.projects.all
-    end
 
     def projects_names
       @projects_names ||= projects_repository.all.map(&:name)

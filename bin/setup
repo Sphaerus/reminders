@@ -1,10 +1,16 @@
 #!/usr/bin/env ruby
 require 'pathname'
 require 'thor'
+require 'yaml'
 
 def say(*args)
   @shell ||= Thor::Shell::Color.new
   @shell.say *args
+end
+
+def ask(*args)
+  @thor ||= Thor::Shell::Basic.new
+  @thor.ask *args
 end
 
 def header(text)
@@ -15,7 +21,9 @@ def copy_sample(rel_path)
   unless File.exist? rel_path
     say rel_path, :blue
     system "cp #{rel_path}.sample #{rel_path}"
+    return true
   end
+  return false
 end
 
 def gsub_file(rel_path, regex, value)
@@ -23,8 +31,21 @@ def gsub_file(rel_path, regex, value)
   File.write(rel_path, content)
 end
 
+def set_nil_paths(hash, current_path=[])
+  hash.each do |key, value|
+    if value.kind_of? Hash
+      set_nil_paths(value, current_path.clone.push(key))
+    elsif value.nil?
+      hash[key] = ask("\nSet #{current_path.clone.push(key).join(" > ")}: ")
+    end
+  end
+end
+
 # Path to your application root:
 APP_ROOT = Pathname.new File.expand_path('../../',  __FILE__)
+
+# Relative path to your config file:
+CONFIG_FILE = "config/sec_config.yml"
 
 # Add necessary setup steps to this block:
 Dir.chdir APP_ROOT do
@@ -38,13 +59,28 @@ Dir.chdir APP_ROOT do
   # (Example configures database.yml)
   # You can use gsub_file to add other values to any file.
   # For example: gsub_file("config/secrets.yml", /SECRET_KEY_BASE:.*\n/, "SECRET_KEY_BASE: #{SecureRandom.hex(64)}")
-  copy_sample "config/database.yml"
-  say "\nWhat is your database username? ", :yellow
-  username = gets
-  gsub_file("config/database.yml", /username:.*\n/, "username: #{username}")
-  say "\nWhat is your database password? ", :yellow
-  password = gets
-  gsub_file("config/database.yml", /password:.*\n/, "password: #{password}")
+  if copy_sample "config/database.yml"
+    gsub_file("config/database.yml", /username:.*\n/, "username: #{ ask("\nWhat is your database username? ", :blue) }\n")
+    gsub_file("config/database.yml", /password:.*\n/, "password: #{ ask("\nWhat is your database password? ", :blue) }\n")
+  end
+
+  # For config file in YAML format:
+  if ::File.exists? "#{CONFIG_FILE}.sample"
+    @config_hash = YAML.load ::File.read("#{CONFIG_FILE}.sample")
+    set_nil_paths @config_hash
+    ::File.write(CONFIG_FILE, @config_hash.to_yaml)
+  end
+
+  # For .env file:
+  if ::File.exists? ".env.sample"
+    ::File.write(".env", ::File.read(".env.sample")
+                           .split("\n")
+                           .map{|key| key.split("=")}
+                           .each{|key| key.push(ask("\nSet #{key[0]}: ")) unless key[1]}
+                           .map{|key| key.join("=")}
+                           .join("\n")
+    )
+  end
 
   header "Preparing database"
   # Simple database setup here:

@@ -2,6 +2,7 @@
 require 'pathname'
 require 'thor'
 require 'yaml'
+require 'pry'
 
 def say(*args)
   @shell ||= Thor::Shell::Color.new
@@ -31,13 +32,66 @@ def gsub_file(rel_path, regex, value)
   File.write(rel_path, content)
 end
 
-def set_nil_paths(hash, current_path=[])
+def set_local_config_nil_values(hash, current_path=[])
   hash.each do |key, value|
     if value.kind_of? Hash
-      set_nil_paths(value, current_path.clone.push(key))
+      set_local_config_nil_values(value, current_path.clone.push(key))
     elsif value.nil?
       hash[key] = ask("\nSet #{current_path.clone.push(key).join(" > ")}: ")
     end
+  end
+end
+
+def parse_local_config_boolean_values(hash, current_path=[])
+  hash.each do |key, value|
+    if value.kind_of? Hash
+      parse_local_config_boolean_values(value, current_path.clone.push(key))
+    elsif value == 'false' || value == '"false"' || value == "'false'"
+      hash[key] = false
+    elsif value == 'true' || value == '"true"' || value == "'true'"
+      hash[key] = true
+    end
+  end
+end
+
+def confirm_each_hash_value(hash, current_path=[])
+  hash.each do |key, value|
+    if value.kind_of? Hash
+      confirm_each_hash_value(value, current_path.clone.push(key))
+    else
+      new_val = ask("\nSet #{current_path.clone.push(key).join(" > ")} (currently '#{value}') ('S' for skip): ")
+      hash[key] = new_val unless new_val == 'S'
+    end
+  end
+end
+
+def create_config_from_sample(config_path)
+  config_hash = YAML.load ::File.read("#{config_path}.sample")
+  say "\n#{config_path}", :blue
+  set_local_config_nil_values config_hash
+  parse_local_config_boolean_values config_hash
+  ::File.write(config_path, config_hash.to_yaml)
+  print_config_file_content config_path
+end
+
+def print_config_file_content(config_path)
+  header "Current #{config_path} file:"
+  file = ::File.read(config_path).split('/n')
+  file.each{|line| say line }
+  say "===========================================", :bold
+end
+
+def override_or_edit_config(config_path)
+  print_config_file_content config_path
+  answer = ask "\nDo you want to override or edit current config file? ('O' for OVERRIDE, 'E' for EDIT): ", :blue
+  if answer == 'O'
+    create_config_from_sample config_path
+  elsif answer == 'E'
+    config_hash = YAML.load ::File.read(config_path)
+    confirm_each_hash_value config_hash
+    parse_local_config_boolean_values config_hash
+    ::File.write(config_path, config_hash.to_yaml)
+    print_config_file_content config_path
   end
 end
 
@@ -45,7 +99,7 @@ end
 APP_ROOT = Pathname.new File.expand_path('../../',  __FILE__)
 
 # Relative path to your config file:
-CONFIG_FILE = "config/sec_config.yml"
+CONFIG_FILE = "config/secrets.yml"
 
 # Add necessary setup steps to this block:
 Dir.chdir APP_ROOT do
@@ -59,28 +113,34 @@ Dir.chdir APP_ROOT do
   # (Example configures database.yml)
   # You can use gsub_file to add other values to any file.
   # For example: gsub_file("config/secrets.yml", /SECRET_KEY_BASE:.*\n/, "SECRET_KEY_BASE: #{SecureRandom.hex(64)}")
-  if copy_sample "config/database.yml"
-    gsub_file("config/database.yml", /username:.*\n/, "username: #{ ask("\nWhat is your database username? ", :blue) }\n")
-    gsub_file("config/database.yml", /password:.*\n/, "password: #{ ask("\nWhat is your database password? ", :blue) }\n")
-  end
+
+  # Uncomment if you need to set database username and password
+  # if copy_sample "config/database.yml"
+  #   gsub_file("config/database.yml", /username:.*\n/, "username: #{ ask("\nWhat is your database username? ", :blue) }\n")
+  #   gsub_file("config/database.yml", /password:.*\n/, "password: #{ ask("\nWhat is your database password? ", :blue) }\n")
+  # end
 
   # For config file in YAML format:
   if ::File.exists? "#{CONFIG_FILE}.sample"
-    @config_hash = YAML.load ::File.read("#{CONFIG_FILE}.sample")
-    set_nil_paths @config_hash
-    ::File.write(CONFIG_FILE, @config_hash.to_yaml)
+    if ::File.exists? CONFIG_FILE
+      override_or_edit_config CONFIG_FILE
+    else
+      create_config_from_sample CONFIG_FILE
+    end
+  elsif ::File.exists? CONFIG_FILE
+    override_or_edit_config CONFIG_FILE
   end
 
   # For .env file:
-  if ::File.exists? ".env.sample"
-    ::File.write(".env", ::File.read(".env.sample")
-                           .split("\n")
-                           .map{|key| key.split("=")}
-                           .each{|key| key.push(ask("\nSet #{key[0]}: ")) unless key[1]}
-                           .map{|key| key.join("=")}
-                           .join("\n")
-    )
-  end
+  # if ::File.exists? ".env.sample"
+  #   ::File.write(".env", ::File.read(".env.sample")
+  #                          .split("\n")
+  #                          .map{|key| key.split("=")}
+  #                          .each{|key| key.push(ask("\nSet #{key[0]}: ")) unless key[1]}
+  #                          .map{|key| key.join("=")}
+  #                          .join("\n")
+  #   )
+  # end
 
   header "Preparing database"
   # Simple database setup here:

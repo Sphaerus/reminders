@@ -51,7 +51,6 @@ class ProjectsController < ApplicationController
   def sync
     SyncMissingProjectsJob.new(
       projects_repo: projects_repository,
-      slack_repo: slack_channels_repository,
       reminders_repo: reminders_repository,
       checks_repo: project_checks_repository).perform
     redirect_to projects_path, notice: "Projects have been synchronized"

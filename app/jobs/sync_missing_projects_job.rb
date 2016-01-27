@@ -1,27 +1,24 @@
 class SyncMissingProjectsJob
-  attr_reader :slack_channels_repository,
-              :projects_repository,
+  attr_reader :projects_repository,
               :reminders_repository,
               :project_checks_repository
 
-  def initialize(projects_repo:, slack_repo:, reminders_repo:, checks_repo:)
+  def initialize(projects_repo:, reminders_repo:, checks_repo:)
     @projects_repository = projects_repo
-    @slack_channels_repository = slack_repo
     @reminders_repository = reminders_repo
     @project_checks_repository = checks_repo
   end
 
   def perform
-    return unless AppConfig.slack_enabled
-    sync_projects
+    sync_projects_with_data_guru
     sync_with_reminders
   end
 
   private
 
-  def sync_projects
-    Projects::SyncWithSlackChannels
-      .new(projects_repository, slack_channels_repository)
+  def sync_projects_with_data_guru
+    Projects::SyncWithDataGuru
+      .new(projects_repository)
       .call
   end
 

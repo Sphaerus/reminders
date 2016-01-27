@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :project do
-    name { Faker::Lorem.word }
+    name { Faker::Commerce.product_name }
     email { Faker::Internet.email }
     channel_name { Faker::Lorem.word }
   end

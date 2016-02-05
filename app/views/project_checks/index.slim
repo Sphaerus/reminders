@@ -28,7 +28,7 @@
           tr class="#{pc.row_class}" id="#{pc.project_name}"
             td = pc.project_name
             td = pc.last_check_date
-            td
+            td data-sort="#{pc.days_to_deadline_as_number}"
               - if current_user.admin? && !pc.checked?
                 .hidden = pc.days_to_deadline
                 = form_tag project_check_override_deadline_path(pc)

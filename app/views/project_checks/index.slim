@@ -28,7 +28,7 @@
           tr class="#{pc.row_class}" id="#{pc.project_name}"
             td = pc.project_name
             td = pc.last_check_date
-            td
+            td data-sort="#{pc.days_to_deadline_as_number}"
               - if current_user.admin? && !pc.checked?
                 .hidden = pc.days_to_deadline
                 = form_tag project_check_override_deadline_path(pc)
@@ -36,7 +36,7 @@
                     = hidden_field_tag :project_check_id, pc.id
                     = number_field_tag :project_check_days_left, pc.days_to_deadline,
                       placeholder: pc.days_to_deadline, min: 0, max: 366,
-                      class: 'form-control'
+                      class: 'form-control days-left'
                     span.input-group-btn
                       = button_tag type: :submit,
                         class: 'btn btn-info',

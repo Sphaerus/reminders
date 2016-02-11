@@ -4,7 +4,3 @@
 every "30 9 * * 1-5" do
   rake "reminders:check_all"
 end
-
-every 1.day, at: "11:55 pm" do
-  rake "projects:sync_missing"
-end

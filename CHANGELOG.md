@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+# 2015-02-11
+
+## Added
+
+* Ability to sync projects with data guru
+
+## Removed
+
+* Auto-sync projects
+
+## Fixed
+
+* Displaying values fully - they were cut previously
+* When listing reminders - number of overdue project is now displayed correctly
+
 # 2015-12-21
 
 ## Changed

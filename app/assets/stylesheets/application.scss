@@ -1,28 +1,28 @@
 // *= require_self
 // *= require dataTables/bootstrap/2/jquery.dataTables.bootstrap
 
-@import 'bootstrap-sprockets';
-@import 'bootstrap-datepicker3';
+@import "bootstrap-sprockets";
+@import "bootstrap-datepicker3";
 
-@import 'settings/z-index-variables';
-@import 'settings/variables';
-@import 'framework/variables';
+@import "settings/z-index-variables";
+@import "settings/variables";
+@import "framework/variables";
 
-@import 'framework/components';
+@import "framework/components";
 
-@import 'settings/breakpoint-variables';
+@import "settings/breakpoint-variables";
 
-@import 'utilities/functions';
-@import 'utilities/mixins';
-@import 'utilities/shared';
-@import 'utilities/typography';
+@import "utilities/functions";
+@import "utilities/mixins";
+@import "utilities/shared";
+@import "utilities/typography";
 
-@import 'netguru-theme';
+@import "netguru-theme";
 
-@import 'framework/overrides';
+@import "framework/overrides";
 
-@import 'components/datatable';
-@import 'components/flash';
-@import 'components/switch';
+@import "components/datatable";
+@import "components/flash";
+@import "components/switch";
 
-@import 'views/project_checks';
+@import "views/project_checks";

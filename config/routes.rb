@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     post :toggle, on: :collection
   end
 
-  resources :users, only: [:index] do
+  resources :users, only: [:index, :show] do
     post :toggle_admin, on: :member
     post :toggle_paused_by_user, on: :member
     post :toggle_paused, on: :member

@@ -15,12 +15,12 @@ def ask(*args)
 end
 
 def header(text)
-  say "\n=== #{text} ===", :bold
+  say("\n=== #{text} ===", :bold)
 end
 
 def copy_sample(rel_path)
   unless File.exist? rel_path
-    say rel_path, :blue
+    say(rel_path, :blue)
     system "cp #{rel_path}.sample #{rel_path}"
     return true
   end
@@ -66,61 +66,44 @@ def confirm_each_hash_value(hash, current_path = [])
 end
 
 def create_config_from_sample(config_path)
-  config_hash = YAML.load ::File.read("#{config_path}.sample")
-  say "\n#{config_path}", :blue
+  config_hash = YAML.load(File.read("#{config_path}.sample"))
+  say("\n#{config_path}", :blue)
   set_local_config_nil_values config_hash
   parse_local_config_boolean_values config_hash
-  ::File.write(config_path, config_hash.to_yaml)
+  File.write(config_path, config_hash.to_yaml)
   print_config_file_content config_path
 end
 
 def print_config_file_content(config_path)
-  header "Current #{config_path} file:"
-  file = ::File.read(config_path).split("/n")
+  header("Current #{config_path} file:")
+  file = File.read(config_path).split("/n")
   file.each { |line| say line }
-  say "===========================================", :bold
+  say("===========================================", :bold)
 end
 
 def override_or_edit_config(config_path)
   print_config_file_content config_path
-  answer = ask "\nDo you want to override or edit current config file? ('O' for OVERRIDE, 'E' for EDIT): ", :blue
+  answer = ask("\nDo you want to override or edit current config file? ('O' for OVERRIDE, 'E' for EDIT): ", :blue)
   if answer == "O"
     create_config_from_sample config_path
   elsif answer == "E"
-    config_hash = YAML.load ::File.read(config_path)
+    config_hash = YAML.load(File.read(config_path))
     confirm_each_hash_value config_hash
     parse_local_config_boolean_values config_hash
-    ::File.write(config_path, config_hash.to_yaml)
+    File.write(config_path, config_hash.to_yaml)
     print_config_file_content config_path
   end
 end
 
-# Path to your application root:
-APP_ROOT = Pathname.new File.expand_path("../../",  __FILE__)
+APP_ROOT = Pathname.new(File.expand_path("../../",  __FILE__))
+CONFIG_FILE = "config/secrets.yml".freeze
 
-# Relative path to your config file:
-CONFIG_FILE = "config/secrets.yml"
-
-# Add necessary setup steps to this block:
 Dir.chdir APP_ROOT do
   header "Installing dependencies"
-  # Add dependencies installation here if required (for example `system "npm install"`):
   system "gem install bundler --conservative"
   system "bundle check || bundle install"
 
   header "Copying and configuring sample files"
-  # Add copying and configuring sample files here:
-  # (Example configures database.yml)
-  # You can use gsub_file to add other values to any file.
-  # For example: gsub_file("config/secrets.yml", /SECRET_KEY_BASE:.*\n/, "SECRET_KEY_BASE: #{SecureRandom.hex(64)}")
-
-  # Uncomment if you need to set database username and password
-  # if copy_sample "config/database.yml"
-  #   gsub_file("config/database.yml", /username:.*\n/, "username: #{ ask("\nWhat is your database username? ", :blue) }\n")
-  #   gsub_file("config/database.yml", /password:.*\n/, "password: #{ ask("\nWhat is your database password? ", :blue) }\n")
-  # end
-
-  # For config file in YAML format:
   if File.exist? "#{CONFIG_FILE}.sample"
     if File.exist? CONFIG_FILE
       override_or_edit_config CONFIG_FILE
@@ -131,26 +114,12 @@ Dir.chdir APP_ROOT do
     override_or_edit_config CONFIG_FILE
   end
 
-  # For .env file:
-  # if File.exists? ".env.sample"
-  #   File.write(".env", File.read(".env.sample")
-  #                          .split("\n")
-  #                          .map{|key| key.split("=")}
-  #                          .each{|key| key.push(ask("\nSet #{key[0]}: ")) unless key[1]}
-  #                          .map{|key| key.join("=")}
-  #                          .join("\n")
-  #   )
-  # end
-
   header "Preparing database"
-  # Simple database setup here:
-  # You can change it to `system "bin/rake db:setup"` or add additional commands
-  # like `system "bin/rake db:test:prepare"`
-  say "Creating database", :blue
+  say("Creating database", :blue)
   system "bin/rake db:create"
-  say "Loading database schema", :blue
+  say("Loading database schema", :blue)
   system "bin/rake db:schema:load"
-  say "Seeding database", :blue
+  say("Seeding database", :blue)
   system "bin/rake db:seed"
 
   header "Removing old logs and tempfiles"
@@ -158,8 +127,7 @@ Dir.chdir APP_ROOT do
   system "rm -rf tmp/cache"
 
   header "Additional Notes"
-  # Add additional notes for developer here:
-  say "\nPlease use `bin/guard` command to ensure that test pass and code style match the guidelines", :yellow
+  say("\nPlease use `bin/guard` command to ensure that test pass and code style match the guidelines", :yellow)
 
-  say "\n=== DONE! Now you must start real work! ===", :green
+  say("\n=== DONE! Now you must start real work! ===", :green)
 end

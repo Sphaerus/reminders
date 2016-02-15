@@ -5,6 +5,12 @@ class UsersController < ApplicationController
   expose(:users) do
     UserDecorator.decorate_collection users_repo.active
   end
+  expose(:user) { users_repo.find(params[:id]) }
+
+  expose(:user_check_assignments) do
+    assignments_repository.latest_user_assignments(user_id: user.id)
+  end
+  expose(:assignments_repository) { CheckAssignmentsRepository.new }
 
   def index
   end

@@ -1,49 +1,133 @@
 #!/usr/bin/env ruby
-require 'pathname'
-require 'thor'
+require "pathname"
+require "thor"
+require "yaml"
+require "pry"
 
 def say(*args)
   @shell ||= Thor::Shell::Color.new
-  @shell.say *args
+  @shell.say(*args)
+end
+
+def ask(*args)
+  @thor ||= Thor::Shell::Basic.new
+  @thor.ask(*args)
 end
 
 def header(text)
-  say "\n== #{text} ==", :bold
+  say("\n=== #{text} ===", :bold)
 end
 
-def copy_sample(name)
-  real_name = "config/#{name}.yml"
-  if File.exist? real_name
-    say "#{real_name} already exists"
-  else
-    system "cp #{real_name}.sample #{real_name}"
+def copy_sample(rel_path)
+  unless File.exist? rel_path
+    say(rel_path, :blue)
+    system "cp #{rel_path}.sample #{rel_path}"
+    return true
+  end
+  false
+end
+
+def gsub_file(rel_path, regex, value)
+  content = File.read(APP_ROOT.join(rel_path)).gsub(regex, value)
+  File.write(rel_path, content)
+end
+
+def set_local_config_nil_values(hash, current_path = [])
+  hash.each do |key, value|
+    if value.is_a? Hash
+      set_local_config_nil_values(value, current_path.clone.push(key))
+    elsif value.nil?
+      hash[key] = ask("\nSet #{current_path.clone.push(key).join(' > ')}: ")
+    end
   end
 end
 
-# path to your application root.
-APP_ROOT = Pathname.new File.expand_path('../../',  __FILE__)
+def parse_local_config_boolean_values(hash, current_path = [])
+  hash.each do |key, value|
+    if value.is_a? Hash
+      parse_local_config_boolean_values(value, current_path.clone.push(key))
+    elsif value == "false" || value == '"false"' || value == "'false'"
+      hash[key] = false
+    elsif value == "true" || value == '"true"' || value == "'true'"
+      hash[key] = true
+    end
+  end
+end
+
+def confirm_each_hash_value(hash, current_path = [])
+  hash.each do |key, value|
+    if value.is_a? Hash
+      confirm_each_hash_value(value, current_path.clone.push(key))
+    else
+      new_val = ask("\nSet #{current_path.clone.push(key).join(' > ')} (currently '#{value}') ('S' for skip): ")
+      hash[key] = new_val unless new_val == "S"
+    end
+  end
+end
+
+def create_config_from_sample(config_path)
+  config_hash = YAML.load(File.read("#{config_path}.sample"))
+  say("\n#{config_path}", :blue)
+  set_local_config_nil_values config_hash
+  parse_local_config_boolean_values config_hash
+  File.write(config_path, config_hash.to_yaml)
+  print_config_file_content config_path
+end
+
+def print_config_file_content(config_path)
+  header("Current #{config_path} file:")
+  file = File.read(config_path).split("/n")
+  file.each { |line| say line }
+  say("===========================================", :bold)
+end
+
+def override_or_edit_config(config_path)
+  print_config_file_content config_path
+  answer = ask("\nDo you want to override or edit current config file? ('O' for OVERRIDE, 'E' for EDIT): ", :blue)
+  if answer == "O"
+    create_config_from_sample config_path
+  elsif answer == "E"
+    config_hash = YAML.load(File.read(config_path))
+    confirm_each_hash_value config_hash
+    parse_local_config_boolean_values config_hash
+    File.write(config_path, config_hash.to_yaml)
+    print_config_file_content config_path
+  end
+end
+
+APP_ROOT = Pathname.new(File.expand_path("../../",  __FILE__))
+CONFIG_FILE = "config/secrets.yml".freeze
 
 Dir.chdir APP_ROOT do
-  # This script is a starting point to setup your application.
-  # Add necessary setup steps to this file:
-
   header "Installing dependencies"
   system "gem install bundler --conservative"
   system "bundle check || bundle install"
 
-  header "Copying sample files"
-  copy_sample :database
-  copy_sample :secrets
+  header "Copying and configuring sample files"
+  if File.exist? "#{CONFIG_FILE}.sample"
+    if File.exist? CONFIG_FILE
+      override_or_edit_config CONFIG_FILE
+    else
+      create_config_from_sample CONFIG_FILE
+    end
+  elsif File.exist? CONFIG_FILE
+    override_or_edit_config CONFIG_FILE
+  end
 
   header "Preparing database"
-  system "bin/rake db:setup"
+  say("Creating database", :blue)
+  system "bin/rake db:create"
+  say("Loading database schema", :blue)
+  system "bin/rake db:schema:load"
+  say("Seeding database", :blue)
+  system "bin/rake db:seed"
 
   header "Removing old logs and tempfiles"
   system "rm -f log/*"
   system "rm -rf tmp/cache"
 
-  say "\n== NOTES ==", :yellow
-  say "\nPlease use `bin/guard` command to ensure that test pass and code style match the guidelines", :yellow
+  header "Additional Notes"
+  say("\nPlease use `bin/guard` command to ensure that test pass and code style match the guidelines", :yellow)
 
-  say "\n== DONE! ==", :green
+  say("\n=== DONE! Now you must start real work! ===", :green)
 end

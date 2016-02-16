@@ -7,6 +7,9 @@ ready = ->
     bInfo: false
     order: []
 
+  active_filter = $(".datatable-filters li.active a").data('filter')
+  dataTable.columns([-1]).search(active_filter).draw()
+
   handleFilterClick = (e) ->
     e.preventDefault()
     filter = $(this).data('filter')

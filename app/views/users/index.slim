@@ -17,7 +17,7 @@
         - users.each do |user|
           tr class='#{user.row_class}'
             td = user.id
-            td = user.name
+            td = link_to user.name, user_path(user)
             td = user.created_at
             td = user.admin_label
             td.centered

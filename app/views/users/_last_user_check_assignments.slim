@@ -1,0 +1,31 @@
+.panel.panel-primary
+  .panel-heading
+    h3.panel-title User's last check assignments
+  .panel-body
+    table.table.assignments-datatable.datatable data-ordering='false'
+      thead
+        tr
+          th Project
+          th Reminder
+          th Last check
+          th Days left
+          th When assigned?
+          th Deadline
+      tbody.project_row
+        - user_check_assignments.each do |assignment|
+          tr class="#{assignment.decorate.row_class}"
+            td = assignment.project_check.project.name
+            td = assignment.project_check.reminder.name
+            td = assignment.project_check.last_check_date
+            td = assignment.project_check.decorate.days_to_deadline
+            td = assignment.decorate.assigned_days_ago_as_string
+            - if assignment.project_check.enabled? && assignment.completion_date.nil?
+              td
+                - if assignment.deadline.nil?
+                  | Unknown
+                else
+                  = assignment.deadline
+            - else
+              td
+                | Completed
+

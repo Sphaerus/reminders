@@ -6,6 +6,6 @@ module FeatureHelpers
         uid: user.uid,
         info: { name: "John", email: "john@doe.pl" },
       )
-    visit "auth/google_oauth2"
+    visit "/auth/google_oauth2"
   end
 end

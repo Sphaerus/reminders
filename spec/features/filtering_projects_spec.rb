@@ -4,7 +4,7 @@ feature "filtering projects", js: true do
   let(:user) { create(:admin) }
   let(:projects_page) { Projects::ProjectsPage.new }
   let!(:project_active) { create(:project) }
-  let!(:project_archived) { create(:project, archived_at: '2000-01-01') }
+  let!(:project_archived) { create(:project, archived_at: "2000-01-01") }
 
   before do
     log_in(user)

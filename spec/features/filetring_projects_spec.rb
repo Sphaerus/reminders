@@ -17,17 +17,17 @@ feature "filtering projects", js: true do
       expect(page).not_to have_content project_archived.name
     end
     scenario "user uses filter 'All'" do
-      click_link('All')
+      click_link("All")
       expect(page).to have_content project_active.name
       expect(page).to have_content project_archived.name
     end
     scenario "user uses filter 'Archived'" do
-      click_link('Archived')
+      click_link("Archived")
       expect(page).not_to have_content project_active.name
       expect(page).to have_content project_archived.name
     end
     scenario "user uses filter 'Active'" do
-      click_link('Active')
+      click_link("Active")
       expect(page).to have_content project_active.name
       expect(page).not_to have_content project_archived.name
     end

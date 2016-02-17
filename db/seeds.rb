@@ -1,6 +1,6 @@
-projects_active = ["Reminders", "Review", "Profile", "Access", "People"]
-projects_archived = ["TooOldToHandle", "ArchivedProject"]
-projects_disabled = ["Profile", "People"]
+projects_active = %w(Reminders Review Profile Access People)
+projects_archived = %w(TooOldToHandle ArchivedProject)
+projects_disabled = %w(Profile People)
 
 reminders = [{name: "Leaders review", remind_after_days: [5, 10, 15, 20, 25],
               deadline_text: "Last *{{reminder_name}}* for _{{ project_name }}_ was done *{{ days_ago }}* .",
@@ -24,7 +24,7 @@ reminders = [{name: "Leaders review", remind_after_days: [5, 10, 15, 20, 25],
 
 users = ["John Smith", "Jane Doe", "Charles Adams", "Lisa Morris"]
 
-#create projects
+# create projects
 projects_active.each do |project_name|
   Project.find_or_create_by(name: project_name,
                             email: "team-#{project_name.downcase}@domain.com",
@@ -42,7 +42,7 @@ projects_disabled.each do |project_name|
   Project.find_by_name(project_name).update_attributes(enabled: false)
 end
 
-#create reminders
+# create reminders
 CheckAssignment.delete_all
 ProjectCheck.delete_all
 Reminder.delete_all
@@ -55,7 +55,7 @@ reminders.each do |reminder|
                  )
 end
 
-#create project check
+# create project check
 ProjectCheck.delete_all
 project_ids = Project.ids
 reminders_ids = Reminder.ids
@@ -66,11 +66,10 @@ project_ids.each_with_object(reminders_ids) do |project, reminders|
   end
 end
 
-#create users
+# create users
 User.delete_all
 users.each do |user_name|
   User.create(name: user_name, provider: "google_oauth2", uid: Faker::Number.number(21).to_i)
   Skill.create(user: User.last, reminder_id: rand(1..Reminder.count))
   CheckAssignment.create(user: User.last, project_check_id: rand(1..ProjectCheck.count))
 end
-

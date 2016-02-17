@@ -26,13 +26,13 @@ feature "toggling project state" do
     expect(projects_page.first_project.disabled?).to be true
 
     reminder_page.load reminder_id: reminder_1.id
-    page.click_link('Disabled')
+    page.click_link("Disabled")
     expect(reminder_page.first_project).to have_content project.name
     expect(reminder_page.first_project.disabled?).to be true
     expect(reminder_page.first_project).not_to have_button("I've done this!")
 
     reminder_page.load reminder_id: reminder_2.id
-    page.click_link('Disabled')
+    page.click_link("Disabled")
     expect(reminder_page.first_project).to have_content project.name
     expect(reminder_page.first_project.disabled?).to be true
     expect(reminder_page.first_project).not_to have_button("I've done this!")

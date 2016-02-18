@@ -14,7 +14,7 @@ describe SessionsController do
         {
           "provider" => "google",
           "uid" => 123,
-          "info" => { "name" => "John", "email" => "john@doe.pl" },
+          "info" => { "name" => "John", "email" => "john@doe.pl" }
         }
       end
 
@@ -37,7 +37,7 @@ describe SessionsController do
       let(:auth) do
         {
           "provider" => "google",
-          "uid" => 123,
+          "uid" => 123
         }
       end
 

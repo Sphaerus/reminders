@@ -99,7 +99,7 @@ describe ProjectChecksController do
     let(:params) do
       {
         project_check: { info: "New info" },
-        id: project_check.id,
+        id: project_check.id
       }
     end
     subject { post :update, params }

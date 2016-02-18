@@ -14,7 +14,7 @@ module ReminderDecorator
 
     def number_of_overdue_project
       ProjectCheckDecorator.decorate_collection(object.project_checks)
-        .count(&:overdue?)
+                           .count(&:overdue?)
     end
 
     def slack_channel_display

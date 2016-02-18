@@ -37,7 +37,7 @@ describe UpdateCheckAssignments do
     end
   end
 
-  describe "#down"  do
+  describe "#down" do
     context "when project check has no check assignments" do
       let!(:project_check) do
         create(:project_check, last_check_date: "2015-06-09")

@@ -70,7 +70,7 @@ describe CheckAssignmentsRepository do
     let(:assignments) { repo.latest_user_assignments(user_id: user.id) }
 
     before do
-      create(:check_assignment, user: user, completion_date: 1.days.ago)
+      create(:check_assignment, user: user, completion_date: 1.day.ago)
       3.times { create(:check_assignment, user: user) }
       create(:check_assignment, user: user, completion_date: 2.days.ago)
     end

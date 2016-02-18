@@ -3,9 +3,7 @@ class CanceledAssignmentUserNotificationMailer < ApplicationMailer
     @project_check = project_check
     @user = user
     mail(to: user.email,
-         subject: compose_subject) do |format|
-      format.html
-    end
+         subject: compose_subject, &:html)
   end
 
   private

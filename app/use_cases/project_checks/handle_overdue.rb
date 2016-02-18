@@ -40,7 +40,7 @@ module ProjectChecks
 
     def notification
       Liquid::Template.parse(notification_template)
-        .render(available_variables)
+                      .render(available_variables)
     end
 
     def notification_template
@@ -52,7 +52,7 @@ module ProjectChecks
         reminder_name: reminder.name,
         project_name: project.name,
         days_ago: days_diff,
-        valid_for: reminder.valid_for_n_days,
+        valid_for: reminder.valid_for_n_days
       }.stringify_keys
     end
   end

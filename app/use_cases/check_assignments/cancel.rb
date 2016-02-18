@@ -3,7 +3,7 @@ module CheckAssignments
     attr_reader :check_assignment, :check_assignments_repo
 
     def initialize(check_assignment,
-        check_assignments_repo: CheckAssignmentsRepository.new)
+                   check_assignments_repo: CheckAssignmentsRepository.new)
       @check_assignment = check_assignment
       @check_assignments_repo = check_assignments_repo
     end

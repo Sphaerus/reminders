@@ -4,7 +4,7 @@ describe ProjectCheckedOnTimeJob do
   let(:job) { described_class.new(check.id, days_valid, daily_reminders) }
   let(:daily_reminders) { %w(1 2) }
   let(:days_valid) { 11 }
-  let(:project_checks_repository)do
+  let(:project_checks_repository) do
     repo = InMemoryRepository.new
     repo.all = [check]
     repo

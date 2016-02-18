@@ -6,9 +6,7 @@ class ProjectNotificationMailer < ApplicationMailer
     @team_name = team_name
     @notification = notification
     mail(to: project_email,
-         subject: compose_subject) do |format|
-      format.html
-    end
+         subject: compose_subject, &:html)
   end
 
   private

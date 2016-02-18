@@ -25,7 +25,7 @@ namespace :users do
   private
 
   def prepare_email(name)
-    name.parameterize.gsub("-", ".") + "@#{AppConfig.domain}"
+    name.parameterize.tr("-", ".") + "@#{AppConfig.domain}"
   end
 
   def find_user_by_email(email)

@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe ProjectChecks::HandleOverdue do
-  let(:service) {  described_class.new(check, days_diff, notifier) }
+  let(:service) { described_class.new(check, days_diff, notifier) }
   let(:days_diff) { 10 }
   let(:project) do
     double(:project, name: "foo project", channel_name: "foo-project")

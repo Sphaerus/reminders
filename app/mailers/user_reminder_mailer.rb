@@ -6,9 +6,7 @@ class UserReminderMailer < ApplicationMailer
     @days_diff = days_diff
     @user = user
     mail(to: user.email,
-         subject: compose_subject) do |format|
-      format.html
-    end
+         subject: compose_subject, &:html)
   end
 
   private

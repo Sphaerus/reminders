@@ -4,9 +4,7 @@ class UserNotificationMailer < ApplicationMailer
     @user = user
     @contact_person = contact_person
     mail(to: user.email,
-         subject: compose_subject) do |format|
-      format.html
-    end
+         subject: compose_subject, &:html)
   end
 
   private

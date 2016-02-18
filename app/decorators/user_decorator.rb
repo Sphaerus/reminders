@@ -21,6 +21,6 @@ class UserDecorator < Draper::Decorator
   end
 
   def paused_as_string
-    (paused) ? "paused" : "not paused"
+    paused ? "paused" : "not paused"
   end
 end

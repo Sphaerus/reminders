@@ -7,7 +7,7 @@ describe Projects::SyncWithDataGuru do
   end
   let(:data_guru_projects) do
     [double(display_name: "Foo", slack_project_channel_name: "project-foo"),
-    double(display_name: "bar", slack_project_channel_name: "project-bar")]
+     double(display_name: "bar", slack_project_channel_name: "project-bar")]
   end
   let(:projects_repository) do
     class InMemoryProjectsRepository < InMemoryRepository
@@ -26,7 +26,7 @@ describe Projects::SyncWithDataGuru do
   before do
     AppConfig["domain"] = "foo.pl"
     allow_any_instance_of(DataGuruClient).to receive_message_chain("data_guru.projects.all")
-                                             .and_return data_guru_projects
+      .and_return data_guru_projects
   end
 
   describe "#call" do

@@ -20,11 +20,7 @@ module Reminders
     end
 
     def disabled?
-      toggle_state_button[:class] == "btn btn-success"
-    end
-
-    def toggle_state
-      toggle_state_button.click
+      evaluate_script("$('.toggle-switch').attr('checked')").nil?
     end
   end
 end

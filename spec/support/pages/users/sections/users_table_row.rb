@@ -10,15 +10,21 @@ module Users
     end
 
     def paused?
-      toggle_paused_button[:checked] != true
+      evaluate_script("$('.toggle-switch').attr('checked')").nil?
     end
 
     def pause!
-      toggle_paused_button.set(false)
+      return if evaluate_script("$('.toggle-switch').attr('checked')").nil?
+      toggle_user_availability
     end
 
     def unpause!
-      toggle_paused_button.set(true)
+      return unless evaluate_script("$('.toggle-switch').attr('checked')").nil?
+      toggle_user_availability
+    end
+
+    def toggle_user_availability
+      execute_script("$('.toggle-switch').click()")
     end
   end
 end

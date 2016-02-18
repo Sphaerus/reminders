@@ -1,13 +1,12 @@
 module Projects
   class ProjectTableRow < SitePrism::Section
-    element :toggle_state_button, ".toggle-switch"
-
     def disabled?
-      toggle_state_button[:checked] != true
+      evaluate_script("$('.js-toggle-switch').attr('checked')").nil?
     end
 
     def disable
-      toggle_state_button.click
+      return if evaluate_script("$('.toggle-switch').attr('checked')").nil?
+      execute_script("$('.toggle-switch').click()")
     end
   end
 end

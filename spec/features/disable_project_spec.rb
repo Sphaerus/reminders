@@ -18,18 +18,23 @@ feature "toggling project state" do
     end
   end
 
-  pending "user disables project" do
+  scenario "user disables project", js: true do
     projects_page.load
     expect(projects_page.first_project.disabled?).to be false
     projects_page.first_project.disable
+    wait_for_jquery
     expect(projects_page.first_project.disabled?).to be true
 
     reminder_page.load reminder_id: reminder_1.id
+    page.click_link("Disabled")
+    expect(reminder_page.first_project).to have_content project.name
     expect(reminder_page.first_project.disabled?).to be true
-    expect(reminder_page.first_project).not_to have_button("Check")
+    expect(reminder_page.first_project).not_to have_button("I've done this!")
 
     reminder_page.load reminder_id: reminder_2.id
+    page.click_link("Disabled")
+    expect(reminder_page.first_project).to have_content project.name
     expect(reminder_page.first_project.disabled?).to be true
-    expect(reminder_page.first_project).not_to have_button("Check")
+    expect(reminder_page.first_project).not_to have_button("I've done this!")
   end
 end

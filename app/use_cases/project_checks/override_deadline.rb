@@ -1,5 +1,5 @@
 module ProjectChecks
-  class  OverrideDeadline
+  class OverrideDeadline
     attr_reader :check, :checks_repo, :new_days_left
     private :check, :checks_repo, :new_days_left
 

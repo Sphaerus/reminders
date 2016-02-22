@@ -4,7 +4,7 @@ describe ProjectChecksRepository do
   let(:repo) { described_class.new }
 
   describe "#all" do
-    let(:project) { create(:project)  }
+    let(:project) { create(:project) }
 
     before do
       2.times { create(:project_check, project: project) }

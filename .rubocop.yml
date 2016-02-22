@@ -1,4 +1,5 @@
 AllCops:
+  TargetRubyVersion: 2.2
   Exclude:
     - 'bin/*'
     - 'db/**/*'
@@ -15,6 +16,8 @@ Rails/TimeZone:
   Enabled: false
 SignalException:
   Enabled: false
+Style/DotPosition:
+  EnforcedStyle: leading
 Style/PredicateName:
   NamePrefix:
     - is_
@@ -24,6 +27,9 @@ Style/PredicateName:
     - have_
 Style/StringLiterals:
   EnforcedStyle: double_quotes
-Style/TrailingComma:
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: comma
+  Enabled: true
+Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma
   Enabled: true

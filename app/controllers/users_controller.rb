@@ -22,13 +22,13 @@ class UsersController < ApplicationController
 
   def toggle_paused
     paused = users_repo.toggle_paused(params[:id])
-    state = (paused) ? "paused" : "unpaused"
+    state = paused ? "paused" : "unpaused"
     redirect_to users_url, notice: "User has been #{state}."
   end
 
   def toggle_paused_by_user
     paused = users_repo.toggle_paused(current_user.id)
-    state = (paused) ? "paused" : "unpaused"
+    state = paused ? "paused" : "unpaused"
     redirect_to root_url, notice: "You have been #{state} yourself."
   end
 end

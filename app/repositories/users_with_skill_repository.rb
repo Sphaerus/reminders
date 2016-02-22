@@ -7,8 +7,8 @@ class UsersWithSkillRepository
 
   def all
     User.joins(:skills)
-      .where(skills: { reminder_id: reminder.id })
-      .where(paused: false)
+        .where(skills: { reminder_id: reminder.id })
+        .where(paused: false)
   end
 
   def active

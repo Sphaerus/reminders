@@ -7,7 +7,7 @@ class UserAssigner
     self.reminder = reminder
     self.users_with_skill = users_with_skill
     self.check_assignments_repo = check_assignments_repo ||
-      CheckAssignmentsRepository.new
+                                  CheckAssignmentsRepository.new
     self.last_checker = last_checker
   end
 
@@ -19,7 +19,7 @@ class UserAssigner
       output[id] = []
     end
     output.map { |user_id, checks| build_output_structure(user_id, checks) }
-      .sort_by { |result| result[:wannado_rating] }
+          .sort_by { |result| result[:wannado_rating] }
   end
 
   private

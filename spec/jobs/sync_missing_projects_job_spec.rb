@@ -49,13 +49,13 @@ describe SyncMissingProjectsJob do
 
   let(:data_guru_projects) do
     [double(display_name: "One", slack_project_channel_name: "project-one"),
-    double(display_name: "Two", slack_project_channel_name: "project-two")]
+     double(display_name: "Two", slack_project_channel_name: "project-two")]
   end
 
   describe "#perform" do
     before do
       allow_any_instance_of(DataGuruClient).to receive_message_chain("data_guru.projects.all")
-                                               .and_return data_guru_projects
+        .and_return data_guru_projects
     end
 
     it "creates project" do

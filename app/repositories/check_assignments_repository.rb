@@ -19,7 +19,7 @@ class CheckAssignmentsRepository
   def from_last_n_days_for_users(number_of_days, user_ids)
     all.where("completion_date >= ? OR completion_date IS NULL",
               number_of_days.days.ago)
-      .where(user_id: user_ids)
+       .where(user_id: user_ids)
   end
 
   def add(parameters)
@@ -42,8 +42,8 @@ class CheckAssignmentsRepository
 
   def latest_user_assignments(user_id:, limit: 5)
     all.where(user_id: user_id)
-      .includes(project_check: [:project, :reminder])
-      .limit(limit)
-      .order(completion_date: :desc, updated_at: :desc)
+       .includes(project_check: [:project, :reminder])
+       .limit(limit)
+       .order(completion_date: :desc, updated_at: :desc)
   end
 end

@@ -15,7 +15,7 @@ describe CheckAssignmentDecorator do
 
     context "assigned yesterday" do
       it "returns 1 day ago" do
-        check_assignment.created_at = 1.days.ago
+        check_assignment.created_at = 1.day.ago
         expect(decorator.assigned_days_ago_as_string).to eq("1 day ago")
       end
     end

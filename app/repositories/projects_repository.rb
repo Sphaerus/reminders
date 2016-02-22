@@ -29,8 +29,8 @@ class ProjectsRepository
 
   def for_reminder_with_checks(reminder)
     reminder.projects
-      .includes(project_checks: [:reminder, :last_check_user])
-      .distinct
+            .includes(project_checks: [:reminder, :last_check_user])
+            .distinct
   end
 
   def update(project, update_params)

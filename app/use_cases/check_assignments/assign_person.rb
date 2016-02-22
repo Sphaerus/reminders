@@ -42,7 +42,7 @@ module CheckAssignments
 
     def notify_user
       UserNotificationMailer.check_assignment(@person, @check, @contact_person)
-        .deliver_now
+                            .deliver_now
     end
   end
 end

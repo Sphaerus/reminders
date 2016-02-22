@@ -8,9 +8,9 @@ class ProjectChecksRepository
                  :last_check_user,
                  check_assignments: :user
                 )
-      .where(reminder_id: reminder.id)
-      .where("projects.archived_at IS NULL")
-      .order("projects.name")
+       .where(reminder_id: reminder.id)
+       .where("projects.archived_at IS NULL")
+       .order("projects.name")
   end
 
   def create(entity)

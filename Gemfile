@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-gem "rails", "4.2.5"
+gem "rails", "~> 4"
 
 gem "app_konfig"
 gem "coffee-rails"
@@ -14,7 +14,7 @@ gem "liquid"
 gem "lograge"
 gem "netguru_theme"
 gem "omniauth"
-gem "omniauth-google-oauth2", "0.2.9" # lock till the regression is solved
+gem "omniauth-google-oauth2"
 gem "pg"
 gem "rollbar"
 gem "sass-rails", "~> 5.0"

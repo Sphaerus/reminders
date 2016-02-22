@@ -40,7 +40,7 @@ module ProjectChecks
 
     def notification
       Liquid::Template.parse(notification_template)
-        .render(available_variables)
+                      .render(available_variables)
     end
 
     def notification_template

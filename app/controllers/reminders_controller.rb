@@ -67,7 +67,7 @@ class RemindersController < ApplicationController
 
   def reminder_attrs
     params.require(:reminder)
-      .permit(:name, :valid_for_n_days, :remind_after_days,
-              :notification_text, :deadline_text, :slack_channel)
+          .permit(:name, :valid_for_n_days, :remind_after_days,
+                  :notification_text, :deadline_text, :slack_channel)
   end
 end

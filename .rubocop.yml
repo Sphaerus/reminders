@@ -16,6 +16,8 @@ Rails/TimeZone:
   Enabled: false
 SignalException:
   Enabled: false
+Style/DotPosition:
+  EnforcedStyle: leading
 Style/PredicateName:
   NamePrefix:
     - is_

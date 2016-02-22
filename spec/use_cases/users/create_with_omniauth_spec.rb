@@ -6,7 +6,7 @@ describe Users::CreateWithOmniauth do
     {
       "provider" => "google",
       "uid" => "123",
-      "info" => { "name" => "John", "email" => "john@doe.pl" }
+      "info" => { "name" => "John", "email" => "john@doe.pl" },
     }
   end
 

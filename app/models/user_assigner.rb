@@ -38,7 +38,7 @@ class UserAssigner
       user: users_with_skill.find { |u| u.id == user_id },
       total_checks_count: checks.count,
       completed_checks_count: completed.count,
-      last_check_date: completed.last.try(:completion_date)
+      last_check_date: completed.last.try(:completion_date),
     }
     result[:wannado_rating] = wannado_rating(result)
     result

@@ -24,6 +24,9 @@ Style/PredicateName:
     - have_
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: comma
+  Enabled: true
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma
   Enabled: true

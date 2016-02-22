@@ -1,7 +1,7 @@
 def google_scope
   [
     "userinfo.email",
-    "userinfo.profile"
+    "userinfo.profile",
   ].join(" ")
 end
 

@@ -51,7 +51,7 @@ describe ProjectsController do
       let(:params) do
         {
           id: project.id,
-          project: { email: "new_project@email.com", channel_name: "name" }
+          project: { email: "new_project@email.com", channel_name: "name" },
         }
       end
       it "redirects to projects index" do
@@ -84,7 +84,7 @@ describe ProjectsController do
         let(:params) do
           {
             id: project.id,
-            project: { email: "not@blank.com", channel_name: nil }
+            project: { email: "not@blank.com", channel_name: nil },
           }
         end
 

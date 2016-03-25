@@ -48,14 +48,6 @@ class ProjectsController < ApplicationController
                 notice: "Project has been archived."
   end
 
-  def sync
-    SyncMissingProjectsJob.new(
-      projects_repo: projects_repository,
-      reminders_repo: reminders_repository,
-      checks_repo: project_checks_repository).perform
-    redirect_to projects_path, notice: "Projects have been synchronized"
-  end
-
   def toggle_state
     Projects::ToggleState.new(project: project,
                               projects_repository: projects_repository,

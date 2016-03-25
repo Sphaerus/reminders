@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   resources :projects do
-    post :sync, on: :collection
     post :toggle_state, on: :member
     post :archive, on: :member
     get "history" => "project_history#index", on: :member

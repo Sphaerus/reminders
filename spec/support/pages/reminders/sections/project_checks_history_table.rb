@@ -8,4 +8,4 @@ class ProjectChecksHistoryTable < SitePrism::Section
   def content
     root_element.text
   end
-  end
+end

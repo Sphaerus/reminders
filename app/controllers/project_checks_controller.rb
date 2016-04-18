@@ -63,7 +63,6 @@ class ProjectChecksController < ApplicationController
     redirect_to reminder_path(check.reminder), redirect_args
   end
 
-  # rubocop:disable Metrics/AbcSize
   def update
     if ProjectChecks::Update.new(check: check).call(check_params)
       redirect_to check.reminder, notice: "Check info updated."
@@ -72,7 +71,6 @@ class ProjectChecksController < ApplicationController
       render :edit
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   private
 

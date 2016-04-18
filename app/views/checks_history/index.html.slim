@@ -21,6 +21,7 @@
         tr
           th Check date
           th Checker
+          th Note URL
           th Actions
       tbody
         - checks.each do |check|
@@ -29,6 +30,8 @@
               = check.completion_date
             td
               = check.checker
+            td
+              = check.note_url
             td
               = link_to admin_project_check_check_assignment_path(project_check, check), class: 'btn btn-danger', data: { confirm: 'Are you sure?' }, method: :delete do
                 | Delete

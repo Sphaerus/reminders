@@ -14,16 +14,16 @@ module CheckAssignments
       @completion_date = completion_date || Time.current
     end
 
-    def call
-      complete_assignment
+    def call(options = {})
+      complete_assignment(options)
     end
 
     private
 
-    def complete_assignment
+    def complete_assignment(options)
       assignments_repository.update(
         assignment,
-        completion_date: completion_date, user_id: checker.id,
+        options.merge(completion_date: completion_date, user_id: checker.id),
       )
       project_check_update.call(
         last_check_date: assignment.completion_date,

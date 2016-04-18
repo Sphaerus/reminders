@@ -14,17 +14,17 @@ module CheckAssignments
       @contact_person = contact_person
     end
 
-    def call
-      create_assignment
+    def call(options = {})
+      create_assignment(options)
     end
 
     private
 
-    def create_assignment
-      assignments_repository.add(prepare_attributes)
+    def create_assignment(options)
+      assignments_repository.add(prepare_attributes.merge(options))
     end
 
-    def prepare_attributes
+    def prepare_attributes(_options = {})
       {
         user_id: checker.id,
         project_check_id: project_check.id,

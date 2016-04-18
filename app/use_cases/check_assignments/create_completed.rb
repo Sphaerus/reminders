@@ -1,13 +1,13 @@
 module CheckAssignments
   class CreateCompleted < Create
-    def call
-      create_completed
+    def call(options = {})
+      create_completed(options)
     end
 
     private
 
-    def create_completed
-      assignment = create_assignment
+    def create_completed(options)
+      assignment = create_assignment(options)
       Complete.new(
         assignment: assignment,
         checker: checker,

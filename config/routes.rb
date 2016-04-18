@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     post :assign_checker
     get "history" => "checks_history#index", on: :member
     get :complete_check, to: "check_assignments#complete_check"
+    post :confirm_check, to: "check_assignments#confirm_check"
   end
 
   post "check_assignments/set_deadline" => "check_assignments#set_deadline", as: :set_deadline

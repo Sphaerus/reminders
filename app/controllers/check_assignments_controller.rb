@@ -60,6 +60,11 @@ class CheckAssignmentsController < ApplicationController
   def complete_check
     self.check = ProjectCheckDecorator.new(check)
     self.assignment = assignment || CheckAssignment.new
+  end
+
+  def confirm_check
+    action_resolver.resolve(
+      note_url: params.require(:check_assignment)[:note_url])
 
     redirect_to reminder_path(check.reminder), notice: "All right"
   end

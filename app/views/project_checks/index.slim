@@ -55,11 +55,9 @@
                   | Show
             td
               - if pc.enabled?
-                = form_tag complete_check_path, method: :post do
-                  = hidden_field_tag :project_check_id, pc.id
-                  = button_tag type: :submit,
+                = link_to project_check_complete_check_path(pc.id),
                     class: 'btn btn-success btn-sm',
-                    data: { confirm: "Are you sure? You'll be saved as person who completed this reminder.", disable_with: pc.css_disabled_state } do
+                    data: { disable_with: pc.css_disabled_state } do
                       i.glyphicon.glyphicon-ok
                       |  I've done this!
             - if current_user.admin?

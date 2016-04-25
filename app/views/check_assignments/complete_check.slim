@@ -1,0 +1,13 @@
+.row
+  .col-xs-12
+    h1
+      | You're about to mark #{check.reminder_name} in #{check.project_name} as done.
+    .alert.alert-info Please provide an url
+
+    = simple_form_for assignment, url: project_check_confirm_check_path(check), method: :post do |f|
+      = f.error_notification
+      .form-inputs
+        = f.input :note_url
+
+      .form-actions
+        = f.button :submit, "Add a note URL and mark as done", class: "btn btn-success"

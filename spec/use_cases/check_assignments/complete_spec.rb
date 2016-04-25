@@ -26,6 +26,13 @@ describe CheckAssignments::Complete do
         .not_to be nil
     end
 
+    it "adds note url to assignment if passed" do
+      expect(assignment.note_url).to be nil
+      service.call(note_url: "some url")
+      expect(assignment.note_url)
+        .to eq "some url"
+    end
+
     it "it updates user performing check" do
       expect(assignment.user_id).to eq user.id
       service.call

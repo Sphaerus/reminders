@@ -35,6 +35,7 @@ gem "capistrano-docker", github: "netguru/capistrano-docker", tag: "v0.2.3"
 gem "rvm1-capistrano3", require: false
 
 group :development, :test do
+  gem "binding_of_caller"
   gem "byebug"
   gem "pry-rails"
   gem "pry-rescue"

@@ -21,8 +21,8 @@ feature "project checks history" do
     reminders_page.load reminder_id: reminder.id
 
     expect(page).not_to have_content user.name
-    page.find("button", text: "I've done this!").click
-    page.driver.browser.switch_to.alert.accept
+    page.find(".btn", text: "I've done this!").click
+    page.find(".btn").click
 
     expect(page).to have_content user.name
 

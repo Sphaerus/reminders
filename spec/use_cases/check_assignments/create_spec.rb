@@ -17,9 +17,11 @@ describe CheckAssignments::Create do
     let(:project_check) { create(:project_check) }
 
     it "creates new check assignment" do
-      service.call
+      service.call(note_url: "some note")
       expect(assignments_repo.latest_assignment(project_check))
         .not_to be nil
+      expect(assignments_repo.latest_assignment(project_check).note_url)
+        .to eq "some note"
     end
 
     it "returns new check assignment" do

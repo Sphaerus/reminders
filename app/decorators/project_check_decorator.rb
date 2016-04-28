@@ -103,7 +103,8 @@ class ProjectCheckDecorator < Draper::Decorator
   end
 
   def completion_notification_text(checker)
-    "#{checker.name} has completed #{object.reminder.name} in #{object.project.name}."
+    "#{checker.name} has completed #{object.reminder.name} " \
+      "in #{object.project.name}."
   end
 
   private

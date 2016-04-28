@@ -26,4 +26,9 @@ class CheckAssignmentDecorator < Draper::Decorator
   def assigned_days_ago_as_string
     "#{h.time_ago_in_words(object.created_at)} ago"
   end
+
+  def completion_notification_text(checker)
+    "#{checker.name} has completed #{object.project_check.reminder.name} " \
+      "in #{object.project_check.project.name}: #{object.note_url}"
+  end
 end

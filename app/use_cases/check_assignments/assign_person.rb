@@ -30,7 +30,8 @@ module CheckAssignments
       reminder = check.reminder.name
       project = check.project.name
 
-      "#{person.name} got assigned to do next #{reminder} in #{project}. "
+      "#{person.name} got assigned to do next #{reminder} in #{project}. " \
+        "They were notified by email."
     end
 
     def notify_channel(message)

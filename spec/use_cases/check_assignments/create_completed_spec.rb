@@ -15,7 +15,7 @@ describe CheckAssignments::CreateCompleted do
 
   describe "#call" do
     let(:checker) { create(:user) }
-    let(:project_check) { create(:project_check) }
+    let(:project_check) { create(:project_check, reminder: create(:reminder)) }
 
     it "creates new assignment with completion date" do
       expect(repo.latest_assignment(project_check))

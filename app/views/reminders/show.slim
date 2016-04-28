@@ -8,6 +8,7 @@
           th Valid for N days
           th Remind after N days
           th Slack Channel
+          th Supervisor Channel
       tbody
         tr
           td
@@ -16,6 +17,8 @@
             = reminder.remind_after_days
           td
             = reminder.slack_channel_display
+          td
+            = reminder.supervisor_slack_channel_display
 
     .btn-group
       = link_to "Back", reminders_path, class: "btn btn-default"

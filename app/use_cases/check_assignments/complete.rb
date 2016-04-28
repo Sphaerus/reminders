@@ -35,10 +35,9 @@ module CheckAssignments
 
     def notify_supervisor_channel
       return unless project_check.reminder.notify_supervisor?
-      decorated = project_check.decorate
       CheckAssignments::Notify.new.call(
-        decorated.supervisor_slack_channel,
-        decorated.completion_notification_text(checker),
+        project_check.decorate.supervisor_slack_channel,
+        assignment.decorate.completion_notification_text(checker),
       )
     end
   end

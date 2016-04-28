@@ -74,13 +74,14 @@ describe CheckAssignments::Complete do
 
       it "notifies supervisor slack channel" do
         message = "Just letting you know that " \
-                  "John Doe has completed Awesome review in The Project."
+                  "John Doe has completed Awesome review in The Project: " \
+                  "http://example.com"
         expect_any_instance_of(Notifier).to receive(:notify_slack)
           .with(
             message,
             channel: '#supervisors',
           ).and_return({})
-        service.call
+        service.call(note_url: "http://example.com")
       end
     end
   end

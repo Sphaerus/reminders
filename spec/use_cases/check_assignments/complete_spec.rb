@@ -61,13 +61,23 @@ describe CheckAssignments::Complete do
     end
 
     context "supervisor_slack_channel is set on reminder" do
-      let(:project_check) { create(:project_check, project: project, reminder: reminder) }
-      let(:project) { create(:project, name: 'The Project') }
-      let(:reminder) { create(:reminder, supervisor_slack_channel: 'supervisors', name: 'Awesome review') }
+      let(:project_check) do
+        create(:project_check, project: project, reminder: reminder)
+      end
+      let(:project) { create(:project, name: "The Project") }
+      let(:reminder) do
+        create(:reminder,
+               supervisor_slack_channel: "supervisors",
+               name: "Awesome review",
+              )
+      end
 
       it "notifier supervisor_slack_channel" do
-        expect_any_instance_of(Notifier)
-          .to receive(:notify_slack).with('Just letting you know that John Doe has completed Awesome review in The Project.', { channel: '#supervisors' }).and_return({})
+        expect_any_instance_of(Notifier).to receive(:notify_slack)
+          .with(
+            "Just letting you know that John Doe has completed Awesome review in The Project.",
+            channel: '#supervisors',
+          ).and_return({})
         service.call
       end
     end

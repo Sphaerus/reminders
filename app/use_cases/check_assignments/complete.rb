@@ -30,13 +30,16 @@ module CheckAssignments
         last_check_date: assignment.completion_date,
         last_check_user_id: checker.id,
       )
-      if project_check.reminder.notify_supervisor?
-        decorated = project_check.decorate
-        CheckAssignments::Notify.new.call(
-          decorated.supervisor_slack_channel,
-          decorated.completion_notification_text(checker),
-        )
-      end
+      notify_supervisor_channel
+    end
+
+    def notify_supervisor_channel
+      return unless project_check.reminder.notify_supervisor?
+      decorated = project_check.decorate
+      CheckAssignments::Notify.new.call(
+        decorated.supervisor_slack_channel,
+        decorated.completion_notification_text(checker),
+      )
     end
   end
 end

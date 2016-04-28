@@ -55,7 +55,7 @@ describe CheckAssignments::Complete do
       expect(project_check.last_check_user).to eq checker
     end
 
-    it "does not notify by slack" do
+    it "does not notify slack" do
       service.call
       expect_any_instance_of(Notifier).not_to receive(:notify_slack)
     end
@@ -72,7 +72,7 @@ describe CheckAssignments::Complete do
               )
       end
 
-      it "notifier supervisor_slack_channel" do
+      it "notifies supervisor slack channel" do
         message = "Just letting you know that " \
                   "John Doe has completed Awesome review in The Project."
         expect_any_instance_of(Notifier).to receive(:notify_slack)

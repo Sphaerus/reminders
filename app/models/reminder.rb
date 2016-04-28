@@ -7,4 +7,8 @@ class Reminder < ActiveRecord::Base
   has_many :projects, through: :project_checks
   has_many :check_assignments, through: :project_checks, dependent: :destroy
   has_many :skills, dependent: :destroy
+
+  def notify_supervisor?
+    supervisor_slack_channel.present?
+  end
 end

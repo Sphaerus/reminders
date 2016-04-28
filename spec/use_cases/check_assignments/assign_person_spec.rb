@@ -32,7 +32,7 @@ describe CheckAssignments::AssignPerson do
     u = user.name
     r = reminder.name
     p = project.name
-    "#{u} got assigned to do next #{r} in #{p}. "
+    "#{u} got assigned to do next #{r} in #{p}. They were notified by email."
   end
 
   before do

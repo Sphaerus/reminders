@@ -31,7 +31,8 @@ describe ReminderDecorator::Base do
     context "supervisor_slack_channel not present" do
       it "return placeholder string" do
         reminder.supervisor_slack_channel = ""
-        expect(decorator.supervisor_slack_channel_display).to eq("Not specified.")
+        expect(decorator.supervisor_slack_channel_display)
+          .to eq("Not specified.")
       end
     end
   end

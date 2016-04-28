@@ -98,6 +98,14 @@ class ProjectCheckDecorator < Draper::Decorator
     object.reminder.slack_channel || object.project.channel_name
   end
 
+  def supervisor_slack_channel
+    object.reminder.supervisor_slack_channel
+  end
+
+  def completion_notification_text(checker)
+    "#{checker.name} has completed #{object.reminder.name} in #{object.project.name}."
+  end
+
   private
 
   def reviewer_deadline(days_left)

@@ -1,14 +1,15 @@
 module CheckAssignments
   class Complete
-    attr_reader :assignments_repository, :assignment,
+    attr_reader :assignments_repository, :assignment, :project_check,
                 :checker, :project_check_update, :completion_date
-    private :assignments_repository, :assignment,
+    private :assignments_repository, :assignment, :project_check,
             :checker, :project_check_update, :completion_date
 
     def initialize(assignment:, checker:, project_check:, completion_date: nil)
       @assignment = assignment
       @checker = checker
       @assignments_repository = CheckAssignmentsRepository.new
+      @project_check = project_check
       @project_check_update =
         ProjectChecks::Update.new(check: project_check)
       @completion_date = completion_date || Time.current
@@ -29,6 +30,13 @@ module CheckAssignments
         last_check_date: assignment.completion_date,
         last_check_user_id: checker.id,
       )
+      if project_check.reminder.notify_supervisor?
+        decorated = project_check.decorate
+        CheckAssignments::Notify.new.call(
+          decorated.supervisor_slack_channel,
+          decorated.completion_notification_text(checker),
+        )
+      end
     end
   end
 end

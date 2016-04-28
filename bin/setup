@@ -95,8 +95,20 @@ def override_or_edit_config(config_path)
   end
 end
 
+def copy_config_file(config_file)
+  if File.exist? "#{config_file}.sample"
+    if File.exist? config_file
+      override_or_edit_config config_file
+    else
+      create_config_from_sample config_file
+    end
+  elsif File.exist? config_file
+    override_or_edit_config config_file
+  end
+end
+
 APP_ROOT = Pathname.new(File.expand_path("../../",  __FILE__))
-CONFIG_FILE = "config/secrets.yml".freeze
+CONFIG_FILES = ["config/database.yml", "config/secrets.yml"].freeze
 
 Dir.chdir APP_ROOT do
   header "Installing dependencies"
@@ -104,14 +116,8 @@ Dir.chdir APP_ROOT do
   system "bundle check || bundle install"
 
   header "Copying and configuring sample files"
-  if File.exist? "#{CONFIG_FILE}.sample"
-    if File.exist? CONFIG_FILE
-      override_or_edit_config CONFIG_FILE
-    else
-      create_config_from_sample CONFIG_FILE
-    end
-  elsif File.exist? CONFIG_FILE
-    override_or_edit_config CONFIG_FILE
+  CONFIG_FILES.each do |config_file|
+    copy_config_file(config_file)
   end
 
   header "Preparing database"
@@ -121,6 +127,8 @@ Dir.chdir APP_ROOT do
   system "bin/rake db:schema:load"
   say("Seeding database", :blue)
   system "bin/rake db:seed"
+  say("Creating test database", :blue)
+  system "bin/rake db:test:prepare"
 
   header "Removing old logs and tempfiles"
   system "rm -f log/*"

@@ -1,5 +1,6 @@
 h1
-  | History of checks in #{project.name}
+  | History of checks in
+  = link_to " #{project.name}", edit_project_path(project)
 
 table.table.datatable
   thead

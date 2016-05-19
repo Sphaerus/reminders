@@ -10,12 +10,12 @@
         tr
           th Project name
           - reminders.each do |reminder|
-            th= reminder.name
+            th= link_to reminder.name, reminder_path(reminder)
 
       tbody
         - projects.each do |project|
           tr
-            td= project.name
+            td= link_to project.name, edit_project_path(project)
             - reminders.each do |reminder|
               - pc = ProjectCheckDecorator.new(project_checks_repo.find_by_reminder_and_project(reminder, project))
               td

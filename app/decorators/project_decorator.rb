@@ -39,7 +39,12 @@ class ProjectDecorator < Draper::Decorator
   end
 
   def status_text
-    return "archived" unless archived_at.nil?
-    "active"
+    if archived_at.present?
+      "archived"
+    elsif !object.enabled?
+      "disabled"
+    else
+      "active"
+    end
   end
 end

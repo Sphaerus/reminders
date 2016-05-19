@@ -2,5 +2,11 @@ h1 Editing project
 
 == render 'form'
 
+p
+  - if project.archived?
+    = link_to "Unarchive #{project.name}", unarchive_project_path(project), method: :post, class: 'btn btn-primary'
+  - else
+    = link_to "Archive #{project.name}", archive_project_path(project), method: :post, class: 'btn btn-danger'
+
 = link_to 'All projects', projects_path
 

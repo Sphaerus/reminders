@@ -23,6 +23,7 @@ feature "toggling project state" do
     expect(projects_page.first_project.disabled?).to be false
     projects_page.first_project.disable
     wait_for_jquery
+    page.click_link("All")
     expect(projects_page.first_project.disabled?).to be true
 
     reminder_page.load reminder_id: reminder_1.id

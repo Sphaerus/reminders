@@ -1,0 +1,33 @@
+.row
+  .col-xs-12
+    h1
+      | Listing projects/reminders
+    p class='alert bg-info'
+      | Click on button to toggle checks enabled/disabled
+
+    table.table.datatable
+      thead
+        tr
+          th Project name
+          - reminders.each do |reminder|
+            th= link_to reminder.name, reminder_path(reminder)
+
+      tbody
+        - projects.each do |project|
+          tr
+            td= link_to project.name, edit_project_path(project)
+            - reminders.each do |reminder|
+              - pc = ProjectCheckDecorator.new(project_checks_repo.find_by_reminder_and_project(reminder, project))
+              td
+                - if pc.enabled?
+                  = button_to project_check_toggle_state_path(pc), method: :post, class: 'btn btn-danger btn-primary btn-xs' do
+                    i class='glyphicon glyphicon-remove'
+                    |  Disable
+                - elsif pc.present?
+                  = button_to project_check_toggle_state_path(pc), method: :post, class: 'btn btn-success btn-xs' do
+                    i class='glyphicon glyphicon-ok'
+                    |  Enable
+                - else
+                  = button_to reminder_path(reminder), method: :get, class: 'btn btn-warning btn-xs' do
+                    i class='glyphicon glyphicon-refresh'
+                    |  Fix sync!

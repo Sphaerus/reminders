@@ -2,8 +2,11 @@ Rails.application.routes.draw do
   resources :projects do
     post :toggle_state, on: :member
     post :archive, on: :member
+    post :unarchive, on: :member
     get "history" => "project_history#index", on: :member
   end
+
+  resources :project_reminders_matrix, only: [:index]
 
   resources :project_checks do
     post :toggle_state

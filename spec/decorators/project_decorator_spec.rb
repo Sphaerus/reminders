@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe ProjectDecorator do
-  let(:project) { OpenStruct.new(name: "abc") }
+  let(:project) { OpenStruct.new(name: "abc", enabled?: true) }
   let(:decorator) { described_class.new(project) }
 
   describe "#archive_button_class" do

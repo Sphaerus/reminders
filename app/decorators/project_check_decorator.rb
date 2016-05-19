@@ -24,7 +24,7 @@ class ProjectCheckDecorator < Draper::Decorator
   end
 
   def enabled?
-    if object.present?
+    if object.present? && object.project.archived_at.nil?
       object.enabled?
     else
       false

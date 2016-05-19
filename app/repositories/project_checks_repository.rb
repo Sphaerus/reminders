@@ -13,6 +13,17 @@ class ProjectChecksRepository
        .order("projects.name")
   end
 
+  def find_by_reminder_and_project(reminder, project)
+    @checks_matrix ||= begin
+      ProjectCheck.joins(:project).where("projects.archived_at IS NULL")
+                  .select("project_checks.enabled,project_checks.reminder_id,
+      project_checks.project_id,project_checks.id")
+    end
+    @checks_matrix.find do |pc|
+      pc.reminder_id == reminder.id && pc.project_id == project.id
+    end
+  end
+
   def create(entity)
     persist entity
   end

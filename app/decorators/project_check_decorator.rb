@@ -23,6 +23,14 @@ class ProjectCheckDecorator < Draper::Decorator
     object.last_check_date.present?
   end
 
+  def enabled?
+    if object.present?
+      object.enabled?
+    else
+      false
+    end
+  end
+
   def row_class
     if !enabled?
       "active"

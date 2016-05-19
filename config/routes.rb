@@ -5,6 +5,10 @@ Rails.application.routes.draw do
     get "history" => "project_history#index", on: :member
   end
 
+  resources :project_reminders_matrix, only: [:index] do
+    get :index
+  end
+
   resources :project_checks do
     post :toggle_state
     post :override_deadline

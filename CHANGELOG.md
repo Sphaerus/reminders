@@ -2,7 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-# 2015-02-11
+# 2015-05-19
+
+## Added
+
+* Ability to unarchive projects
+* New page displaying projects/reminders matrix
 
 ## Added
 

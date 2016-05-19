@@ -48,6 +48,12 @@ class ProjectsController < ApplicationController
                 notice: "Project has been archived."
   end
 
+  def unarchive
+    Projects::Unarchive.new(project).call
+    redirect_to projects_path,
+                notice: "Project has been unarchived."
+  end
+
   def toggle_state
     Projects::ToggleState.new(project: project,
                               projects_repository: projects_repository,

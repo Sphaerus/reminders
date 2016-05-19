@@ -7,4 +7,8 @@ class Project < ActiveRecord::Base
   has_many :checked_reviews,
            -> { where.not(last_check_date: nil).order(created_at: :desc) },
            class_name: "ProjectCheck"
+
+  def archived?
+    archived_at.present?
+  end
 end

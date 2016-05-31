@@ -23,6 +23,6 @@ class Notifier
   end
 
   def slack_enabled?
-    @slack_enabled || AppConfig.slack_enabled == "true"
+    @slack_enabled || AppConfig.slack_enabled.to_s == "true"
   end
 end

@@ -103,7 +103,11 @@ class ProjectCheckDecorator < Draper::Decorator
   end
 
   def slack_channel
-    object.reminder.slack_channel || object.project.channel_name
+    if object.reminder.slack_channel.blank?
+      object.project.channel_name
+    else
+      object.reminder.slack_channel
+    end
   end
 
   def supervisor_slack_channel

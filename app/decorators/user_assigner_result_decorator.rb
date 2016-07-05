@@ -1,4 +1,4 @@
-class UserAssignerResultDecorator < Draper::Decorator
+class UserAssignerResultDecorator < BaseDecorator
   def id
     result[:user].id
   end

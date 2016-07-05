@@ -1,4 +1,4 @@
-class ProjectCheckDecorator < Draper::Decorator
+class ProjectCheckDecorator < BaseDecorator
   delegate_all
 
   def check_assignments

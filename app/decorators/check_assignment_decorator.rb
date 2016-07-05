@@ -1,4 +1,4 @@
-class CheckAssignmentDecorator < Draper::Decorator
+class CheckAssignmentDecorator < BaseDecorator
   delegate :completion_date, :created_at, :id
 
   def checker

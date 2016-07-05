@@ -1,5 +1,5 @@
 module ReminderDecorator
-  class Base < Draper::Decorator
+  class Base < BaseDecorator
     delegate :id, :name, :valid_for_n_days, :deadline_text, :notification_text,
              :persisted?, :slack_channel, :supervisor_slack_channel
     decorates :reminder

@@ -1,2 +1,2 @@
-class BaseDecorator < Draper::Decorator
+class BaseDecorator < Drape::Decorator
 end

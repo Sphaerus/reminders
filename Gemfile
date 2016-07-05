@@ -44,16 +44,17 @@ end
 
 group :test do
   gem "capybara"
-  gem "selenium-webdriver"
   gem "codeclimate-test-reporter", require: nil
   gem "database_cleaner"
   gem "factory_girl_rails"
   gem "launchy"
   gem "poltergeist"
+  gem "rails-controller-testing"
   gem "rspec-html-matchers"
   gem "rspec-rails", "~> 3.5"
-  gem "site_prism"
+  gem "selenium-webdriver"
   gem "shoulda-matchers"
+  gem "site_prism"
   gem "timecop"
   gem "zonebie"
 end

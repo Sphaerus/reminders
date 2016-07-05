@@ -51,7 +51,7 @@ group :test do
   gem "launchy"
   gem "poltergeist"
   gem "rspec-html-matchers"
-  gem "rspec-rails"
+  gem "rspec-rails", "~> 3.5"
   gem "site_prism"
   gem "shoulda-matchers"
   gem "timecop"

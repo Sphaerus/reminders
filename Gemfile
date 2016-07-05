@@ -60,7 +60,6 @@ end
 
 group :development do
   gem "better_errors"
-  gem "bullet"
   gem "guard-rails"
   gem "guard-rspec"
   gem "guard-rubocop"

@@ -13,7 +13,7 @@ describe ProjectChecksController do
     let(:params) do
       { project_check_id: project_check.id, project_check_days_left: 10 }
     end
-    subject { post :override_deadline, params }
+    subject { post(:override_deadline, params: params) }
 
     context "when user is an admin" do
       context "and days left value has to be changed" do
@@ -56,7 +56,7 @@ describe ProjectChecksController do
 
   describe "#toggle_state" do
     let(:params) { { project_check_id: project_check.id } }
-    subject { post :toggle_state, params }
+    subject { post(:toggle_state, params: params) }
 
     context "when user is an admin" do
       it "toggle project state" do
@@ -102,7 +102,7 @@ describe ProjectChecksController do
         id: project_check.id,
       }
     end
-    subject { post :update, params }
+    subject { post(:update, params: params) }
 
     it "updates project check info" do
       subject

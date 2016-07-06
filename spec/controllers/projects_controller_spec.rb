@@ -10,7 +10,7 @@ describe ProjectsController do
   describe "create" do
     let(:params) { { project: attributes_for(:project) } }
 
-    subject { post :create, params }
+    subject { post(:create, params: params) }
 
     context "with valid params" do
       it "creates new project" do
@@ -44,7 +44,7 @@ describe ProjectsController do
   describe "update" do
     let(:project) { create(:project) }
 
-    subject { patch :update, params }
+    subject { patch(:update, params: params) }
 
     context "with valid params" do
       let(:expected_notice) { "Project was successfully updated." }
@@ -104,7 +104,7 @@ describe ProjectsController do
   describe "archive" do
     let(:params) { { id: project.id } }
     let(:project) { create(:project) }
-    subject { post :archive, params }
+    subject { post(:archive, params: params) }
 
     it "calls Archive service" do
       expect_any_instance_of(Projects::Archive).to receive(:call)

@@ -1,4 +1,4 @@
-class ProjectDecorator < Draper::Decorator
+class ProjectDecorator < BaseDecorator
   delegate :id, :name, :enabled, :email, :archived_at
 
   def created_at

@@ -3,7 +3,7 @@ require "rails_helper"
 describe SessionsController do
   context "create" do
     let(:params) { { provider: "google" } }
-    subject { get :create, params }
+    subject { get(:create, params: params) }
 
     before do
       @request.env["omniauth.auth"] = auth

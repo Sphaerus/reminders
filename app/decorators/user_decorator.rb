@@ -1,4 +1,4 @@
-class UserDecorator < Draper::Decorator
+class UserDecorator < BaseDecorator
   include Rails.application.routes.url_helpers
 
   delegate :id, :name, :admin?, :created_at, :paused

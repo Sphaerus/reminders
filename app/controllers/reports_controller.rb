@@ -1,7 +1,7 @@
 class ReportsController < ApplicationController
   expose(:reminders_repository) { RemindersRepository.new }
   expose(:reminders) do
-    ReminderDecorator::WithCheckAssignments.decorate_collection(
+    ReminderDecorator::Base.decorate_collection(
       reminders_repository.all.includes(:check_assignments))
   end
 

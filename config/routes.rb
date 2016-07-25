@@ -35,6 +35,8 @@ Rails.application.routes.draw do
     post :toggle_paused, on: :member
   end
 
+  resources :reports, only: [:index]
+
   root to: "visitors#index"
 
   namespace :admin do

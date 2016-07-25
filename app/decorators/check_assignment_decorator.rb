@@ -31,4 +31,8 @@ class CheckAssignmentDecorator < BaseDecorator
     "#{checker.name} has completed #{object.project_check.reminder.name} " \
       "in #{object.project_check.project.name}: #{object.note_url}"
   end
+
+  def project_name
+    object.project_check.project.name
+  end
 end

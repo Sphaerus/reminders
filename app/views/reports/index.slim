@@ -1,0 +1,23 @@
+h1 Monthly report
+div.btn-group
+  - months.each do |month|
+    = link_to Date::MONTHNAMES[month], reports_path(month: month), class: "btn btn-default"
+
+- reminders.each do |reminder|
+  h2= reminder.name
+
+  table.table
+    thead
+      tr
+        th Date
+        th Person
+        th Project
+        th Note
+
+    tbody
+      - reminder.check_assignments_for_month(year, month).each do |ca|
+        tr
+          td= ca.completion_date
+          td= ca.checker
+          td= ca.project_name
+          td= ca.note_url

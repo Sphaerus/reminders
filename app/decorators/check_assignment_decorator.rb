@@ -1,5 +1,5 @@
 class CheckAssignmentDecorator < BaseDecorator
-  delegate :completion_date, :created_at, :id
+  delegate :completion_date, :created_at, :id, :user_id, :project_check
 
   def checker
     object.user.name

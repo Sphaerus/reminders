@@ -46,4 +46,12 @@ class CheckAssignmentsRepository
        .limit(limit)
        .order(completion_date: :desc, updated_at: :desc)
   end
+
+  def for_reminder_in_month_and_year(reminder, year, month)
+    start_date = Date.new(year, month).beginning_of_month
+    end_date = Date.new(year, month).end_of_month
+    all.includes(:project_check).where(
+      project_checks: { reminder_id: reminder.id },
+      completion_date: start_date..end_date)
+  end
 end

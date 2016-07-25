@@ -1,5 +1,5 @@
 class CheckAssignmentDecorator < BaseDecorator
-  delegate :completion_date, :created_at, :id
+  delegate :completion_date, :created_at, :id, :user_id, :project_check
 
   def checker
     object.user.name
@@ -30,5 +30,9 @@ class CheckAssignmentDecorator < BaseDecorator
   def completion_notification_text(checker)
     "#{checker.name} has completed #{object.project_check.reminder.name} " \
       "in #{object.project_check.project.name}: #{object.note_url}"
+  end
+
+  def project_name
+    object.project_check.project.name
   end
 end

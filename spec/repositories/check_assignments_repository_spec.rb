@@ -110,4 +110,37 @@ describe CheckAssignmentsRepository do
       expect(repo.find(id)).to eq assignment
     end
   end
+
+  describe "#for_reminder_in_month_and_year" do
+    let(:reminder) { create(:reminder) }
+    let(:project_check) { create(:project_check, reminder: reminder) }
+    let!(:current_assignment) do
+      create(:check_assignment,
+             project_check: project_check,
+             user: create(:user),
+             completion_date: Time.current)
+    end
+    let!(:old_assignment) do
+      create(:check_assignment,
+             project_check: project_check, user: create(:user),
+             completion_date: 60.days.ago)
+    end
+    let!(:very_old_assignment) do
+      create(:check_assignment,
+             project_check: project_check, user: create(:user),
+             completion_date: 365.days.ago)
+    end
+
+    it "returns assignments for a given reminder" do
+      expect(repo.for_reminder_in_month_and_year(
+               reminder, Time.current.year, Time.current.month))
+        .to eq [current_assignment]
+    end
+
+    it "returns assignments for a given year" do
+      expect(repo.for_reminder_in_month_and_year(
+               reminder, (Time.current.year - 1), Time.current.month))
+        .to eq [very_old_assignment]
+    end
+  end
 end

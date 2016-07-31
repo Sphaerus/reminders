@@ -123,12 +123,12 @@ describe CheckAssignmentsRepository do
     let!(:old_assignment) do
       create(:check_assignment,
              project_check: project_check, user: create(:user),
-             completion_date: 60.days.ago)
+             completion_date: 2.months.ago)
     end
     let!(:very_old_assignment) do
       create(:check_assignment,
              project_check: project_check, user: create(:user),
-             completion_date: 365.days.ago)
+             completion_date: 12.months.ago)
     end
 
     it "returns assignments for a given reminder" do

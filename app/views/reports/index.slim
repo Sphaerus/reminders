@@ -10,17 +10,24 @@ div.btn-group
     table.table
       thead
         tr
+          th #
           th Date
           th Person
           th Project
           th Note
+          th Actions
 
       tbody
-        - assignments_for_reminder(reminder.model).each do |ca|
+        - assignments_for_reminder(reminder.model).each_with_index do |ca, index|
           tr
+            td= index + 1
             td= ca.completion_date
             td= link_to ca.checker, user_path(ca.user_id)
-            td= link_to ca.project_name, edit_project_path(ca.project_check.project_id)
+            td= link_to ca.project_name, history_project_check_path(ca.project_check)
             td= ca.note_url
+            td
+              .btn-group
+                = link_to "Edit", edit_admin_project_check_check_assignment_path(ca.project_check, ca.id), class: "btn btn-primary"
+                = link_to "Delete", admin_project_check_check_assignment_path(ca.project_check, ca), class: 'btn btn-danger', data: { confirm: 'Are you sure?' }, method: :delete
   - else
     | no checks for #{Date::MONTHNAMES[month]}

@@ -47,7 +47,7 @@ Rails.application.routes.draw do
     end
 
     resources :project_checks, only: [] do
-      resources :check_assignments, only: [:create, :destroy]
+      resources :check_assignments, only: [:create, :destroy, :edit, :update]
     end
   end
 

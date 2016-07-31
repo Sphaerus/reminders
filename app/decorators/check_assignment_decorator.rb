@@ -8,7 +8,7 @@ class CheckAssignmentDecorator < BaseDecorator
   # rubocop:disable Metrics/AbcSize
   def note_url
     if object.note_url.to_s =~ /http/
-      h.link_to h.truncate(object.note_url.to_s, length: 80), object.note_url
+      h.link_to h.truncate(object.note_url.to_s, length: 40), object.note_url
     else
       object.note_url
     end

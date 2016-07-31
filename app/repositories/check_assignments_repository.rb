@@ -52,6 +52,6 @@ class CheckAssignmentsRepository
     end_date = Date.new(year, month).end_of_month
     all.includes(:project_check).where(
       project_checks: { reminder_id: reminder.id },
-      completion_date: start_date..end_date)
+      completion_date: start_date..end_date).order(:completion_date)
   end
 end

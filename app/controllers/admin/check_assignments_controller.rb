@@ -6,6 +6,7 @@ module Admin
     expose(:project_check) do
       project_check_repo.find(params[:project_check_id])
     end
+    expose(:check_assignment)
 
     def create
       assignment = create_assignment
@@ -17,6 +18,15 @@ module Admin
         redirect_to history_project_check_path(project_check),
                     alert: "Sorry, can't save this entry. Check the params."
       end
+    end
+
+    def edit
+    end
+
+    def update
+      ca_params = params.require(:check_assignment).permit(:user_id, :note_url, :completion_date)
+      check_assignments_repo.update(check_assignment, ca_params)
+      redirect_to reports_path
     end
 
     def destroy

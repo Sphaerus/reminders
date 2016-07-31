@@ -1,0 +1,11 @@
+.row
+  .col-md-6
+    = simple_form_for check_assignment , url: admin_project_check_check_assignment_path(check_assignment.id) do |f|
+      = f.error_notification
+      .form-inputs
+        = f.input :user_id, collection: User.all, selected: check_assignment.user_id
+        = f.input :completion_date
+        = f.input :note_url
+
+      .form-actions
+        = f.button :submit

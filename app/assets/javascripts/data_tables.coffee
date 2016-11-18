@@ -24,5 +24,25 @@ ready = ->
 
   $('.datatable-filters a').click handleFilterClick
 
+  UpdateTableHeaders = ->
+    $('.persist-area').each ->
+      el = $(this)
+      offset = el.offset()
+      scrollTop = $(window).scrollTop()
+      floatingHeader = $('.floatingHeader', this)
+      if scrollTop > offset.top and scrollTop < offset.top + el.height()
+        floatingHeader.css 'visibility': 'visible'
+      else
+        floatingHeader.css 'visibility': 'hidden'
+
+  $ ->
+    clonedHeaderRow = undefined
+    $('.persist-area').each ->
+      clonedHeaderRow = $('.persist-header', this)
+      clonedHeaderRow.before(clonedHeaderRow.clone()).css('width', clonedHeaderRow.width()).addClass 'floatingHeader'
+      $('.persist-area').find('tr').first().children().each (i, e) ->
+        $($('.floatingHeader').find('tr').children()[i]).width $(e).width()
+    $(window).scroll(UpdateTableHeaders).trigger 'scroll'
+
 $(document).on 'page:load', ready
 $(document).ready ready

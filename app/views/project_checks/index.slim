@@ -45,9 +45,9 @@
               - else
                 = pc.days_to_deadline
             td
-              = link_to edit_project_check_path(pc) do
-                .btn.btn-info
-                  | Edit
+              - if pc.info.present?
+                i.glyphicon.glyphicon-comment.info-tooltip data-placement="top" data-toggle="tooltip" title=pc.info
+              = link_to "Edit", edit_project_check_path(pc), class: "btn btn-info"
             td = pc.last_checked_by
             td
               = link_to history_project_check_path(pc) do

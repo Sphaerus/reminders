@@ -25,7 +25,7 @@ ready = ->
   $('.datatable-filters a').click handleFilterClick
 
   UpdateTableHeaders = ->
-    $('.persist-area').each ->
+    $('.js-persist-area').each ->
       el = $(this)
       offset = el.offset()
       scrollTop = $(window).scrollTop()
@@ -37,13 +37,13 @@ ready = ->
 
   $ ->
     clonedHeaderRow = undefined
-    $('.persist-area').each ->
+    $('.js-persist-area').each ->
       clonedHeaderRow = $('.persist-header', this)
       clonedHeaderRow
         .before(clonedHeaderRow.clone())
         .css('width', clonedHeaderRow.width())
         .addClass('floating-header')
-      $('.persist-area').find('tr').first().children().each (i, e) ->
+      $('.js-persist-area').find('tr').first().children().each (i, e) ->
         $($('.floating-header').find('tr').children()[i]).width $(e).width()
     $(window).scroll(UpdateTableHeaders).trigger 'scroll'
 

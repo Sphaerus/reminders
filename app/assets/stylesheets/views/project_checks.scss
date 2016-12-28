@@ -8,7 +8,7 @@
 
 .floating-header {
   @include fixed(top 0);
-  visibility: hidden;
   background: $white;
+  visibility: hidden;
   z-index: $z-index-9;
 }

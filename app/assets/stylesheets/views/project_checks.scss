@@ -2,10 +2,13 @@
   min-width: 54px;
 }
 
-.floatingHeader {
-  position: fixed;
-  top: 0;
+.project_check-info {
+  min-width: 98px;
+}
+
+.floating-header {
+  @include fixed(top 0);
   visibility: hidden;
-  background: white;
-  z-index: 10000;
+  background: $white;
+  z-index: $z-index-9;
 }

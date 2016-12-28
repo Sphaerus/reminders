@@ -5,3 +5,10 @@
 .project_check-info {
   min-width: 98px;
 }
+
+.floating-header {
+  @include fixed(top 0);
+  background: $white;
+  visibility: hidden;
+  z-index: $z-index-9;
+}

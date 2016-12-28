@@ -5,8 +5,8 @@
     p class='alert bg-info'
       | Click on button to toggle checks enabled/disabled
 
-    table.table.datatable
-      thead
+    table.table.datatable.js-persist-area
+      thead.persist-header
         tr
           th Project name
           - reminders.each do |reminder|

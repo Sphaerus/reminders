@@ -17,7 +17,6 @@ module ProjectChecks
     private
 
     def mail!
-      return unless email_enabled?
       mailer.check_reminder(notification, check).deliver_now
     end
 

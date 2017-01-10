@@ -5,7 +5,14 @@ module ProjectChecks
     end
 
     def notify!
-      project_channel.present? && ['members'].each do |member|
+      notifier
+        .send_message notification, channel: "##{check.decorate.slack_channel}"
+
+      notify_team_members!
+    end
+
+    def notify_team_members!
+      project_channel.present? && project_channel['members'].each do |member|
         notifier
           .send_message notification, channel: member
       end

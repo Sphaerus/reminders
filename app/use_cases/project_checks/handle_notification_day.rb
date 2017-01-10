@@ -7,7 +7,6 @@ module ProjectChecks
     def notify!
       notifier
         .send_message notification, channel: "##{check.decorate.slack_channel}"
-
       notify_team_members!
     end
 

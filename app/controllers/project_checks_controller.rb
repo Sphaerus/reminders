@@ -21,7 +21,8 @@ class ProjectChecksController < ApplicationController
     self.reminder = check.reminder
     user_assigner = UserAssigner.new(reminder, users, last_checker)
     self.users = UserAssignerResultDecorator.decorate_collection(
-      user_assigner.results)
+      user_assigner.results,
+    )
   end
 
   def reassign_person

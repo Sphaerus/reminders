@@ -55,10 +55,11 @@ class ProjectsController < ApplicationController
   end
 
   def toggle_state
-    Projects::ToggleState.new(project: project,
-                              projects_repository: projects_repository,
-                              checks_repository: project_checks_repository,
-                             ).toggle
+    Projects::ToggleState.new(
+      project: project,
+      projects_repository: projects_repository,
+      checks_repository: project_checks_repository,
+    ).toggle
     redirect_to projects_path
   end
 

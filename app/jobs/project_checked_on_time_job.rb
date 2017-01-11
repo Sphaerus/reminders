@@ -39,6 +39,10 @@ class ProjectCheckedOnTimeJob
   end
 
   def last_check_date
-    project_check.last_check_date || project_check.created_at.to_date
+    last_check = project_check.last_check_date
+    without_disabled = project_check.last_check_date_without_disabled_period
+    created_at = project_check.created_at.to_date
+
+    [without_disabled, last_check].compact.max || created_at
   end
 end

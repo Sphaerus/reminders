@@ -78,5 +78,36 @@ describe ProjectChecksRepository do
       repo.update(project_check, last_check_user_id: 2)
       expect(repo.all.first.last_check_user_id).to eq 2
     end
+    context "when you set enabled to true" do
+      before do
+        @project_check = create(:project_check,
+                                last_check_date: 3.week.ago,
+                                enabled: false,
+                                disabled_date: 1.week.ago)
+
+        repo.update(@project_check, enabled: true)
+      end
+      it "fill :last_check_date_without_disabled_period" do
+        expect(@project_check.last_check_date_without_disabled_period)
+          .to eq(2.week.ago.to_date)
+      end
+      it "set :disabled_date to nil" do
+        expect(@project_check.disabled_date).to eq(nil)
+      end
+    end
+
+    context "when you set enabled to false" do
+      before do
+        @project_check = create(:project_check,
+                                last_check_date: 3.week.ago,
+                                enabled: true,
+                                disabled_date: 1.week.ago)
+
+        repo.update(@project_check, enabled: false)
+      end
+      it "set :disabled_date to Date.today" do
+        expect(@project_check.disabled_date).to eq(Date.today)
+      end
+    end
   end
 end

@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160428070617) do
+ActiveRecord::Schema.define(version: 20170111095444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,25 +24,25 @@ ActiveRecord::Schema.define(version: 20160428070617) do
     t.integer  "contact_person_id"
     t.date     "deadline"
     t.string   "note_url"
+    t.index ["contact_person_id"], name: "index_check_assignments_on_contact_person_id", using: :btree
+    t.index ["project_check_id"], name: "index_check_assignments_on_project_check_id", using: :btree
+    t.index ["user_id"], name: "index_check_assignments_on_user_id", using: :btree
   end
-
-  add_index "check_assignments", ["contact_person_id"], name: "index_check_assignments_on_contact_person_id", using: :btree
-  add_index "check_assignments", ["project_check_id"], name: "index_check_assignments_on_project_check_id", using: :btree
-  add_index "check_assignments", ["user_id"], name: "index_check_assignments_on_user_id", using: :btree
 
   create_table "project_checks", force: :cascade do |t|
     t.integer  "project_id"
     t.integer  "reminder_id"
     t.date     "last_check_date"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
     t.integer  "last_check_user_id"
-    t.boolean  "enabled",            default: true
+    t.boolean  "enabled",                                 default: true
     t.text     "info"
+    t.date     "last_check_date_without_disabled_period"
+    t.date     "disabled_date"
+    t.index ["project_id"], name: "index_project_checks_on_project_id", using: :btree
+    t.index ["reminder_id"], name: "index_project_checks_on_reminder_id", using: :btree
   end
-
-  add_index "project_checks", ["project_id"], name: "index_project_checks_on_project_id", using: :btree
-  add_index "project_checks", ["reminder_id"], name: "index_project_checks_on_reminder_id", using: :btree
 
   create_table "projects", force: :cascade do |t|
     t.string   "name",                        null: false
@@ -72,10 +71,9 @@ ActiveRecord::Schema.define(version: 20160428070617) do
     t.integer  "reminder_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.index ["reminder_id"], name: "index_skills_on_reminder_id", using: :btree
+    t.index ["user_id"], name: "index_skills_on_user_id", using: :btree
   end
-
-  add_index "skills", ["reminder_id"], name: "index_skills_on_reminder_id", using: :btree
-  add_index "skills", ["user_id"], name: "index_skills_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name"

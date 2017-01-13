@@ -21,7 +21,6 @@ describe ProjectChecks::HandleNotificationDay do
       .to receive(:email) { "foo-project@foo.com" }
     allow(check).to receive(:decorate) { check }
     allow(check).to receive(:slack_channel) { "foo-project" }
-    allow_any_instance_of(ProjectChecks::HandleNotificationDay).to receive(:project_channel) { { 'members' => [] } }
   end
 
   describe "#call" do

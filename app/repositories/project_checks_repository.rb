@@ -54,8 +54,8 @@ class ProjectChecksRepository
   def date_without_disabled(check)
     return nil unless check.last_check_date
     without_disabled = check.last_check_date_without_disabled_period
+    latest_data = [check.last_check_date, without_disabled].compact.max
 
-    [check.last_check_date, without_disabled].compact.max
-    + (Date.today - check.disabled_date)
+    latest_data + (Date.today - check.disabled_date)
   end
 end

@@ -15,7 +15,8 @@ describe ProjectCheckedOnTimeJob do
     let(:last_check_date) { nil }
     let(:check) do
       double(:project_check, id: 1, last_check_date: last_check_date,
-                             created_at: creation_time)
+                             created_at: creation_time,
+                             last_check_date_without_disabled_period: nil)
     end
 
     before do

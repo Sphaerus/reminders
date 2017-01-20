@@ -10,6 +10,7 @@ class SyncMissingProjectsJob
   end
 
   def perform
+    puts 'lol'
     sync_projects_with_data_guru
     sync_with_reminders
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170111095444) do
+ActiveRecord::Schema.define(version: 20170118100623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,13 +45,14 @@ ActiveRecord::Schema.define(version: 20170111095444) do
   end
 
   create_table "projects", force: :cascade do |t|
-    t.string   "name",                        null: false
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.string   "name",                         null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.string   "channel_name"
-    t.boolean  "enabled",      default: true
+    t.boolean  "enabled",       default: true
     t.string   "email"
     t.datetime "archived_at"
+    t.string   "pm_slack_name"
   end
 
   create_table "reminders", force: :cascade do |t|

@@ -3,6 +3,7 @@ class ProjectChecksController < ApplicationController
                 only: [:override_deadline, :toggle_state]
 
   expose(:project_checks_repository) { ProjectChecksRepository.new }
+  expose(:project_checks) { ProjectCheckDecorator.decorate_collection(project_checks_repository.all) }
   expose(:check) do
     project_checks_repository.find(
       params[:id] || params[:project_check_id],

@@ -1,11 +1,10 @@
 module ProjectChecks
   class HandleOverdue
-    attr_accessor :check, :days_diff, :notifier, :mailer
+    attr_accessor :check, :days_diff, :mailer
 
-    def initialize(check, days_diff, notifier = nil, mailer = nil)
+    def initialize(check, days_diff, mailer = nil)
       self.check = check
       self.days_diff = days_diff
-      self.notifier = notifier || Notifier.new
       self.mailer = mailer || ProjectNotificationMailer
     end
 
@@ -26,8 +25,8 @@ module ProjectChecks
     end
 
     def notify!
-      notifier
-        .send_message notification, channel: "##{check.decorate.slack_channel}"
+      notify(check.decorate.slack_channel, notification)
+      # notify_project_manager
     end
 
     def reminder
@@ -45,6 +44,15 @@ module ProjectChecks
 
     def notification_template
       reminder.deadline_text
+    end
+
+    def notify(channel, notification, is_user = nil)
+      CheckAssignments::Notify.new.call(channel, notification, is_user)
+    end
+
+    def notify_project_manager
+      return unless check.decorate.pm_slack_name
+      notify(check.decorate.pm_slack_name, notification, true)
     end
 
     def available_variables

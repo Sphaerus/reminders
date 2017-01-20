@@ -114,6 +114,10 @@ class ProjectCheckDecorator < BaseDecorator
     object.reminder.supervisor_slack_channel
   end
 
+  def pm_slack_name
+    object.project.pm_slack_name
+  end
+
   private
 
   def reviewer_deadline(days_left)

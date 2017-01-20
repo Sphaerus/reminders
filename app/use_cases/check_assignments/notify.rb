@@ -6,9 +6,10 @@ module CheckAssignments
       @notifier = Notifier.new
     end
 
-    def call(channel_name, message)
+    def call(channel_name, message, is_user = nil)
       return unsuccessful_notification(message) unless notifier.slack_enabled?
 
+      @is_user = is_user
       channel = prep_channel_name(channel_name)
       slack_message = slack_message(message)
 
@@ -19,7 +20,11 @@ module CheckAssignments
     private
 
     def prep_channel_name(channel_name)
-      "##{channel_name}"
+      if @is_user
+        "@#{channel_name}"
+      else
+        "##{channel_name}"
+      end
     end
 
     def slack_message(message)

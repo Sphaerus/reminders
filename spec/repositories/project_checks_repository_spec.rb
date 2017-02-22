@@ -73,7 +73,7 @@ describe ProjectChecksRepository do
   describe "#update" do
     let(:project_check) do
       create(:project_check,
-             last_check_date: 3.week.ago,
+             last_check_date: 3.weeks.ago,
              enabled: false,
              disabled_date: 1.week.ago)
     end
@@ -87,7 +87,7 @@ describe ProjectChecksRepository do
       before { repo.update(project_check, enabled: true) }
       it "fill :last_check_date_without_disabled_period" do
         expect(project_check.last_check_date_without_disabled_period)
-          .to eq(2.week.ago.to_date)
+          .to eq(2.weeks.ago.to_date)
       end
       it "set :disabled_date to nil" do
         expect(project_check.disabled_date).to eq(nil)
@@ -99,6 +99,27 @@ describe ProjectChecksRepository do
       it "set :disabled_date to Date.today" do
         expect(project_check.disabled_date).to eq(Date.today)
       end
+    end
+  end
+
+  describe "#ids_for_project" do
+    let(:tested_project) { create(:project) }
+    let(:different_project) { create(:project) }
+    let!(:check_for_tested_project) do
+      create(:project_check, project: tested_project)
+    end
+    let!(:another_check_for_tested_project) do
+      create(:project_check, project: tested_project)
+    end
+    let!(:check_for_different_project) do
+      create(:project_check, project: different_project)
+    end
+
+    it "returns ids of project checks for a given project" do
+      expect(repo.ids_for_project(tested_project))
+        .to match_array(
+          [check_for_tested_project.id, another_check_for_tested_project.id],
+        )
     end
   end
 end

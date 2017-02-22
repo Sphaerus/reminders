@@ -9,6 +9,7 @@ module Projects
     def call
       project.archived_at = Time.current
       project.save!
+      CheckAssignments::ClearPending.new(project: project).call
     end
   end
 end

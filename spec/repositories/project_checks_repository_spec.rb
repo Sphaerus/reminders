@@ -97,7 +97,7 @@ describe ProjectChecksRepository do
     context "when you set enabled to false" do
       before { repo.update(project_check, enabled: false) }
       it "set :disabled_date to Date.today" do
-        expect(project_check.disabled_date).to eq(Date.today)
+        expect(project_check.disabled_date).to eq(Time.zone.today)
       end
     end
   end

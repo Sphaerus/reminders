@@ -149,15 +149,13 @@ describe CheckAssignmentsRepository do
       create(:check_assignment,
              project_check: project_check,
              user: create(:user),
-             completion_date: nil,
-            )
+             completion_date: nil)
     end
     let!(:completed_assignment) do
       create(:check_assignment,
              project_check: project_check,
              user: create(:user),
-             completion_date: 2.weeks.ago,
-            )
+             completion_date: 2.weeks.ago)
     end
 
     it "returns not completed assignments for a given project check" do
@@ -172,8 +170,7 @@ describe CheckAssignmentsRepository do
         create(:check_assignment,
                project_check: project_check,
                user: create(:user),
-               completion_date: nil,
-              )
+               completion_date: nil)
       end
     end
 

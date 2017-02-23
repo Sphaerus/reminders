@@ -9,4 +9,13 @@ namespace :projects do
       ).perform
     end
   end
+
+  desc "Clear pending assignments for archived projects"
+  task clear_pending_assignments: :environment do
+    ActiveRecord::Base.connection_pool.with_connection do
+      ProjectsRepository.new.archived.each do |project|
+        CheckAssignments::ClearPending.new(project: project).call
+      end
+    end
+  end
 end

@@ -13,19 +13,15 @@ describe CheckAssignments::ClearPending do
   let(:project_check) { create(:project_check, project: project) }
   let(:assignments_repo) do
     class InMemoryAssignmentsRepository < InMemoryRepository
-      def all
-        CheckAssignment.all
-      end
-
       def pending_for_project_check_ids(project_check_ids)
-        CheckAssignment.all.where(
-          project_check_id: project_check_ids,
-          completion_date: nil,
-        )
+        all.select do |a|
+          project_check_ids.include?(a.project_check_id) &&
+            a.completion_date.nil?
+        end
       end
 
       def delete_all(assignments)
-        assignments.delete_all
+        assignments.each { |a| delete(a) }
       end
     end
     InMemoryAssignmentsRepository.new
@@ -38,31 +34,34 @@ describe CheckAssignments::ClearPending do
     end
     InMemoryProjectChecksRepository.new
   end
-  let!(:not_completed_assignment) do
-    create(:check_assignment,
-           project_check: project_check,
-           completion_date: nil,
-           user: user)
-  end
-  let!(:completed_assignment) do
-    create(:check_assignment,
-           project_check: project_check,
-           completion_date: 2.days.ago,
-           user: user)
-  end
-  let!(:another_completed_assignment) do
-    create(:check_assignment,
-           project_check: project_check,
-           completion_date: 3.weeks.ago,
-           user: user)
+  before do
+    assignments_repo.create(
+      CheckAssignment.new(
+        project_check: project_check,
+        completion_date: nil,
+        user: user,
+      ),
+    )
+    assignments_repo.create(
+      CheckAssignment.new(
+        project_check: project_check,
+        completion_date: 2.days.ago,
+        user: user,
+      ),
+    )
+    assignments_repo.create(
+      CheckAssignment.new(
+        project_check: project_check,
+        completion_date: 3.weeks.ago,
+        user: user,
+      ),
+    )
   end
 
   describe "#call" do
     it "removes pending assignments for a project leaving completed ones" do
-      service.call
-      expect(assignments_repo.all).to_not include(not_completed_assignment)
-      expect(assignments_repo.all).to include(completed_assignment)
-      expect(assignments_repo.all).to include(another_completed_assignment)
+      expect { service.call }
+        .to change { assignments_repo.all.count }.by(-1)
     end
   end
 end

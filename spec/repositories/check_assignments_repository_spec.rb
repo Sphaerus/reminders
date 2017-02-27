@@ -175,9 +175,8 @@ describe CheckAssignmentsRepository do
     end
 
     it "deletes passed in assignments" do
-      expect(repo.all.count).to eq(3)
-      repo.delete_all(repo.all)
-      expect(repo.all.count).to eq(0)
+      expect { repo.delete_all(repo.all) }
+        .to change { repo.all.count }.by(-3)
     end
   end
 end

@@ -17,4 +17,5 @@
 //= require bootstrap-datepicker
 //= require turbolinks
 //= require netguru_theme
+//= require bootstrap-toggle
 //= require_tree .

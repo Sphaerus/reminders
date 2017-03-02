@@ -20,13 +20,11 @@
               - pc = ProjectCheckDecorator.new(project_checks_repo.find_by_reminder_and_project(reminder, project))
               td
                 - if pc.enabled?
-                  = button_to project_check_toggle_state_path(pc), method: :post, class: 'btn btn-danger btn-primary btn-xs' do
-                    i class='glyphicon glyphicon-remove'
-                    |  Disable
+                  = link_to project_check_toggle_state_path(pc), method: :post do
+                    input checked="" data-toggle="toggle" type="checkbox" data-on="Enabled" data-off="Disabled"
                 - elsif pc.present?
-                  = button_to project_check_toggle_state_path(pc), method: :post, class: 'btn btn-success btn-xs' do
-                    i class='glyphicon glyphicon-ok'
-                    |  Enable
+                  = link_to project_check_toggle_state_path(pc), method: :post do
+                    input type="checkbox" data-toggle="toggle" data-on="Enabled" data-off="Disabled"
                 - else
                   = button_to reminder_path(reminder), method: :get, class: 'btn btn-warning btn-xs' do
                     i class='glyphicon glyphicon-refresh'

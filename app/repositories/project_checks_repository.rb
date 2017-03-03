@@ -58,4 +58,8 @@ class ProjectChecksRepository
 
     latest_data + (Date.today - check.disabled_date)
   end
+
+  def ids_for_project(project)
+    project.project_checks.ids
+  end
 end

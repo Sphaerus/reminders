@@ -54,4 +54,12 @@ class CheckAssignmentsRepository
       project_checks: { reminder_id: reminder.id },
       completion_date: start_date..end_date).order(:completion_date)
   end
+
+  def pending_for_project_check_ids(project_check_ids)
+    all.where(project_check_id: project_check_ids, completion_date: nil)
+  end
+
+  def delete_all(assignments)
+    assignments.delete_all
+  end
 end

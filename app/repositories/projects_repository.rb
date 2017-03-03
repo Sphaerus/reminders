@@ -3,6 +3,10 @@ class ProjectsRepository
     Project.where(archived_at: nil).order(:name)
   end
 
+  def archived
+    Project.where.not(archived_at: nil)
+  end
+
   def add(params)
     Project.create(params)
   end

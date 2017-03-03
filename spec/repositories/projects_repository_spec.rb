@@ -83,4 +83,17 @@ describe ProjectsRepository do
       expect(project.name).to eq "other_name"
     end
   end
+
+  describe "#archived" do
+    let!(:active_project) { create(:project, archived_at: nil) }
+    let!(:archived_project) { create(:project, archived_at: 3.weeks.ago) }
+    let!(:another_archived_project) do
+      create(:project, archived_at: 5.months.ago)
+    end
+
+    it "returns all the archived projects" do
+      expect(repo.archived)
+        .to match_array([archived_project, another_archived_project])
+    end
+  end
 end

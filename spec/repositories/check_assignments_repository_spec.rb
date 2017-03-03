@@ -143,4 +143,40 @@ describe CheckAssignmentsRepository do
         .to eq [very_old_assignment]
     end
   end
+
+  describe "#pending_for_project_check_ids" do
+    let!(:active_assignment) do
+      create(:check_assignment,
+             project_check: project_check,
+             user: create(:user),
+             completion_date: nil)
+    end
+    let!(:completed_assignment) do
+      create(:check_assignment,
+             project_check: project_check,
+             user: create(:user),
+             completion_date: 2.weeks.ago)
+    end
+
+    it "returns not completed assignments for a given project check" do
+      expect(repo.pending_for_project_check_ids(project_check.id))
+        .to eq([active_assignment])
+    end
+  end
+
+  describe "#delete_all" do
+    before do
+      3.times do
+        create(:check_assignment,
+               project_check: project_check,
+               user: create(:user),
+               completion_date: nil)
+      end
+    end
+
+    it "deletes passed in assignments" do
+      expect { repo.delete_all(repo.all) }
+        .to change { repo.all.count }.by(-3)
+    end
+  end
 end

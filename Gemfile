@@ -3,6 +3,7 @@ gem "rails", "~> 5"
 
 gem "app_konfig"
 gem "bootstrap-datepicker-rails"
+gem 'bootstrap-toggle-rails'
 gem "coffee-rails"
 gem "data_guru"
 gem "decent_exposure"

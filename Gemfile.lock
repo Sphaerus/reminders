@@ -72,6 +72,7 @@ GEM
     bootstrap-sass (3.3.6)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
+    bootstrap-toggle-rails (2.2.1.0)
     bourbon (3.2.4)
       sass (~> 3.2)
       thor
@@ -421,6 +422,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-datepicker-rails
+  bootstrap-toggle-rails
   byebug
   capistrano
   capistrano-docker!
@@ -475,4 +477,4 @@ DEPENDENCIES
   zonebie
 
 BUNDLED WITH
-   1.11.2
+   1.13.7

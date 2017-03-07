@@ -73,7 +73,9 @@ changes to `.rubocop.yml` file.
 
 ## Tests
 
-We use RSpec 3.
+We use RSpec 3. 
+
+* you may need to use [Firefox 0.45esr](https://ftp.mozilla.org/pub/firefox/releases/45.0esr/) or older for feature tests to work. 
 
 ## Contributing
 

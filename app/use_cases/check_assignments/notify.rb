@@ -9,18 +9,13 @@ module CheckAssignments
     def call(channel_name, message)
       return unsuccessful_notification(message) unless notifier.slack_enabled?
 
-      channel = prep_channel_name(channel_name)
       slack_message = slack_message(message)
 
-      output = notifier.notify_slack(slack_message, channel: channel)
+      output = notifier.notify_slack(slack_message, channel: channel_name)
       final_notice(output, message)
     end
 
     private
-
-    def prep_channel_name(channel_name)
-      "##{channel_name}"
-    end
 
     def slack_message(message)
       "Just letting you know that " + message

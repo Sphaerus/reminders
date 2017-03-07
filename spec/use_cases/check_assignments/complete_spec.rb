@@ -79,7 +79,7 @@ describe CheckAssignments::Complete do
         expect_any_instance_of(Notifier).to receive(:notify_slack)
           .with(
             message,
-            channel: '#supervisors',
+            channel: "supervisors",
           ).and_return({})
         service.call(note_url: "http://example.com")
       end

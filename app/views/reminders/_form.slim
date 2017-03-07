@@ -7,16 +7,22 @@
         = f.input :name
         = f.input :valid_for_n_days
         = f.input :remind_after_days
-        = f.input :slack_channel, hint: "If present, all slack notifications, instead of going to project's channel, will go to specified channel.", required: false
-        = f.input :supervisor_slack_channel, hint: "If present, slack notifications for completed assignments will go to this channel.", required: false
+        = f.input :slack_channel,
+                label: "Slack channels",
+                hint: "Space separated channels list. If present, all slack notifications,
+                instead of going to project's channel, will go to specified channels.",
+                required: false
+        = f.input :supervisor_slack_channel,
+                hint: "If present, slack notifications for completed assignments will go to this channel.",
+                required: false
         = f.input :deadline_text, as: :text
         = f.input :notification_text, as: :text
 
       .form-actions
         = f.button :submit
   .col-md-6
-    h3 Slack Channel
-    h4 If present, all slack notifications, instead of going to project's channel, will go to specified channel.
+    h3 Slack Channels
+    h4 If present, all slack notifications, instead of going to project's channel, will go to specified channels.
     h3 Deadline and notification text content
     h4
       | You can use text formatting - (see

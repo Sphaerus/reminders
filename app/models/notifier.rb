@@ -14,12 +14,15 @@ class Notifier
   end
 
   def notify_slack(message, options)
-    options.merge!(
+    channels = options.fetch(:channel, "").split(" ")
+    msg = {
       text: message,
       username: "Reminders App",
       icon_emoji: ":loudspeaker:",
-    )
-    client.chat_postMessage options
+    }
+    channels.each do |channel|
+      client.chat_postMessage msg.merge!(channel: "##{channel}")
+    end
   end
 
   def slack_enabled?

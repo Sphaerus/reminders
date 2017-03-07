@@ -26,7 +26,7 @@ describe ProjectChecks::HandleNotificationDay do
   describe "#call" do
     it "passes message to notifier" do
       expect(notifier).to receive(:send_message)
-        .with(notification_text, channel: "#foo-project")
+        .with(notification_text, channel: "foo-project")
       service.call
     end
 

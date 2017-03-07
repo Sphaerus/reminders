@@ -27,7 +27,7 @@ describe ProjectChecks::HandleOverdue do
   describe "#call" do
     it "passes message to notifier" do
       expect(notifier).to receive(:send_message)
-        .with(deadline_text, channel: "#foo-project")
+        .with(deadline_text, channel: "foo-project")
       service.call
     end
 

@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+# 2017-03-07
+
+## Added
+* Ability to set multiple slack channels for Reminder
+
 # 2015-05-19
 
 ## Added

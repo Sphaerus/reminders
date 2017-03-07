@@ -1,0 +1,26 @@
+development: &default
+  omniauth_provider_key: omniauth_provider_key
+  omniauth_provider_secret: omniauth_provider_secret
+  secret_key_base: my_secret
+  slack_token: slack_token
+  slack_enabled: false
+  secret_key_base: secret_key_base
+  rollbar_token: rollbar_token
+  sendgrid_user_name: username
+  sendgrid_password: password
+  default_from_email: test@example.com
+  dataguru:
+    api_url: 'https://dataguruapi.com'
+    access_token:
+
+test:
+  <<: *default
+
+production:
+  <<: *default
+  omniauth_provider_key: <%= ENV['OMNIAUTH_PROVIDER_KEY'] %>
+  omniauth_provider_secret: <%= ENV['OMNIAUTH_PROVIDER_SECRET'] %>
+  slack_token: <%= ENV['SLACK_TOKEN'] %>
+  slack_enabled: <%= ENV['SLACK_ENABLED'] %>
+  secret_key_base: <%= ENV['SECRET_KEY_BASE'] %>
+  secret_token: <%= ENV['SECRET_TOKEN'] %>

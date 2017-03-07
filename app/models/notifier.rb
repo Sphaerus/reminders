@@ -21,7 +21,7 @@ class Notifier
       icon_emoji: ":loudspeaker:",
     }
     channels.each do |channel|
-      client.chat_postMessage msg.merge!(channel: "##{channel}")
+      client.chat_postMessage msg.merge(channel: "##{channel}")
     end
   end
 

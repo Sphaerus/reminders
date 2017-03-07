@@ -27,7 +27,8 @@ describe Notifier do
       let(:options) { { channel: "chan" } }
 
       it "sends one message to client" do
-        expect(client).to receive(:chat_postMessage).with(default_message.merge(channel: "#chan"))
+        expect(client).to receive(:chat_postMessage)
+                            .with(default_message.merge(channel: "#chan"))
         notifier.send_message message, options
       end
     end
@@ -36,9 +37,12 @@ describe Notifier do
       let(:options) { { channel: "chan1 chan2 chan3" } }
 
       it "sends 3 messages to client" do
-        expect(client).to receive(:chat_postMessage).with(default_message.merge(channel: "#chan1"))
-        expect(client).to receive(:chat_postMessage).with(default_message.merge(channel: "#chan2"))
-        expect(client).to receive(:chat_postMessage).with(default_message.merge(channel: "#chan3"))
+        expect(client).to receive(:chat_postMessage)
+                            .with(default_message.merge(channel: "#chan1"))
+        expect(client).to receive(:chat_postMessage)
+                            .with(default_message.merge(channel: "#chan2"))
+        expect(client).to receive(:chat_postMessage)
+                            .with(default_message.merge(channel: "#chan3"))
         notifier.send_message message, options
       end
     end

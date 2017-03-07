@@ -19,3 +19,8 @@
 //= require netguru_theme
 //= require bootstrap-toggle
 //= require_tree .
+
+// initialize bootstrap-toggle
+$(document).on('ready page:change', function() {
+  $('input[type="checkbox"].toggle').bootstrapToggle(); // assumes the checkboxes have the class "toggle"
+});

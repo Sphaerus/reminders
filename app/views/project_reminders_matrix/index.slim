@@ -21,10 +21,10 @@
               td
                 - if pc.enabled?
                   = link_to project_check_toggle_state_path(pc), method: :post do
-                    input checked="" data-toggle="toggle" type="checkbox" data-on="Enabled" data-off="Disabled"
+                    input checked="" class="toggle" data-toggle="toggle" type="checkbox" data-on="Enabled" data-off="Disabled"
                 - elsif pc.present?
                   = link_to project_check_toggle_state_path(pc), method: :post do
-                    input type="checkbox" data-toggle="toggle" data-on="Enabled" data-off="Disabled"
+                    input type="checkbox" class="toggle" data-toggle="toggle" data-on="Enabled" data-off="Disabled"
                 - else
                   = button_to reminder_path(reminder), method: :get, class: 'btn btn-warning btn-xs' do
                     i class='glyphicon glyphicon-refresh'

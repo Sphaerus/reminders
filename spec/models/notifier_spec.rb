@@ -24,25 +24,29 @@ describe Notifier do
     end
 
     context "when options contain one channel" do
-      let(:options) { { channel: "chan" } }
+      let(:options) { { channels: %w(chan) } }
 
       it "sends one message to client" do
         expect(client).to receive(:chat_postMessage)
                             .with(default_message.merge(channel: "#chan"))
+                            .and_return({ ok: true })
         notifier.send_message message, options
       end
     end
 
     context "when options contain 3 channels" do
-      let(:options) { { channel: "chan1 chan2 chan3" } }
+      let(:options) { { channels: %w(chan1 chan2 chan3) } }
 
       it "sends 3 messages to client" do
         expect(client).to receive(:chat_postMessage)
                             .with(default_message.merge(channel: "#chan1"))
+                            .and_return({ ok: true })
         expect(client).to receive(:chat_postMessage)
                             .with(default_message.merge(channel: "#chan2"))
+                            .and_return({ ok: true })
         expect(client).to receive(:chat_postMessage)
                             .with(default_message.merge(channel: "#chan3"))
+                            .and_return({ ok: true })
         notifier.send_message message, options
       end
     end

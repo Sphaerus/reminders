@@ -40,19 +40,59 @@ describe ProjectCheckDecorator do
     end
   end
 
-  describe "#slack_channel" do
-    context "reminder has slack_channel specified" do
-      let(:reminder) { Reminder.new }
-      it "returns slack_channel of reminder", focus: true do
-        check.reminder.slack_channel = "some-channel"
-        expect(decorator.slack_channel).to eq("some-channel")
-        expect(decorator.slack_channel).to_not eq("channel")
+  describe "#slack_channels" do
+    let(:reminder) { Reminder.new }
+    before { check.project.channel_name = "project-chan-1 project-chan-2" }
+
+    context "when reminder has one slack_channel specified" do
+      before { check.reminder.slack_channel = "some-channel" }
+
+      it "returns slack_channels of reminder", focus: true do
+        expect(decorator.slack_channels).to eq(%w(some-channel))
+      end
+
+      context "when notify projects channels is enabled" do
+        before { check.reminder.notify_projects_channels = true }
+
+        it "returns reminder and project channels" do
+          expect(decorator.slack_channels).to eq(%w(some-channel project-chan-1 project-chan-2))
+        end
+      end
+
+      context "when notify projects channels is disabled" do
+        before { check.reminder.notify_projects_channels = false }
+
+        it "returns reminder and project channels" do
+          expect(decorator.slack_channels).to eq(%w(some-channel))
+        end
       end
     end
 
-    context "reminder do not have slack_channel specified" do
-      it "returns slack_channel of project" do
-        expect(decorator.slack_channel).to eq("channel")
+    context "when reminder has 3 slack channels specified" do
+      before { check.reminder.slack_channel = "chan1 chan2 chan3" }
+
+      it "returns all 3 channels", focus: true do
+        expect(decorator.slack_channels).to eq(%w(chan1 chan2 chan3))
+      end
+    end
+
+    context "when reminder do not have slack_channel specified" do
+      before { check.reminder.slack_channel = nil }
+
+      context "when notify projects channels is enabled" do
+        before { check.reminder.notify_projects_channels = true }
+
+        it "returns slack channels of project" do
+          expect(decorator.slack_channels).to eq(%w(project-chan-1 project-chan-2))
+        end
+      end
+
+      context "when notify projects channels is disabled" do
+        before { check.reminder.notify_projects_channels = false }
+
+        it "returns slack channels of project" do
+          expect(decorator.slack_channels).to eq(%w(project-chan-1 project-chan-2))
+        end
       end
     end
   end

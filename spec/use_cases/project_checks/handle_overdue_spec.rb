@@ -21,13 +21,13 @@ describe ProjectChecks::HandleOverdue do
     allow(project)
       .to receive(:email) { "foo-project@foo.com" }
     allow(check).to receive(:decorate) { check }
-    allow(check).to receive(:slack_channel) { "foo-project" }
+    allow(check).to receive(:slack_channels) { "foo-project" }
   end
 
   describe "#call" do
     it "passes message to notifier" do
       expect(notifier).to receive(:send_message)
-        .with(deadline_text, channel: "foo-project")
+        .with(deadline_text, channels: "foo-project")
       service.call
     end
 

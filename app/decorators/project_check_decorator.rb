@@ -102,12 +102,10 @@ class ProjectCheckDecorator < BaseDecorator
       reviewer_deadline(check_assignments.first.days_till_reviewer_deadline)
   end
 
-  def slack_channel
-    if object.reminder.slack_channel.blank?
-      object.project.channel_name
-    else
-      object.reminder.slack_channel
-    end
+  def slack_channels
+    channels = object.reminder.slack_channel.to_s.split(" ")
+    channels.concat(object.project.channel_name.split(" ")) if channels.empty? || notify_projects?
+    channels
   end
 
   def supervisor_slack_channel
@@ -132,5 +130,9 @@ class ProjectCheckDecorator < BaseDecorator
     else
       h.pluralize(days_diff, "day") + " ago"
     end
+  end
+
+  def notify_projects?
+    object.reminder.notify_projects_channels?
   end
 end

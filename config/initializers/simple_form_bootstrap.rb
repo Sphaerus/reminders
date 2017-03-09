@@ -36,7 +36,10 @@ SimpleForm.setup do |config|
     b.optional :readonly
 
     b.wrapper tag: "div", class: "checkbox" do |ba|
-      ba.use :label_input
+      ba.wrapper tag: :label do |bb|
+        bb.use :input
+        bb.use :label_text
+      end
     end
 
     b.use :error, wrap_with: { tag: "span", class: "help-block" }

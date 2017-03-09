@@ -1,7 +1,7 @@
 module ReminderDecorator
   class Base < BaseDecorator
     delegate :id, :name, :valid_for_n_days, :deadline_text, :notification_text,
-             :persisted?, :slack_channel, :supervisor_slack_channel
+             :persisted?, :slack_channel, :supervisor_slack_channel, :notify_projects_channels
     decorates :reminder
 
     def remind_after_days

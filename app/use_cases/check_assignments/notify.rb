@@ -6,29 +6,25 @@ module CheckAssignments
       @notifier = Notifier.new
     end
 
-    def call(channel_name, message)
+    def call(channels, message)
       return unsuccessful_notification(message) unless notifier.slack_enabled?
 
-      slack_message = slack_message(message)
+      slack_message = "Just letting you know that #{message}"
 
-      output = notifier.notify_slack(slack_message, channel: channel_name)
-      final_notice(output, message)
+      notifier.notify_slack(slack_message, channels: channels)
+      final_notice(message)
     end
 
     private
-
-    def slack_message(message)
-      "Just letting you know that " + message
-    end
 
     def unsuccessful_notification(message)
       message +
         " Something went wrong and we couldn't notify channel."
     end
 
-    def final_notice(notifier_output, message)
-      if notifier_output["ok"]
-        message + " We have notified project's channel."
+    def final_notice(message)
+      if notifier.result
+        "#{message} We have notified project's channel."
       else
         unsuccessful_notification(message)
       end

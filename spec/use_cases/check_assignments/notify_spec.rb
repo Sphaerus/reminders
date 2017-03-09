@@ -20,22 +20,23 @@ describe CheckAssignments::Notify do
     end
 
     context "with enabled Slack" do
+      let(:full_message) { "Just letting you know that #{message}" }
       before do
         AppConfig["slack_enabled"] = "true"
         allow_any_instance_of(Notifier).to receive(:notify_slack)
-          .and_return("ok" => "")
+          .and_return(true)
       end
 
       it "makes call to Notifier" do
         expect_any_instance_of(Notifier)
-          .to receive(:notify_slack)
+          .to receive(:notify_slack).with(full_message, channels: channel)
         service.call(channel, message)
       end
 
       context "after successful notification" do
         before do
-          allow_any_instance_of(Notifier).to receive(:notify_slack)
-            .and_return("ok" => true)
+          allow_any_instance_of(Notifier).to receive(:notify_slack).and_return(true)
+          allow_any_instance_of(Notifier).to receive(:result).and_return(true)
         end
 
         it "returns ok message" do
@@ -49,7 +50,7 @@ describe CheckAssignments::Notify do
       context "after unsuccessful notification" do
         before do
           allow_any_instance_of(Notifier).to receive(:notify_slack)
-            .and_return("ok" => false)
+            .and_return(false)
         end
 
         it "returns fail message" do

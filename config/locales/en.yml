@@ -2,3 +2,14 @@ en:
   projects:
     sync:
       confirmation: "Make sure your channels are named like: 'project-foo' because only 'project-' prefix is taken into account when importing projects."
+  simple_form:
+    labels:
+      reminder:
+        slack_channel: Slack channels
+    hints:
+      reminder:
+        slack_channel: Space separated slack channels list.
+        notify_projects_channels: >
+          If checked, both above slack channels and projects channels will be notified
+          (projects channels will also be notified if above channels are empty despite this setting).
+        supervisor_slack_channel: If present, slack notifications for completed assignments will go to this channel.

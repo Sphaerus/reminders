@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# 2017-03-09
+
+## Added
+* Ability to set multiple slack channels for Project
+* Ability to notify both reminder and project channels
+
 # 2017-03-07
 
 ## Added

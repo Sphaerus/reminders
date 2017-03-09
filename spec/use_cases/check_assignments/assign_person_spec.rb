@@ -36,8 +36,9 @@ describe CheckAssignments::AssignPerson do
   end
 
   before do
+    AppConfig["slack_enabled"] = "false"
     allow(project_check).to receive(:decorate) { project_check }
-    allow(project_check).to receive(:slack_channels) { "test" }
+    allow(project_check).to receive(:slack_channels) { ["test"] }
   end
 
   describe "#call" do
@@ -51,7 +52,7 @@ describe CheckAssignments::AssignPerson do
     it "attempts to send Slack notification" do
       expect_any_instance_of(CheckAssignments::Notify)
         .to receive(:call)
-        .with(project.channel_name, message)
+        .with([project.channel_name], message)
       service.call
     end
 

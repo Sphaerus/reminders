@@ -25,7 +25,7 @@ class Notifier
         responses << { ok: true }
       end
     end
-    @result = responses.all?{ |r| r["ok"] }
+    @result = responses.all? { |r| r["ok"] }
   end
 
   def slack_enabled?

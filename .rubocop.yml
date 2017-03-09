@@ -9,6 +9,7 @@ AllCops:
 Documentation:
   Enabled: false
 Metrics/LineLength:
+  Max: 100
   Enabled: true
   Exclude:
     - 'config/**/*'

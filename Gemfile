@@ -26,6 +26,7 @@ gem "slim-rails"
 gem "turbolinks"
 gem "uglifier"
 gem "whenever"
+gem "rest-client"
 
 # deployment
 

@@ -13,7 +13,12 @@ describe CheckAssignments::Complete do
   describe "#call" do
     let(:user) { create(:user) }
     let(:checker) { create(:user) }
-    let(:project_check) { create(:project_check, reminder: reminder) }
+    let(:project_check) do
+      create(:project_check,
+             reminder: reminder,
+             jira_issue_key: "RD-X",
+             jira_issue_created_at: Time.zone.now)
+    end
     let(:reminder) { create(:reminder) }
     let(:assignment) do
       create(:check_assignment, user: user,
@@ -53,6 +58,14 @@ describe CheckAssignments::Complete do
       service.call
       expect(project_check.last_check_date).to eq assignment.completion_date
       expect(project_check.last_check_user).to eq checker
+    end
+
+    it "removes jira issue info from project check" do
+      expect(project_check.jira_issue_key).to eq("RD-X")
+      expect(project_check.jira_issue_created_at).to be_a Time
+      service.call
+      expect(project_check.jira_issue_key).to be nil
+      expect(project_check.jira_issue_created_at).to be nil
     end
 
     it "does not notify slack" do

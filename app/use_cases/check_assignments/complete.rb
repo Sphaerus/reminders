@@ -29,6 +29,8 @@ module CheckAssignments
       project_check_update.call(
         last_check_date: assignment.completion_date,
         last_check_user_id: checker.id,
+        jira_issue_key: nil,
+        jira_issue_created_at: nil,
       )
       notify_supervisor_channel
     end

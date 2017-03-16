@@ -12,6 +12,14 @@ development: &default
   dataguru:
     api_url: 'https://dataguruapi.com'
     access_token:
+  defaults:
+    jira_issue_lead: 7
+  jira:
+    enabled?: false
+    endpoint: "https://netguru.atlassian.net/rest/api/2"
+    project_key: RD
+    issue_type: Story
+    summary: "[RoR][Project review]"
 
 test:
   <<: *default

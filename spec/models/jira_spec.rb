@@ -54,8 +54,8 @@ RSpec.describe Jira do
 
       it "sends request to jira endpoint and returns parsed response" do
         expect(RestClient).to receive(:post)
-                                .with("#{endpoint}/issue", params.to_json, headers)
-                                .and_return(response)
+          .with("#{endpoint}/issue", params.to_json, headers)
+          .and_return(response)
         expect(subject).to eq("key" => "RD-X")
       end
     end

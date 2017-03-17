@@ -48,9 +48,9 @@ describe CreateJiraIssuesJob do
         expect(Time).to receive(:zone).and_return(zone)
         expect(zone).to receive(:now).and_return(time)
         expect(Jira).to receive(:create_issue_from_project)
-                          .once.with(project: project).and_return("key" => "RD-X")
+          .once.with(project: project).and_return("key" => "RD-X")
         expect(project_check).to receive(:update_columns)
-                                   .with(jira_issue_key: "RD-X", jira_issue_created_at: time)
+          .with(jira_issue_key: "RD-X", jira_issue_created_at: time)
         expect(subject).to eq([project_check])
       end
     end

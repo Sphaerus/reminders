@@ -24,16 +24,7 @@ class ProjectChecksRepository
   end
 
   def requiring_jira_issues
-    return @requiring_jira_issues unless @requiring_jira_issues.nil?
-    created_at_condition = "last_check_date IS NULL AND ? >= (date(project_checks.created_at)
-                            + reminders.valid_for_n_days - reminders.jira_issue_lead)"
-    last_check_condition = "last_check_date IS NOT NULL AND ? >= (date(last_check_date)
-                            + reminders.valid_for_n_days - reminders.jira_issue_lead)"
-    date = Time.zone.today
-    @requiring_jira_issues =
-      ProjectCheck.includes(:reminder).includes(:project).enabled.without_jira_issue
-        .where.not(reminders: { jira_issue_lead: nil })
-        .where("(#{created_at_condition}) OR (#{last_check_condition})", date, date)
+    @requiring_jira_issues ||= ProjectChecks::RequiringJiraIssuesQuery.new.all
   end
 
   def create(entity)

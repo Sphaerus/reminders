@@ -18,6 +18,7 @@ gem "omniauth"
 gem "omniauth-google-oauth2"
 gem "pg"
 gem "puma"
+gem "rest-client"
 gem "rollbar"
 gem "sass-rails"
 gem "simple_form"
@@ -26,7 +27,6 @@ gem "slim-rails"
 gem "turbolinks"
 gem "uglifier"
 gem "whenever"
-gem "rest-client"
 
 # deployment
 

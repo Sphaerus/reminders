@@ -10,11 +10,8 @@ class Jira
   end
 
   def create_issue_from_project
-    if settings.enabled?
-      create_jira_issue
-    else
-      log_jira_issue
-    end
+    return create_jira_issue if settings.enabled?
+    log_jira_issue
   end
 
   private

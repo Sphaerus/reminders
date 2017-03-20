@@ -8,6 +8,9 @@ class ProjectCheck < ActiveRecord::Base
 
   validate :project_enabled?
 
+  scope :enabled, -> { where(enabled: true) }
+  scope :without_jira_issue, -> { where(jira_issue_key: nil) }
+
   private
 
   def project_enabled?

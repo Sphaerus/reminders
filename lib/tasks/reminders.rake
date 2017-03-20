@@ -7,4 +7,9 @@ namespace :reminders do
       end
     end
   end
+
+  desc "Create missing issues for all reminders"
+  task create_jira_issues: :environment do
+    CreateJiraIssuesJob.perform
+  end
 end

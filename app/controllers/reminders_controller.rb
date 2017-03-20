@@ -69,6 +69,7 @@ class RemindersController < ApplicationController
     params.require(:reminder)
           .permit(:name, :valid_for_n_days, :remind_after_days,
                   :notification_text, :deadline_text, :slack_channel,
-                  :supervisor_slack_channel, :notify_projects_channels)
+                  :supervisor_slack_channel, :notify_projects_channels,
+                  :jira_issue_lead)
   end
 end

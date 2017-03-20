@@ -23,6 +23,10 @@ class ProjectChecksRepository
     end
   end
 
+  def requiring_jira_issues
+    @requiring_jira_issues ||= ProjectChecks::RequiringJiraIssuesQuery.new.all
+  end
+
   def create(entity)
     persist entity
   end

@@ -71,7 +71,7 @@ class ProjectChecksRepository
   private
 
   def created_at_moved_forward(check)
-    return check.created_at if check.last_check_date
+    return check.created_at if check.last_check_date || check.disabled_date.nil?
     days_diff = Time.zone.today - check.disabled_date
     check.created_at + days_diff.days
   end

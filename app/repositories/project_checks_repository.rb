@@ -49,9 +49,10 @@ class ProjectChecksRepository
       params.merge(
         disabled_date: nil,
         last_check_date_without_disabled_period: date_without_disabled(check),
+        created_at: created_at_moved_forward(check)
       )
     else
-      params.merge(disabled_date: Date.today)
+      params.merge(disabled_date: Time.zone.today)
     end
   end
 
@@ -60,10 +61,18 @@ class ProjectChecksRepository
     without_disabled = check.last_check_date_without_disabled_period
     latest_data = [check.last_check_date, without_disabled].compact.max
 
-    latest_data + (Date.today - check.disabled_date)
+    latest_data + (Time.zone.today - check.disabled_date)
   end
 
   def ids_for_project(project)
     project.project_checks.ids
+  end
+
+  private
+
+  def created_at_moved_forward(check)
+    return check.created_at if check.last_check_date
+    days_diff = Time.zone.today - check.disabled_date
+    check.created_at + days_diff.days
   end
 end

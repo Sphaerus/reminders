@@ -64,6 +64,14 @@ describe ProjectChecksController do
           .from(true).to(false)
       end
 
+      it "uses a repository to update the record" do
+        repo = ProjectChecksRepository.new
+        expect(ProjectChecksRepository).to receive(:new).and_return(repo)
+        expect(repo).to receive(:update).with(project_check,
+                                              enabled: !project_check.enabled)
+        subject
+      end
+
       it "renders a notice" do
         subject
         expect(flash[:notice]).to have_text("All right!")

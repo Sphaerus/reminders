@@ -45,9 +45,8 @@ class ProjectChecksController < ApplicationController
 
   # rubocop:disable Metrics/AbcSize
   def toggle_state
-    check.enabled = !check.enabled
     redirect_path = request.referrer || reminder_path(check.reminder)
-    if check.save
+    if project_checks_repository.update(check, enabled: !check.enabled)
       redirect_to redirect_path, notice: "All right!"
     else
       redirect_to redirect_path,

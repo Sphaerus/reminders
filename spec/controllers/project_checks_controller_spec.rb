@@ -65,7 +65,7 @@ describe ProjectChecksController do
       end
 
       it "uses a repository to update the record" do
-        repo = ProjectChecksRepository.new()
+        repo = ProjectChecksRepository.new
         expect(ProjectChecksRepository).to receive(:new).and_return(repo)
         expect(repo).to receive(:update).with(project_check,
                                               enabled: !project_check.enabled)

@@ -49,7 +49,7 @@ class ProjectChecksRepository
       params.merge(
         disabled_date: nil,
         last_check_date_without_disabled_period: date_without_disabled(check),
-        created_at: created_at_moved_forward(check)
+        created_at: created_at_moved_forward(check),
       )
     else
       params.merge(disabled_date: Time.zone.today)

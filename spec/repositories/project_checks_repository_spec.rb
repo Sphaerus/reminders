@@ -100,7 +100,7 @@ describe ProjectChecksRepository do
 
       context "that was checked before" do
         let(:attrs) do
-          { disabled_date: 2.week.ago,
+          { disabled_date: 2.weeks.ago,
             enabled: false,
             last_check_date: 3.weeks.ago }
         end

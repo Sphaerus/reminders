@@ -2,7 +2,7 @@ module Reminders
   class Reorder
     def initialize(reminder, direction, repository = RemindersRepository.new)
       if direction != :up && direction != :down
-        raise ArgumentError.new('direction must be :up or :down')
+        raise ArgumentError, "direction must be :up or :down"
       end
       @reminder = reminder
       @direction = direction
@@ -10,13 +10,13 @@ module Reminders
     end
 
     def call
-      reminders = get_reordered_reminders
-      commit_new_order(reminders)
+      reminders = reorder_reminders_in_an_array
+      save_new_order(reminders)
     end
 
     private
 
-    def get_reordered_reminders
+    def reorder_reminders_in_an_array
       reminders = @repository.all.to_a
       index = find_reminder_index(reminders)
       reminders.insert(new_index(index), reminders.delete_at(index))
@@ -39,7 +39,7 @@ module Reminders
       end
     end
 
-    def commit_new_order(reminders)
+    def save_new_order(reminders)
       Reminder.transaction do
         reminders.each_with_index do |reminder, order|
           reminder.update_column(:order, order)

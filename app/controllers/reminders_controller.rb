@@ -1,6 +1,7 @@
 class RemindersController < ApplicationController
   before_action :authenticate_admin!,
-                only: [:edit, :sync_projects, :create, :update, :destroy]
+                only: [:edit, :sync_projects, :create, :update, :destroy,
+                       :move_up, :move_down]
 
   expose(:reminders_repository) { RemindersRepository.new }
   expose(:reminders) do

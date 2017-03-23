@@ -11,7 +11,7 @@ feature "Reordering reminders" do
     create(:reminder, name: "Reminder3")
   end
 
-  scenario "User clicks a button with arrow pointing up" do
+  scenario "Admin clicks a button with arrow pointing up" do
     page.load
     order_before = %w{Reminder1 Reminder2 Reminder3}
     order_after = %w{Reminder2 Reminder1 Reminder3}
@@ -21,7 +21,7 @@ feature "Reordering reminders" do
     expect(page.names).to eq(order_after)
   end
 
-  scenario "User clicks a button with arrow pointing down" do
+  scenario "Admin clicks a button with arrow pointing down" do
     page.load
     order_before = %w{Reminder1 Reminder2 Reminder3}
     order_after = %w{Reminder1 Reminder3 Reminder2}
@@ -30,5 +30,11 @@ feature "Reordering reminders" do
     page.reminder_rows.second.move_down_button.click
     expect(page.names).to eq(order_after)
   end
-end
 
+  scenario "User opens reminders list" do
+    log_in(create(:user))
+    page.load
+    expect(page).not_to have_css(".move-up")
+    expect(page).not_to have_css(".move-down")
+  end
+end

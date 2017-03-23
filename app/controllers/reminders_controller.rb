@@ -63,6 +63,16 @@ class RemindersController < ApplicationController
     redirect_to reminders_url, notice: "Reminder was successfully destroyed."
   end
 
+  def move_up
+    Reminders::Reorder.new(reminder, :up).call
+    redirect_to reminders_url
+  end
+
+  def move_down
+    Reminders::Reorder.new(reminder, :down).call
+    redirect_to reminders_url
+  end
+
   private
 
   def reminder_attrs

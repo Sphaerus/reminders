@@ -23,6 +23,8 @@ Rails.application.routes.draw do
 
   resources :reminders do
     post :sync_projects
+    put :move_up, on: :member
+    put :move_down, on: :member
   end
 
   resources :skills, only: [:index] do

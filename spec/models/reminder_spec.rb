@@ -16,6 +16,11 @@ describe Reminder do
       .only_integer
   end
   it { is_expected.to allow_value("").for(:jira_issue_lead) }
+  it do
+    is_expected.to validate_numericality_of(:order)
+      .is_greater_than_or_equal_to(0)
+      .only_integer
+  end
 
   it { is_expected.to have_many(:project_checks).dependent(:destroy) }
   it { is_expected.to have_many(:projects).through(:project_checks) }

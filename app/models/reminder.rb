@@ -9,6 +9,11 @@ class Reminder < ActiveRecord::Base
               allow_blank: true,
               greater_than_or_equal_to: 0,
             }
+  validates :order,
+            numericality: {
+              only_integer: true,
+              greater_than_or_equal_to: 0,
+            }
 
   has_many :project_checks, dependent: :destroy
   has_many :projects, through: :project_checks

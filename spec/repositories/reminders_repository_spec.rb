@@ -4,20 +4,34 @@ describe RemindersRepository do
   let(:repo) { described_class.new }
 
   describe "#all" do
-    before do
+    it "returns all the reminders" do
       2.times { create(:reminder) }
+      expect(repo.all.count).to eq 2
     end
 
-    it "returns all the reminders" do
-      expect(repo.all.count).to eq 2
+    it "orders reminders by order column" do
+      create(:reminder, order: 1, name: "second")
+      create(:reminder, order: 0, name: "first")
+      create(:reminder, order: 2, name: "third")
+
+      expect(repo.all.pluck(:name)).to eq ["first", "second", "third"]
     end
   end
 
   describe "#create" do
+    let(:reminder) { build(:reminder) }
+
     it "saves object" do
-      reminder = create(:reminder)
       repo.create reminder
       expect(reminder.persisted?).to eq true
+    end
+
+    it "sets default order for the created object" do
+      create(:reminder, order: 5)
+
+      repo.create reminder
+
+      expect(reminder.order).to eq 6
     end
   end
 

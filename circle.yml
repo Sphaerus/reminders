@@ -1,4 +1,13 @@
+checkout:
+  post:
+    - cp config/secrets.yml.ci config/secrets.yml
+
 deployment:
+  staging:
+    branch: master
+    commands:
+      - bundle exec cap staging deploy
+
   production:
     branch: production
     commands:

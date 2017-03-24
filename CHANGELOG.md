@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 # 2017-03-16
 ## Added
+* Ability to set a custom order for reminders
+
+# 2017-03-16
+## Added
 * Jira issues will be created 7 days before project check deadline
 * Number of days is editable for every reminder
 

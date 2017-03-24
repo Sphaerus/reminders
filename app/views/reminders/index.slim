@@ -1,12 +1,14 @@
 h1 Listing reminders
 
-table.table.datatable
+table.table.datatable#reminders-table
   thead
     tr
       th Name
       th Valid for N days
       th Remind after N days
       th No. of overdue projects
+      - if admin?
+        th Order
       th Actions
 
   tbody
@@ -17,6 +19,13 @@ table.table.datatable
         td = reminder.valid_for_n_days
         td = reminder.remind_after_days
         td = reminder.number_of_overdue_project
+        - if admin?
+          td
+            .btn-group
+              = link_to move_up_reminder_path(reminder), class: 'btn btn-default btn-sm move-up', method: :put do
+                i.glyphicon.glyphicon-chevron-up
+              = link_to move_down_reminder_path(reminder), class: 'btn btn-default btn-sm move-down', method: :put do
+                i.glyphicon.glyphicon-chevron-down
         td
           .btn-group
             = link_to 'Show', reminder, class: 'btn btn-mini btn-success'

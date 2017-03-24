@@ -1,6 +1,7 @@
 class RemindersController < ApplicationController
   before_action :authenticate_admin!,
-                only: [:edit, :sync_projects, :create, :update, :destroy]
+                only: [:edit, :sync_projects, :create, :update, :destroy,
+                       :move_up, :move_down]
 
   expose(:reminders_repository) { RemindersRepository.new }
   expose(:reminders) do
@@ -61,6 +62,16 @@ class RemindersController < ApplicationController
   def destroy
     Reminders::Delete.new(reminder).call
     redirect_to reminders_url, notice: "Reminder was successfully destroyed."
+  end
+
+  def move_up
+    Reminders::Reorder.new(reminder, :up).call
+    redirect_to reminders_url
+  end
+
+  def move_down
+    Reminders::Reorder.new(reminder, :down).call
+    redirect_to reminders_url
   end
 
   private

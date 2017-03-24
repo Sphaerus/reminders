@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170321153119) do
+ActiveRecord::Schema.define(version: 20170322153936) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 20170321153119) do
     t.string   "supervisor_slack_channel"
     t.boolean  "notify_projects_channels", default: false, null: false
     t.integer  "jira_issue_lead",          default: 7
+    t.integer  "order",                    default: 0
   end
 
   create_table "skills", force: :cascade do |t|

@@ -1,4 +1,4 @@
-FROM quay.io/netguru/ng-ruby:2.2.3-rails-onbuild
+FROM quay.io/netguru/ng-ruby:2.2-rails-onbuild
 
 ENV RAILS_ENV production
 ENV RAILS_MAX_THREADS 3

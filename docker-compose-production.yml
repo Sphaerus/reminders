@@ -1,0 +1,33 @@
+web:
+  build: .
+  dockerfile: docker/production/Dockerfile
+  external_links:
+    - postgres_ambassador:postgres
+  env_file: /home/deploy/apps/reminders/shared/secrets.env
+  labels:
+    - "netguru.appname=reminders"
+    - "netguru.stage=production"
+  hostname: "netguru.reminders.production.web"
+  cpu_quota: 100000
+  mem_limit: 1000M
+  volumes:
+    - reminders_assets:/app/public/assets
+  command: dumb-init bundle exec puma
+  expose:
+    - "3000"
+
+crono:
+  build: .
+  dockerfile: docker/production/Dockerfile
+  external_links:
+    - postgres_ambassador:postgres
+  env_file: /home/deploy/apps/reminders/shared/secrets.env
+  labels:
+    - "netguru.appname=reminders"
+    - "netguru.stage=production"
+  hostname: "netguru.reminders.production.crono"
+  cpu_quota: 100000
+  mem_limit: 1000M
+  volumes:
+    - reminders_assets:/app/public/assets
+  command: dumb-init bundle exec crono

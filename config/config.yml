@@ -24,6 +24,9 @@ development: &default
 test:
   <<: *default
 
+staging:
+  <<: *default
+
 production:
   <<: *default
   omniauth_provider_key: <%= ENV['OMNIAUTH_PROVIDER_KEY'] %>

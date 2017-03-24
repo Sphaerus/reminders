@@ -26,15 +26,13 @@ gem "slack-api"
 gem "slim-rails"
 gem "turbolinks"
 gem "uglifier"
-gem "whenever"
+gem "crono"
 
 # deployment
-
-gem "airbrussh", require: false
-gem "capistrano"
-gem "capistrano-docker", github: "netguru/capistrano-docker", tag: "v0.2.3"
-
-gem "rvm1-capistrano3", require: false
+group :deployment do
+  gem "capistrano"
+  gem "capose"
+end
 
 group :development, :test do
   gem "binding_of_caller"

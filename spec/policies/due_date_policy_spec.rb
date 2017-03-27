@@ -1,11 +1,16 @@
 require "rails_helper"
 
 describe DueDatePolicy do
-  subject { described_class.new(check) }
+  subject { reminder }
+  let(:reminder) do
+    described_class.new(check, valid_for_n_days, remind_after_days)
+  end
   let(:check) { create(:project_check) }
+  let(:valid_for_n_days) { 90 }
+  let(:remind_after_days) { [30, 60, 85] }
 
   def create_check(attrs = {})
-    create(:project_check, attrs.merge(reminder: reminder))
+    create(:project_check, attrs)
   end
 
   def disable_check_for(duration)
@@ -13,16 +18,15 @@ describe DueDatePolicy do
     repo.update(check, enabled: false)
     check.update disabled_date: duration.ago
     repo.update(check, enabled: true)
-    return check
+    check
   end
 
   it { is_expected.to respond_to(:project_check) }
-  it { is_expected.to delegate_method(:reminder).to(:project_check) }
 
   describe "#due_on" do
     context "when configured to be valid for 60 days" do
-      subject { described_class.new(check).due_on }
-      let(:reminder) { create(:reminder, valid_for_n_days: 60) }
+      subject { reminder.due_on }
+      let(:valid_for_n_days) { 60 }
 
       context "and was checked 70 days ago" do
         let(:check) { create_check(last_check_date: 70.days.ago) }
@@ -85,8 +89,8 @@ describe DueDatePolicy do
   end
 
   describe "#remind_on" do
-    subject { described_class.new(check).remind_on }
-    let(:reminder) { create(:reminder, remind_after_days: [5, 30, 45]) }
+    subject { reminder.remind_on }
+    let(:remind_after_days) { [5, 30, 45] }
 
     context "when never checked" do
       let(:check) { create_check(created_at: 40.days.ago) }
@@ -94,7 +98,7 @@ describe DueDatePolicy do
       it "calculates notification dates from created_at" do
         expect(subject).to eq([35.days.ago,
                                10.days.ago,
-                               5.days.from_now,].map(&:to_date))
+                               5.days.from_now].map(&:to_date))
       end
     end
 
@@ -104,7 +108,7 @@ describe DueDatePolicy do
       it "calculates notification dates from last_check_date" do
         expect(subject).to eq([25.days.ago,
                                Time.zone.today,
-                               15.days.from_now,].map(&:to_date))
+                               15.days.from_now].map(&:to_date))
       end
     end
 
@@ -115,7 +119,7 @@ describe DueDatePolicy do
       it "includes the disabled period in calculations" do
         expect(subject).to eq([25.days.ago,
                                Time.zone.today,
-                               15.days.from_now,].map(&:to_date))
+                               15.days.from_now].map(&:to_date))
       end
     end
   end

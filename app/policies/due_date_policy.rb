@@ -1,14 +1,14 @@
 class DueDatePolicy
-  attr_reader :project_check
+  attr_reader :project_check, :valid_for_n_days, :remind_after_days
 
-  delegate :reminder, to: :project_check
-
-  def initialize(project_check)
+  def initialize(project_check, valid_for_n_days, remind_after_days)
     @project_check = project_check
+    @valid_for_n_days = valid_for_n_days
+    @remind_after_days = remind_after_days
   end
 
   def due_on
-    date_to_count_from + reminder.valid_for_n_days
+    date_to_count_from + valid_for_n_days
   end
 
   def due_in
@@ -20,7 +20,7 @@ class DueDatePolicy
   end
 
   def remind_on
-    reminder.remind_after_days.map do |days|
+    remind_after_days.map do |days|
       date_to_count_from + days.to_i
     end.sort
   end

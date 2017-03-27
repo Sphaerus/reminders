@@ -1,7 +1,7 @@
 class DueDatePolicy
   attr_reader :project_check, :valid_for_n_days, :remind_after_days
 
-  def initialize(project_check, valid_for_n_days, remind_after_days)
+  def initialize(project_check, valid_for_n_days:, remind_after_days:)
     @project_check = project_check
     @valid_for_n_days = valid_for_n_days
     @remind_after_days = remind_after_days
@@ -23,6 +23,18 @@ class DueDatePolicy
     remind_after_days.map do |days|
       date_to_count_from + days.to_i
     end.sort
+  end
+
+  def remind_on?(date)
+    remind_on.include?(date.to_date)
+  end
+
+  def remind_today?
+    remind_on?(Time.zone.today)
+  end
+
+  def elapsed_days
+    (Time.zone.today - date_to_count_from).to_i
   end
 
   private

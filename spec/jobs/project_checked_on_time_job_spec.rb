@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe ProjectCheckedOnTimeJob do
   let(:job) { described_class.new(check.id, days_valid, daily_reminders) }

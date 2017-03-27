@@ -3,7 +3,9 @@ require "rails_helper"
 describe DueDatePolicy do
   subject { reminder }
   let(:reminder) do
-    described_class.new(check, valid_for_n_days, remind_after_days)
+    described_class.new(check,
+                        valid_for_n_days: valid_for_n_days,
+                        remind_after_days: remind_after_days)
   end
   let(:check) { create(:project_check) }
   let(:valid_for_n_days) { 90 }
@@ -120,6 +122,65 @@ describe DueDatePolicy do
         expect(subject).to eq([25.days.ago,
                                Time.zone.today,
                                15.days.from_now].map(&:to_date))
+      end
+    end
+  end
+
+  describe "#remind_on?" do
+    it "checks if a reminder should be sent on given date" do
+      allow(subject).to receive(:remind_on)
+        .and_return([5.days.from_now.to_date, 15.days.from_now.to_date])
+
+      expect(subject.remind_on?(5.days.from_now)).to eq true
+      expect(subject.remind_on?(10.days.from_now)).to eq false
+    end
+  end
+
+  describe "#remind_today?" do
+    context "if reminder should be sent today" do
+      it "returns true" do
+        allow(subject).to receive(:remind_on)
+          .and_return([Time.zone.today.to_date])
+
+        expect(subject.remind_today?).to eq true
+      end
+    end
+
+    context "if reminder shouldn't be sent today" do
+      it "returns true" do
+        allow(subject).to receive(:remind_on)
+          .and_return([10.days.from_now.to_date])
+
+        expect(subject.remind_today?).to eq false
+      end
+    end
+  end
+
+  describe "#elapsed_days" do
+    subject { reminder.elapsed_days }
+
+    context "when never checked" do
+      let(:check) { create_check(created_at: 40.days.ago) }
+
+      it "calculates how many days have passed since created" do
+        expect(subject).to eq(40)
+      end
+    end
+
+    context "when checked before" do
+      let(:check) { create_check(last_check_date: 30.days.ago) }
+
+      it "calculates how many days have passed since last check" do
+        expect(subject).to eq(30)
+      end
+    end
+
+    context "when disabled for a period of time" do
+      let(:check) { create_check(last_check_date: 30.days.ago) }
+      before { disable_check_for(10.days) }
+
+      it "it includes the disabled period in calculations" do
+        expect(subject).to eq(20)
       end
     end
   end

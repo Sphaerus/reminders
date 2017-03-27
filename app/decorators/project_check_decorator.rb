@@ -46,10 +46,10 @@ class ProjectCheckDecorator < BaseDecorator
   end
 
   def days_to_deadline_as_number
-    to_date = object.last_check_date || object.created_at.to_date
-    to_date += object.reminder.valid_for_n_days.days
-    from_date = Time.zone.today
-    (to_date - from_date).to_i
+    policy = DueDatePolicy.new(object,
+                               valid_for_n_days: object.reminder.valid_for_n_days,
+                               remind_after_days: object.reminder.remind_after_days)
+    policy.due_in
   end
 
   def days_to_deadline

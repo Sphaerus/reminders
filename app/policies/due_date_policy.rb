@@ -12,7 +12,7 @@ class DueDatePolicy
   end
 
   def due_in
-    due_on - Time.zone.today
+    (due_on - Time.zone.today).to_i
   end
 
   def overdue?

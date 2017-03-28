@@ -11,7 +11,7 @@ class CheckReminderJob
         ProjectCheckedOnTimeJob.new(project_check.id).perform
       else
         CheckAssignments::RemindPendingCheckAssignment.new(
-          project_check: project_check, reminder: reminder
+          project_check: project_check, reminder: reminder,
         ).call
       end
     end

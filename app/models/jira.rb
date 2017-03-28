@@ -36,7 +36,7 @@ class Jira
         project: { key: settings.project_key },
         issuetype: { name: settings.issue_type },
         summary: "#{settings.summary} #{options.fetch(:project).name}",
-      }
+      },
     }
   end
 

@@ -15,7 +15,8 @@ describe ProjectCheckedOnTimeJob do
     let(:last_check_date) { nil }
     let(:checked) { false }
     let(:reminder) do
-      double(:reminder, id: 1,
+      double(:reminder,
+             id: 1,
              valid_for_n_days: 3,
              init_valid_for_n_days: 7,
              remind_after_days: daily_reminders,
@@ -23,8 +24,10 @@ describe ProjectCheckedOnTimeJob do
     end
     let(:check) do
       double(:project_check,
-             id: 1, last_check_date: last_check_date,
-             created_at: creation_time, checked?: checked,
+             id: 1,
+             last_check_date: last_check_date,
+             created_at: creation_time,
+             checked?: checked,
              last_check_date_without_disabled_period: nil,
              reminder: reminder)
     end
@@ -45,7 +48,7 @@ describe ProjectCheckedOnTimeJob do
 
         it "check overdue service is called" do
           expect(ProjectChecks::HandleOverdue).to receive(:new)
-                                                    .with(check, 8) { double(call: true) }
+            .with(check, 8) { double(call: true) }
         end
       end
 
@@ -63,7 +66,7 @@ describe ProjectCheckedOnTimeJob do
 
         it "check notification day service is called" do
           expect(ProjectChecks::HandleNotificationDay).to receive(:new)
-                                                            .with(check, 3) { double(call: true) }
+            .with(check, 3) { double(call: true) }
         end
       end
     end
@@ -77,7 +80,7 @@ describe ProjectCheckedOnTimeJob do
 
         it "check overdue service is called" do
           expect(ProjectChecks::HandleOverdue).to receive(:new)
-                                                    .with(check, 13) { double(call: true) }
+            .with(check, 13) { double(call: true) }
         end
       end
 
@@ -95,7 +98,7 @@ describe ProjectCheckedOnTimeJob do
         let(:checked) { true }
         it "check notification day service is called" do
           expect(ProjectChecks::HandleNotificationDay).to receive(:new)
-                                                            .with(check, 2) { double(call: true) }
+            .with(check, 2) { double(call: true) }
         end
       end
     end

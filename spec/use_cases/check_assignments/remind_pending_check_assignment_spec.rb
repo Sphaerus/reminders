@@ -17,8 +17,7 @@ describe CheckAssignments::RemindPendingCheckAssignment do
   let(:check_assignment) do
     double(:check_assignment,
            id: 1, user_id: 1, project_check_id: 1, completion_date: nil,
-           created_at: nil
-          )
+           created_at: nil)
   end
 
   let(:project_check) do
@@ -26,7 +25,8 @@ describe CheckAssignments::RemindPendingCheckAssignment do
   end
 
   let(:reminder) do
-    double(:reminder, id: 1,
+    double(:reminder,
+           id: 1,
            valid_for_n_days: valid_for_n_days,
            init_valid_for_n_days: init_valid_for_n_days,
            remind_after_days: remind_after_days,

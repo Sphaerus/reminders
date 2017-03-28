@@ -6,10 +6,12 @@ describe ProjectChecks::RequiringJiraIssuesQuery do
   describe "#all" do
     subject { described_class.new.all }
 
-    let(:reminder) { create(:reminder,
-                            init_valid_for_n_days: 10,
-                            valid_for_n_days: 30,
-                            jira_issue_lead: jira_issue_lead) }
+    let(:reminder) do
+      create(:reminder,
+             init_valid_for_n_days: 10,
+             valid_for_n_days: 30,
+             jira_issue_lead: jira_issue_lead)
+    end
     let(:jira_issue_lead) { 7 }
 
     let(:project_1) { create(:project) }

@@ -60,10 +60,10 @@ describe ProjectChecks::HandleOverdue do
 
         it "days_ago" do
           expect(reminder).to receive(:deadline_text)
-                                .and_return("{{ days_ago }} days ago")
+            .and_return("{{ days_ago }} days ago")
 
           expect(notifier).to receive(:send_message)
-                                .with("10 days ago", anything)
+            .with("10 days ago", anything)
         end
 
         it "project_name" do

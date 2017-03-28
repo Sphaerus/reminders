@@ -8,7 +8,7 @@ module Reminders
     end
 
     def call
-      self.attrs = format_attributes attrs
+      self.attrs = format_attributes
       reminder = Reminder.new attrs
       if reminder.valid?
         reminders_repository.create(reminder)
@@ -20,13 +20,17 @@ module Reminders
 
     private
 
-    def format_attributes(reminder_attrs)
+    def format_attributes
       %i(init_remind_after_days remind_after_days).each do |attr|
-        days = reminder_attrs[attr] || ""
-        days = days.split(",").map(&:strip).map(&:to_i).uniq.sort - [0]
-        reminder_attrs[attr] = days
+        format_days(attr)
       end
-      reminder_attrs
+      attrs
+    end
+
+    def format_days(attr)
+      days = attrs[attr] || ""
+      days = days.split(",").map(&:strip).map(&:to_i).uniq.sort - [0]
+      attrs[attr] = days
     end
   end
 end

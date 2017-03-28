@@ -6,7 +6,11 @@ describe ProjectChecks::RequiringJiraIssuesQuery do
   describe "#all" do
     subject { described_class.new.all }
 
-    let(:reminder) { create(:reminder, valid_for_n_days: 30, jira_issue_lead: 7) }
+    let(:reminder) { create(:reminder,
+                            init_valid_for_n_days: 10,
+                            valid_for_n_days: 30,
+                            jira_issue_lead: jira_issue_lead) }
+    let(:jira_issue_lead) { 7 }
 
     let(:project_1) { create(:project) }
     let!(:project_1_check) do
@@ -48,7 +52,6 @@ describe ProjectChecks::RequiringJiraIssuesQuery do
 
     context "when there is one check with 7 days to next check" do
       let(:jira_issue_lead) { 7 }
-      let(:reminder) { create(:reminder, valid_for_n_days: 30, jira_issue_lead: jira_issue_lead) }
       let(:last_check_date) { Time.zone.today - 23.days }
 
       context "when project check was previously checked" do
@@ -94,7 +97,7 @@ describe ProjectChecks::RequiringJiraIssuesQuery do
                  project: project_2,
                  reminder: reminder,
                  last_check_date: nil,
-                 created_at: Time.zone.now - 23.days)
+                 created_at: Time.zone.now - 3.days)
         end
 
         context "when jira issue should be created 7 days before next check" do

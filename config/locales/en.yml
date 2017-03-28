@@ -6,6 +6,10 @@ en:
     labels:
       reminder:
         slack_channel: Slack channels
+        init_valid_for_n_days: Valid for n days
+        init_remind_after_days: Remind after days
+        init_deadline_text: Deadline text
+        init_notification_text: Notification text
     hints:
       reminder:
         slack_channel: Space separated slack channels list.

@@ -81,6 +81,7 @@ class RemindersController < ApplicationController
           .permit(:name, :valid_for_n_days, :remind_after_days,
                   :notification_text, :deadline_text, :slack_channel,
                   :supervisor_slack_channel, :notify_projects_channels,
-                  :jira_issue_lead)
+                  :jira_issue_lead, :init_valid_for_n_days, :init_remind_after_days,
+                  :init_deadline_text, :init_notification_text)
   end
 end

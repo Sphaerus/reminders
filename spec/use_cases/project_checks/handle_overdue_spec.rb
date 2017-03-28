@@ -8,11 +8,12 @@ describe ProjectChecks::HandleOverdue do
   end
   let(:deadline_text) { "foo bar baz" }
   let(:reminder) do
-    double(:reminder, name: "bar baz", valid_for_n_days: 5,
+    double(:reminder, name: "bar baz", valid_for_n_days: 5, init_valid_for_n_days: 7,
                       deadline_text: deadline_text,
                       slack_channel: nil)
   end
-  let(:check) { double(:project_check, reminder: reminder, project: project) }
+  let(:checked) { true }
+  let(:check) { double(:project_check, reminder: reminder, project: project, checked?: checked) }
   let(:notifier) { double(:notifier, send_message: true) }
 
   before do
@@ -54,36 +55,52 @@ describe ProjectChecks::HandleOverdue do
         service.call
       end
 
-      it "days_ago" do
-        expect(reminder).to receive(:deadline_text)
-          .and_return("{{ days_ago }} days ago")
+      context "when project was checked before" do
+        let(:checked) { true }
 
-        expect(notifier).to receive(:send_message)
-          .with("10 days ago", anything)
+        it "days_ago" do
+          expect(reminder).to receive(:deadline_text)
+                                .and_return("{{ days_ago }} days ago")
+
+          expect(notifier).to receive(:send_message)
+                                .with("10 days ago", anything)
+        end
+
+        it "project_name" do
+          expect(reminder).to receive(:deadline_text)
+                                .and_return("project {{ project_name }}")
+
+          expect(notifier).to receive(:send_message)
+                                .with("project foo project", anything)
+        end
+
+        it "reminder_name" do
+          expect(reminder).to receive(:deadline_text)
+                                .and_return("{{ reminder_name }} reminder")
+
+          expect(notifier).to receive(:send_message)
+                                .with("bar baz reminder", anything)
+        end
+
+        it "valid_for" do
+          expect(reminder).to receive(:deadline_text)
+                                .and_return("is valid for {{ valid_for }} days")
+
+          expect(notifier).to receive(:send_message)
+                                .with("is valid for 5 days", anything)
+        end
       end
 
-      it "project_name" do
-        expect(reminder).to receive(:deadline_text)
-          .and_return("project {{ project_name }}")
+      context "when project was not checked before" do
+        let(:checked) { false }
 
-        expect(notifier).to receive(:send_message)
-          .with("project foo project", anything)
-      end
+        it "valid_for" do
+          expect(reminder).to receive(:deadline_text)
+                                .and_return("is valid for {{ valid_for }} days")
 
-      it "reminder_name" do
-        expect(reminder).to receive(:deadline_text)
-          .and_return("{{ reminder_name }} reminder")
-
-        expect(notifier).to receive(:send_message)
-          .with("bar baz reminder", anything)
-      end
-
-      it "valid_for" do
-        expect(reminder).to receive(:deadline_text)
-          .and_return("is valid for {{ valid_for }} days")
-
-        expect(notifier).to receive(:send_message)
-          .with("is valid for 5 days", anything)
+          expect(notifier).to receive(:send_message)
+                                .with("is valid for 7 days", anything)
+        end
       end
     end
   end

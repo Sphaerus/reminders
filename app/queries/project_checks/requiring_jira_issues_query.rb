@@ -22,7 +22,7 @@ module ProjectChecks
     def dates_query
       <<-SQL
         (last_check_date IS NULL
-          AND '#{date}' >= (date(project_checks.created_at) + reminders.valid_for_n_days
+          AND '#{date}' >= (date(project_checks.created_at) + reminders.init_valid_for_n_days
                           - reminders.jira_issue_lead))
         OR
         (last_check_date IS NOT NULL

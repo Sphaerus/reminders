@@ -12,15 +12,11 @@ class ProjectCheckDecorator < BaseDecorator
   end
 
   def last_check_date
-    if checked?
+    if object.checked?
       "#{h.l(object.last_check_date)} (#{last_check_date_time_diff})"
     else
       "not checked yet"
     end
-  end
-
-  def checked?
-    object.last_check_date.present?
   end
 
   def enabled?
@@ -34,8 +30,6 @@ class ProjectCheckDecorator < BaseDecorator
   def row_class
     if !enabled?
       "active"
-    elsif object.last_check_date.nil?
-      "warning"
     elsif days_to_deadline_as_number <= 0
       "danger"
     end
@@ -46,10 +40,7 @@ class ProjectCheckDecorator < BaseDecorator
   end
 
   def days_to_deadline_as_number
-    to_date = object.last_check_date || object.created_at.to_date
-    to_date += object.reminder.valid_for_n_days.days
-    from_date = Time.zone.today
-    (to_date - from_date).to_i
+    (object.deadline - Time.zone.today).to_i
   end
 
   def days_to_deadline

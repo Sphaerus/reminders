@@ -68,26 +68,26 @@ describe ProjectChecks::HandleOverdue do
 
         it "project_name" do
           expect(reminder).to receive(:deadline_text)
-                                .and_return("project {{ project_name }}")
+            .and_return("project {{ project_name }}")
 
           expect(notifier).to receive(:send_message)
-                                .with("project foo project", anything)
+            .with("project foo project", anything)
         end
 
         it "reminder_name" do
           expect(reminder).to receive(:deadline_text)
-                                .and_return("{{ reminder_name }} reminder")
+            .and_return("{{ reminder_name }} reminder")
 
           expect(notifier).to receive(:send_message)
-                                .with("bar baz reminder", anything)
+            .with("bar baz reminder", anything)
         end
 
         it "valid_for" do
           expect(reminder).to receive(:deadline_text)
-                                .and_return("is valid for {{ valid_for }} days")
+            .and_return("is valid for {{ valid_for }} days")
 
           expect(notifier).to receive(:send_message)
-                                .with("is valid for 5 days", anything)
+            .with("is valid for 5 days", anything)
         end
       end
 
@@ -96,10 +96,10 @@ describe ProjectChecks::HandleOverdue do
 
         it "valid_for" do
           expect(reminder).to receive(:deadline_text)
-                                .and_return("is valid for {{ valid_for }} days")
+            .and_return("is valid for {{ valid_for }} days")
 
           expect(notifier).to receive(:send_message)
-                                .with("is valid for 7 days", anything)
+            .with("is valid for 7 days", anything)
         end
       end
     end

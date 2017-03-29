@@ -6,11 +6,12 @@ describe ProjectChecks::HandleNotificationDay do
   let(:project) do
     double(:project, name: "foo project", channel_name: "foo-project")
   end
+  let(:init_notification_text) { "notification text for new project" }
   let(:notification_text) { "foo bar baz" }
   let(:reminder) do
     double(:reminder, name: "bar baz", valid_for_n_days: 5, init_valid_for_n_days: 7,
-                      notification_text: notification_text,
-                      slack_channel: nil)
+                      init_notification_text: init_notification_text,
+                      notification_text: notification_text, slack_channel: nil)
   end
   let(:checked) { false }
   let(:check) { double(:project_check, reminder: reminder, project: project, checked?: checked) }
@@ -25,10 +26,24 @@ describe ProjectChecks::HandleNotificationDay do
   end
 
   describe "#call" do
-    it "passes message to notifier" do
-      expect(notifier).to receive(:send_message)
-        .with(notification_text, channels: "foo-project")
-      service.call
+    context "when project was checked before" do
+      let(:checked) { true }
+
+      it "passes message with notification text to notifier" do
+        expect(notifier).to receive(:send_message)
+          .with(notification_text, channels: "foo-project")
+        service.call
+      end
+    end
+
+    context "when project was not checked before" do
+      let(:checked) { false }
+
+      it "passes message with init notification text to notifier" do
+        expect(notifier).to receive(:send_message)
+          .with(init_notification_text, channels: "foo-project")
+        service.call
+      end
     end
 
     context "sending email" do
@@ -94,7 +109,7 @@ describe ProjectChecks::HandleNotificationDay do
         let(:checked) { false }
 
         it "valid_for" do
-          expect(reminder).to receive(:notification_text)
+          expect(reminder).to receive(:init_notification_text)
             .and_return("is valid for {{ valid_for }} days")
 
           expect(notifier).to receive(:send_message)

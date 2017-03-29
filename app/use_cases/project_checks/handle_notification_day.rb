@@ -1,7 +1,7 @@
 module ProjectChecks
   class HandleNotificationDay < HandleOverdue
     def notification_template
-      reminder.notification_text
+      check.checked? ? reminder.notification_text : reminder.init_notification_text
     end
   end
 end

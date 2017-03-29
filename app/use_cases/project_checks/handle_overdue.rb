@@ -44,7 +44,7 @@ module ProjectChecks
     end
 
     def notification_template
-      reminder.deadline_text
+      check.checked? ? reminder.deadline_text : reminder.init_deadline_text
     end
 
     def available_variables

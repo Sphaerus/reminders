@@ -5,14 +5,24 @@
 
       .form-inputs
         = f.input :name
-        = f.input :valid_for_n_days
-        = f.input :remind_after_days
+        .panel.panel-default
+          .panel-heading First reminder
+          .panel-body
+            = f.input :init_valid_for_n_days
+            = f.input :init_remind_after_days
+            = f.input :init_deadline_text, as: :text
+            = f.input :init_notification_text, as: :text
+        .panel.panel-default
+          .panel-heading Further reminders
+          .panel-body
+            = f.input :valid_for_n_days
+            = f.input :remind_after_days
+            = f.input :deadline_text, as: :text
+            = f.input :notification_text, as: :text
         = f.input :slack_channel, required: false
         = f.input :notify_projects_channels, as: :boolean
         = f.input :supervisor_slack_channel, required: false
         = f.input :jira_issue_lead, required: false
-        = f.input :deadline_text, as: :text
-        = f.input :notification_text, as: :text
 
       .form-actions
         = f.button :submit

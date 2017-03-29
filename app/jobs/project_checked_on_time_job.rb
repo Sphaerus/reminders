@@ -1,20 +1,16 @@
 class ProjectCheckedOnTimeJob
-  attr_accessor :project_check
   attr_writer :project_checks_repository
-  attr_reader :project_check_id, :valid_for_n_days, :remind_after_days
+  delegate :valid_for_n_days, :init_valid_for_n_days, to: :reminder
 
-  def initialize(project_check_id, valid_for_n_days, remind_after_days)
+  def initialize(project_check_id)
     @project_check_id = project_check_id
-    @valid_for_n_days = valid_for_n_days
-    @remind_after_days = remind_after_days
   end
 
   # rubocop:disable Metrics/AbcSize
   def perform
-    self.project_check = project_checks_repository.find project_check_id
-    if overdue? valid_for_n_days
+    if overdue?
       ProjectChecks::HandleOverdue.new(project_check, days_diff).call
-    elsif notify? remind_after_days
+    elsif notify?
       ProjectChecks::HandleNotificationDay.new(project_check, days_diff).call
     end
   end
@@ -22,16 +18,30 @@ class ProjectCheckedOnTimeJob
 
   private
 
+  attr_reader :project_check_id
+
+  def project_check
+    @project_check ||= project_checks_repository.find project_check_id
+  end
+
+  def reminder
+    @reminder ||= project_check.reminder
+  end
+
   def project_checks_repository
     @project_checks_repository ||= ProjectChecksRepository.new
   end
 
-  def notify?(remind_after_days)
-    remind_after_days.any? { |day| day.to_i == days_diff }
+  def notify?
+    if project_check.checked?
+      reminder.remind_after_days.any? { |day| day.to_i == days_diff }
+    else
+      reminder.init_remind_after_days.any? { |day| day.to_i == days_diff }
+    end
   end
 
-  def overdue?(valid_for_n_days)
-    days_diff > valid_for_n_days
+  def overdue?
+    days_diff > (project_check.checked? ? valid_for_n_days : init_valid_for_n_days)
   end
 
   def days_diff

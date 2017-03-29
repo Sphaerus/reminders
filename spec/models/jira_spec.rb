@@ -28,7 +28,7 @@ RSpec.describe Jira do
           project: { key: config.project_key },
           issuetype: { name: config.issue_type },
           summary: "#{config.summary} #{project.name}",
-        }
+        },
       }
     end
     let(:headers) do

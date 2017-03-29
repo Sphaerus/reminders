@@ -6,6 +6,10 @@ en:
     labels:
       reminder:
         slack_channel: Slack channels
+        init_valid_for_n_days: Valid for n days
+        init_remind_after_days: Remind after days
+        init_deadline_text: Deadline text
+        init_notification_text: Notification text
     hints:
       reminder:
         slack_channel: Space separated slack channels list.
@@ -17,3 +21,8 @@ en:
         jira_issue_lead: >
           How many days before check day, should jira issue be created.
           Leave blank to disable issue creation
+  project_checks:
+    not_checked_yet: not checked yet
+  reminders:
+    no_before_deadline: No reminders before deadline
+    not_specified: Not specified.

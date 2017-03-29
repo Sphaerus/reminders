@@ -9,7 +9,7 @@ module Reminders
     end
 
     def call
-      reminder.assign_attributes format_attributes(attrs)
+      reminder.assign_attributes format_attributes
       if reminder.valid?
         reminders_repo.update(reminder)
         Response::Success.new data: reminder

@@ -19,8 +19,7 @@ describe ProjectChecks::HandleNotificationDay do
 
   before do
     allow(project).to receive(:decorate) { project }
-    allow(project)
-      .to receive(:email) { "foo-project@foo.com" }
+    allow(project).to receive(:email) { "foo-project@foo.com" }
     allow(check).to receive(:decorate) { check }
     allow(check).to receive(:slack_channels) { "foo-project" }
   end
@@ -30,8 +29,7 @@ describe ProjectChecks::HandleNotificationDay do
       let(:checked) { true }
 
       it "passes message with notification text to notifier" do
-        expect(notifier).to receive(:send_message)
-          .with(notification_text, channels: "foo-project")
+        expect(notifier).to receive(:send_message).with(notification_text, channels: "foo-project")
         service.call
       end
     end
@@ -73,35 +71,24 @@ describe ProjectChecks::HandleNotificationDay do
         let(:checked) { true }
 
         it "days_ago" do
-          expect(reminder).to receive(:notification_text)
-            .and_return("{{ days_ago }} days ago")
-
-          expect(notifier).to receive(:send_message)
-            .with("10 days ago", anything)
+          expect(reminder).to receive(:notification_text).and_return("{{ days_ago }} days ago")
+          expect(notifier).to receive(:send_message).with("10 days ago", anything)
         end
 
         it "project_name" do
-          expect(reminder).to receive(:notification_text)
-            .and_return("project {{ project_name }}")
-
-          expect(notifier).to receive(:send_message)
-            .with("project foo project", anything)
+          expect(reminder).to receive(:notification_text).and_return("project {{ project_name }}")
+          expect(notifier).to receive(:send_message).with("project foo project", anything)
         end
 
         it "reminder_name" do
-          expect(reminder).to receive(:notification_text)
-            .and_return("{{ reminder_name }} reminder")
-
-          expect(notifier).to receive(:send_message)
-            .with("bar baz reminder", anything)
+          expect(reminder).to receive(:notification_text).and_return("{{ reminder_name }} reminder")
+          expect(notifier).to receive(:send_message).with("bar baz reminder", anything)
         end
 
         it "valid_for" do
           expect(reminder).to receive(:notification_text)
             .and_return("is valid for {{ valid_for }} days")
-
-          expect(notifier).to receive(:send_message)
-            .with("is valid for 5 days", anything)
+          expect(notifier).to receive(:send_message).with("is valid for 5 days", anything)
         end
       end
 
@@ -111,9 +98,7 @@ describe ProjectChecks::HandleNotificationDay do
         it "valid_for" do
           expect(reminder).to receive(:init_notification_text)
             .and_return("is valid for {{ valid_for }} days")
-
-          expect(notifier).to receive(:send_message)
-            .with("is valid for 7 days", anything)
+          expect(notifier).to receive(:send_message).with("is valid for 7 days", anything)
         end
       end
     end

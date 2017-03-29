@@ -1,10 +1,12 @@
 source "https://rubygems.org"
 gem "rails", "~> 5"
 
+gem "dotenv-rails", groups: [:development, :test], require: "dotenv/rails-now"
 gem "app_konfig"
 gem "bootstrap-datepicker-rails"
 gem 'bootstrap-toggle-rails'
 gem "coffee-rails"
+gem "crono"
 gem "data_guru"
 gem "decent_exposure"
 gem "drape"
@@ -26,7 +28,6 @@ gem "slack-api"
 gem "slim-rails"
 gem "turbolinks"
 gem "uglifier"
-gem "crono"
 
 # deployment
 group :deployment do

@@ -131,5 +131,38 @@ describe ProjectChecks::RequiringJiraIssuesQuery do
         end
       end
     end
+
+    context "when issue has been disabled for some time" do
+      context "when jira task should be created" do
+        let(:last_check_date) { Time.zone.today - 123.days }
+
+        let!(:project_2_check) do
+          create(:project_check,
+                 project: project_2,
+                 reminder: reminder,
+                 last_check_date: last_check_date,
+                 last_check_date_without_disabled_period: Time.zone.today - 23.days)
+        end
+
+        it "returns 1 projeck check" do
+          expect(subject.count).to eq(1)
+          expect(subject.first).to eq(project_2_check)
+        end
+      end
+
+      context "when jira issue should not be created" do
+        let(:last_check_date) { Time.zone.today - 23.days }
+
+        let!(:project_2_check) do
+          create(:project_check,
+                 project: project_2,
+                 reminder: reminder,
+                 last_check_date: last_check_date,
+                 last_check_date_without_disabled_period: Time.zone.today - 22.days)
+        end
+
+        it_behaves_like "no project checks"
+      end
+    end
   end
 end

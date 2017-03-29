@@ -1,18 +1,23 @@
 require "rails_helper"
 
 describe DueDatePolicy do
-  subject { reminder }
+  subject { policy }
+  let(:policy) { described_class.new(check) }
   let(:reminder) do
-    described_class.new(check,
-                        valid_for_n_days: valid_for_n_days,
-                        remind_after_days: remind_after_days)
+    create(:reminder,
+           valid_for_n_days: valid_for_n_days,
+           remind_after_days: remind_after_days,
+           init_valid_for_n_days: init_valid_for_n_days,
+           init_remind_after_days: init_remind_after_days)
   end
-  let(:check) { create(:project_check) }
+  let(:check) { create(:project_check, reminder: reminder) }
   let(:valid_for_n_days) { 90 }
   let(:remind_after_days) { [30, 60, 85] }
+  let(:init_valid_for_n_days) { 10 }
+  let(:init_remind_after_days) { [5, 8] }
 
   def create_check(attrs = {})
-    create(:project_check, attrs)
+    create(:project_check, attrs.merge(reminder: reminder))
   end
 
   def disable_check_for(duration)
@@ -26,8 +31,9 @@ describe DueDatePolicy do
   it { is_expected.to respond_to(:project_check) }
 
   describe "#due_on" do
+    subject { policy.due_on }
+
     context "when configured to be valid for 60 days" do
-      subject { reminder.due_on }
       let(:valid_for_n_days) { 60 }
 
       context "and was checked 70 days ago" do
@@ -41,16 +47,20 @@ describe DueDatePolicy do
           it { is_expected.to eq(10.days.from_now.to_date) }
         end
       end
+    end
 
-      context "and was created 70 days ago and never checked" do
-        let(:check) { create_check(created_at: 70.days.ago) }
+    context "when configured to be first checked within 10 days" do
+      let(:init_valid_for_n_days) { 10 }
 
-        it { is_expected.to eq(10.days.ago.to_date) }
+      context "and was created 15 days ago and never checked" do
+        let(:check) { create_check(created_at: 15.days.ago) }
 
-        context "and was disabled for 20 days" do
-          before { disable_check_for(20.days) }
+        it { is_expected.to eq(5.days.ago.to_date) }
 
-          it { is_expected.to eq(10.days.from_now.to_date) }
+        context "and was disabled for 7 days" do
+          before { disable_check_for(7.days) }
+
+          it { is_expected.to eq(2.days.from_now.to_date) }
         end
       end
     end
@@ -91,16 +101,17 @@ describe DueDatePolicy do
   end
 
   describe "#remind_on" do
-    subject { reminder.remind_on }
+    subject { policy.remind_on }
     let(:remind_after_days) { [5, 30, 45] }
+    let(:init_remind_after_days) { [2, 6, 8] }
 
     context "when never checked" do
-      let(:check) { create_check(created_at: 40.days.ago) }
+      let(:check) { create_check(created_at: 4.days.ago) }
 
       it "calculates notification dates from created_at" do
-        expect(subject).to eq([35.days.ago,
-                               10.days.ago,
-                               5.days.from_now].map(&:to_date))
+        expect(subject).to eq([2.days.ago,
+                               2.days.from_now,
+                               4.days.from_now].map(&:to_date))
       end
     end
 
@@ -157,7 +168,7 @@ describe DueDatePolicy do
   end
 
   describe "#elapsed_days" do
-    subject { reminder.elapsed_days }
+    subject { policy.elapsed_days }
 
     context "when never checked" do
       let(:check) { create_check(created_at: 40.days.ago) }

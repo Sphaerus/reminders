@@ -1,24 +1,21 @@
 class ProjectCheckedOnTimeJob
-  attr_accessor :project_check
   attr_writer :project_checks_repository
-  attr_reader :project_check_id, :valid_for_n_days, :remind_after_days
+  delegate :valid_for_n_days, :init_valid_for_n_days, to: :reminder
 
-  def initialize(project_check_id, valid_for_n_days, remind_after_days)
+  def initialize(project_check_id)
     @project_check_id = project_check_id
-    @valid_for_n_days = valid_for_n_days
-    @remind_after_days = remind_after_days
   end
 
   # rubocop:disable Metrics/AbcSize
   def perform
-    self.project_check = project_checks_repository.find project_check_id
     if handler = select_handler
       handler.new(project_check, policy.elapsed_days).call
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   private
+
+  attr_reader :project_check_id
 
   def select_handler
     if policy.overdue?
@@ -28,10 +25,16 @@ class ProjectCheckedOnTimeJob
     end
   end
 
+  def project_check
+    @project_check ||= project_checks_repository.find project_check_id
+  end
+
+  def reminder
+    @reminder ||= project_check.reminder
+  end
+
   def policy
-    DueDatePolicy.new(project_check,
-                      valid_for_n_days: valid_for_n_days,
-                      remind_after_days: remind_after_days)
+    @policy ||= DueDatePolicy.new(project_check)
   end
 
   def project_checks_repository

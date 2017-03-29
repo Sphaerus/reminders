@@ -14,7 +14,7 @@ describe RemindersRepository do
       create(:reminder, order: 0, name: "first")
       create(:reminder, order: 2, name: "third")
 
-      expect(repo.all.pluck(:name)).to eq %w{first second third}
+      expect(repo.all.pluck(:name)).to eq %w(first second third)
     end
   end
 

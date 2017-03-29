@@ -1,10 +1,9 @@
 class DueDatePolicy
-  attr_reader :project_check, :valid_for_n_days, :remind_after_days
+  attr_reader :project_check, :reminder
 
-  def initialize(project_check, valid_for_n_days:, remind_after_days:)
+  def initialize(project_check)
     @project_check = project_check
-    @valid_for_n_days = valid_for_n_days
-    @remind_after_days = remind_after_days
+    @reminder = project_check.reminder
   end
 
   def due_on
@@ -50,5 +49,13 @@ class DueDatePolicy
 
   def checked_before?
     project_check.last_check_date.present?
+  end
+
+  def valid_for_n_days
+    checked_before? ? reminder.valid_for_n_days : reminder.init_valid_for_n_days
+  end
+
+  def remind_after_days
+    checked_before? ? reminder.remind_after_days : reminder.init_remind_after_days
   end
 end

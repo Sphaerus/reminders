@@ -52,8 +52,12 @@ module ProjectChecks
         reminder_name: reminder.name,
         project_name: project.name,
         days_ago: days_diff,
-        valid_for: reminder.valid_for_n_days,
+        valid_for:  valid_for_days,
       }.stringify_keys
+    end
+
+    def valid_for_days
+      check.checked? ? reminder.valid_for_n_days : reminder.init_valid_for_n_days
     end
   end
 end

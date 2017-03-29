@@ -8,14 +8,10 @@ class CheckReminderJob
     reminder = reminders_repository.find reminder_id
     checks_for_reminder(reminder).each do |project_check|
       if all_assigments_completed?(project_check.check_assignments)
-        ProjectCheckedOnTimeJob.new(project_check.id,
-                                    reminder.valid_for_n_days,
-                                    reminder.remind_after_days).perform
+        ProjectCheckedOnTimeJob.new(project_check.id).perform
       else
         CheckAssignments::RemindPendingCheckAssignment.new(
-          project_check: project_check,
-          valid_for_n_days: reminder.valid_for_n_days,
-          remind_after_days: reminder.remind_after_days,
+          project_check: project_check, reminder: reminder,
         ).call
       end
     end

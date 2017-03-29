@@ -4,12 +4,12 @@ describe ProjectChecks::OverrideDeadline do
   let(:service) do
     described_class.new(check: check, new_days_left: new_days_left)
   end
-  let(:reminder) { create(:reminder, valid_for_n_days: valid_for_n_days) }
+  let(:reminder) { create(:reminder, init_valid_for_n_days: init_valid_for_n_days) }
   let(:check) do
     create(:project_check, reminder: reminder, last_check_date: last_check_date)
   end
 
-  let(:valid_for_n_days) { 10 }
+  let(:init_valid_for_n_days) { 10 }
   let(:new_days_left) { 20 }
   let(:last_check_date) { nil }
 
@@ -18,7 +18,7 @@ describe ProjectChecks::OverrideDeadline do
   describe "#call" do
     context "when new days changed" do
       it "updates project check created_at_without_disabled_period field" do
-        Timecop.freeze(Time.zone.today - valid_for_n_days.days) do
+        Timecop.freeze(Time.zone.today - init_valid_for_n_days.days) do
           expect { subject }.to change { check.created_at_without_disabled_period }
             .from(nil)
             .to(Time.current + 10.days)

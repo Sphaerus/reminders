@@ -21,3 +21,8 @@ en:
         jira_issue_lead: >
           How many days before check day, should jira issue be created.
           Leave blank to disable issue creation
+  project_checks:
+    not_checked_yet: not checked yet
+  reminders:
+    no_before_deadline: No reminders before deadline
+    not_specified: Not specified.

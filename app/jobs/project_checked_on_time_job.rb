@@ -1,5 +1,6 @@
 class ProjectCheckedOnTimeJob
   attr_writer :project_checks_repository
+  delegate :valid_for_n_days, :init_valid_for_n_days, to: :reminder
 
   def initialize(project_check_id)
     @project_check_id = project_check_id
@@ -40,11 +41,7 @@ class ProjectCheckedOnTimeJob
   end
 
   def overdue?
-    if project_check.checked?
-      days_diff > reminder.valid_for_n_days
-    else
-      days_diff > reminder.init_valid_for_n_days
-    end
+    days_diff > (project_check.checked? ? valid_for_n_days : init_valid_for_n_days)
   end
 
   def days_diff

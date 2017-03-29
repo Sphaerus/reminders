@@ -29,15 +29,12 @@ module ReminderDecorator
     private
 
     def not_specified
-      "Not specified."
+      I18n.t("reminders.not_specified")
     end
 
     def as_list(attribute)
-      if object.public_send(attribute).any?
-        object.public_send(attribute).join(", ")
-      else
-        "No reminders before deadline"
-      end
+      I18n.t("reminders.no_before_deadline") unless object.public_send(attribute).any?
+      object.public_send(attribute).join(", ")
     end
   end
 end

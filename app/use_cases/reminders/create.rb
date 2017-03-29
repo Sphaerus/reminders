@@ -21,13 +21,11 @@ module Reminders
     private
 
     def format_attributes
-      %i(init_remind_after_days remind_after_days).each do |attr|
-        format_days(attr)
-      end
+      %i(init_remind_after_days remind_after_days).each { |attr| format_days!(attr) }
       attrs
     end
 
-    def format_days(attr)
+    def format_days!(attr)
       days = attrs[attr] || ""
       days = days.split(",").map(&:strip).map(&:to_i).uniq.sort - [0]
       attrs[attr] = days

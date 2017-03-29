@@ -12,11 +12,8 @@ class ProjectCheckDecorator < BaseDecorator
   end
 
   def last_check_date
-    if object.checked?
-      "#{h.l(object.last_check_date)} (#{last_check_date_time_diff})"
-    else
-      "not checked yet"
-    end
+    return I18n.t("project_checks.not_checked_yet") unless object.checked?
+    "#{h.l(object.last_check_date)} (#{last_check_date_time_diff})"
   end
 
   def enabled?

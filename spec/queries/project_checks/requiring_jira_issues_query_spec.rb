@@ -144,7 +144,7 @@ describe ProjectChecks::RequiringJiraIssuesQuery do
                  last_check_date_without_disabled_period: Time.zone.today - 23.days)
         end
 
-        it "returns 1 projeck check" do
+        it "returns 1 project check" do
           expect(subject.count).to eq(1)
           expect(subject.first).to eq(project_2_check)
         end

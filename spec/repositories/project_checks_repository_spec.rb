@@ -73,6 +73,7 @@ describe ProjectChecksRepository do
   describe "#update" do
     let(:project_check) { create(:project_check) }
     before { Timecop.freeze }
+    after { Timecop.return }
 
     it "updates given project check" do
       expect(project_check.last_check_user_id).to be nil

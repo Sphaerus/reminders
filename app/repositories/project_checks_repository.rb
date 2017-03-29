@@ -71,12 +71,11 @@ class ProjectChecksRepository
   private
 
   def created_at_without_disabled(check)
-    return check.created_at_without_disabled_period if check.last_check_date ||
-                                                       check.disabled_date.nil?
-    latest_datetime = [check.created_at_without_disabled_period,
-                       check.created_at].compact.max
+    return nil if check.last_check_date
+    return check.created_at_without_disabled if check.disabled_date.nil?
+    base_datetime = check.created_at_without_disabled_period || check.created_at
     days_diff = Time.zone.today - check.disabled_date
 
-    latest_datetime + days_diff.days
+    base_datetime + days_diff.days
   end
 end

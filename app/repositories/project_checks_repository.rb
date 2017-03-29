@@ -49,7 +49,7 @@ class ProjectChecksRepository
       params.merge(
         disabled_date: nil,
         last_check_date_without_disabled_period: date_without_disabled(check),
-        created_at: created_at_moved_forward(check),
+        created_at_without_disabled_period: created_at_without_disabled(check),
       )
     else
       params.merge(disabled_date: Time.zone.today)
@@ -70,9 +70,13 @@ class ProjectChecksRepository
 
   private
 
-  def created_at_moved_forward(check)
-    return check.created_at if check.last_check_date || check.disabled_date.nil?
+  def created_at_without_disabled(check)
+    return check.created_at_without_disabled_period if check.last_check_date ||
+                                                       check.disabled_date.nil?
+    latest_datetime = [check.created_at_without_disabled_period,
+                       check.created_at].compact.max
     days_diff = Time.zone.today - check.disabled_date
-    check.created_at + days_diff.days
+
+    latest_datetime + days_diff.days
   end
 end

@@ -44,7 +44,8 @@ class DueDatePolicy
       [project_check.last_check_date,
        project_check.last_check_date_without_disabled_period].compact.max
     else
-      project_check.created_at
+      [project_check.created_at,
+       project_check.created_at_without_disabled_period].compact.max
     end.to_date
   end
 

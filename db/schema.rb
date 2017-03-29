@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170324135327) do
+ActiveRecord::Schema.define(version: 20170329095336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20170324135327) do
     t.date     "disabled_date"
     t.datetime "jira_issue_created_at"
     t.string   "jira_issue_key"
+    t.datetime "created_at_without_disabled_period"
     t.index ["project_id"], name: "index_project_checks_on_project_id", using: :btree
     t.index ["reminder_id"], name: "index_project_checks_on_reminder_id", using: :btree
   end

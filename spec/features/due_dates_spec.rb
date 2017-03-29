@@ -10,7 +10,7 @@ feature "Due dates of project checks" do
            deadline_text: "Days ago: {{days_ago}}",
            notification_text: "Days ago: {{days_ago}}"
   end
-  let(:project)  { create :project }
+  let(:project) { create :project }
   let!(:project_check) do
     create :project_check, reminder: reminder, project: project
   end
@@ -20,85 +20,94 @@ feature "Due dates of project checks" do
 
   before do
     log_in(user)
+    ActionMailer::Base.deliveries = []
+    reminder_page.load reminder_id: reminder.id
   end
 
-  scenario "A project/reminder combo that was never checked" do
-    Timecop.travel(10.days.from_now)
-    reminder_page.load reminder_id: reminder.id
-    CheckReminderJob.new.perform reminder.id
+  def disable_project_check_until!(new_date)
+    reminder_page.project_rows.first.toggle_state!
 
-    days = days_to_deadline.find('input#project_check_days_left').value
-    expect(days).to eq "20"
-    expect(ActionMailer::Base.deliveries).to be_empty
+    Timecop.travel(new_date)
+    reminder_page.within(".project-checks-filters") { click_link "Disabled" }
+    reminder_page.project_rows.first.toggle_state!
   end
 
-  scenario "A project/reminder combo that was checked before" do
-    Timecop.travel(5.days.from_now)
+  def reload!
     reminder_page.load reminder_id: reminder.id
-    reminder_page.project_rows.first.mark_as_checked!
-
-    Timecop.travel(20.days.from_now)
-    reminder_page.load reminder_id: reminder.id
-    deadline = reminder_page.project_rows.first.days_to_deadline.text
-
-    expect(deadline).to eq "10"
   end
 
-  scenario "An unchecked project/reminder combo that would be overdue if it wasn't disabled", js: true do
-    Timecop.travel(5.days.from_now)
-    reminder_page.load reminder_id: reminder.id
-    wait_for_jquery
-    reminder_page.project_rows.first.toggle_state!
+  context "A project_check that was never checked" do
+    scenario "and isn't overdue" do
+      Timecop.travel(10.days.from_now)
+      reminder_page.load reminder_id: reminder.id
+      CheckReminderJob.new.perform reminder.id
+      reload!
 
-    Timecop.travel(20.days.from_now)
-    reminder_page.within('.project-checks-filters') { click_link "Disabled" }
-    reminder_page.project_rows.first.toggle_state!
+      days = days_to_deadline.find("input#project_check_days_left").value
+      expect(days).to eq "20"
+      expect(ActionMailer::Base.deliveries).to be_empty
+    end
 
-    Timecop.travel(3.days.from_now)
-    reminder_page.load reminder_id: reminder.id
+    scenario "and would be overdue if it wasn't disabled", js: true do
+      Timecop.travel(5.days.from_now)
+      disable_project_check_until!(20.days.from_now)
+      Timecop.travel(3.days.from_now)
+      reload!
 
-    days = reminder_page.project_rows.first.deadline_input.value
-    expect(days).to eq "22"
+      days = reminder_page.project_rows.first.deadline_input.value
+      expect(days).to eq "22"
+    end
+
+    scenario "and is overdue despite being disabled for a period of time", js: true do
+      Timecop.travel(20.days.from_now)
+      disable_project_check_until!(10.days.from_now)
+      Timecop.travel(20.days.from_now)
+      CheckReminderJob.new.perform reminder.id
+      reload!
+
+      days = reminder_page.project_rows.first.deadline_input[:placeholder]
+      expect(days).to eq "after deadline"
+      emails = ActionMailer::Base.deliveries
+      expect(emails.count).to eq 1
+      expect(emails.first.body.raw_source).to include "Days ago: 40"
+    end
   end
 
-  scenario "A project/reminder combo that would be overdue if it wasn't disabled", js: true do
-    Timecop.travel(5.days.from_now)
-    reminder_page.load reminder_id: reminder.id
-    wait_for_jquery
-    reminder_page.project_rows.first.mark_as_checked!
-    reminder_page.project_rows.first.toggle_state!
+  context "A project_check that was checked before" do
+    before do
+      Timecop.travel(5.days.from_now)
+      reminder_page.project_rows.first.mark_as_checked!
+    end
 
-    Timecop.travel(20.days.from_now)
-    reminder_page.within('.project-checks-filters') { click_link "Disabled" }
-    reminder_page.project_rows.first.toggle_state!
+    scenario "and isn't overdue" do
+      Timecop.travel(20.days.from_now)
+      reload!
 
-    Timecop.travel(3.days.from_now)
-    reminder_page.load reminder_id: reminder.id
+      deadline = reminder_page.project_rows.first.days_to_deadline.text
+      expect(deadline).to eq "10"
+    end
 
-    days = reminder_page.project_rows.first.days_to_deadline.text
-    expect(days).to eq "27"
-  end
+    scenario "and would be overdue if it wasn't disabled", js: true do
+      disable_project_check_until!(20.days.from_now)
+      Timecop.travel(3.days.from_now)
+      reload!
 
-  scenario "An overdue check including a disabled period", js: true do
-    Timecop.travel(20.days.from_now)
-    reminder_page.load reminder_id: reminder.id
-    wait_for_jquery
-    #reminder_page.project_rows.first.mark_as_checked!
-    reminder_page.project_rows.first.toggle_state!
+      days = reminder_page.project_rows.first.days_to_deadline.text
+      expect(days).to eq "27"
+    end
 
-    Timecop.travel(10.days.from_now)
-    reminder_page.within('.project-checks-filters') { click_link "Disabled" }
-    reminder_page.project_rows.first.toggle_state!
+    scenario "and is overdue despite being disabled for a period of time", js: true do
+      Timecop.travel(20.days.from_now)
+      disable_project_check_until!(10.days.from_now)
+      Timecop.travel(20.days.from_now)
+      CheckReminderJob.new.perform reminder.id
+      reload!
 
-    Timecop.travel(20.days.from_now)
-    reminder_page.load reminder_id: reminder.id
-    CheckReminderJob.new.perform reminder.id
-    emails = ActionMailer::Base.deliveries
-
-    #days = reminder_page.project_rows.first.days_to_deadline.text
-    days = reminder_page.project_rows.first.deadline_input[:placeholder]
-    expect(days).to eq "after deadline"
-    expect(emails.count).to eq 1
-    expect(emails.first.body.raw_source).to include "Days ago: 40"
+      days = reminder_page.project_rows.first.days_to_deadline.text
+      expect(days).to eq "after deadline"
+      emails = ActionMailer::Base.deliveries
+      expect(emails.count).to eq 1
+      expect(emails.first.body.raw_source).to include "Days ago: 40"
+    end
   end
 end

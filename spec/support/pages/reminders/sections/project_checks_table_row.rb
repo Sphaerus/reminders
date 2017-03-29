@@ -25,7 +25,7 @@ module Reminders
     end
 
     def deadline_input
-      days_to_deadline.find('input#project_check_days_left')
+      days_to_deadline.find("input#project_check_days_left")
     end
 
     def mark_as_checked!

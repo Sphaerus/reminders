@@ -107,8 +107,22 @@ def copy_config_file(config_file)
   end
 end
 
+def copy_env_file(file)
+  return unless File.exist? "#{file}.sample"
+  if File.exist?(file)
+    print_config_file_content file
+    answer = ask("\nFile.exists. Do you want to override or skip current file?"\
+                 "('O' for OVERRIDE, 'S' for SKIP): ", :blue)
+    return unless answer == "O"
+  end
+
+  system "cp #{file}.sample #{file}"
+  say("\nCreated env file: #{file}", :blue)
+end
+
 APP_ROOT = Pathname.new(File.expand_path("../../",  __FILE__))
-CONFIG_FILES = ["config/database.yml", "config/secrets.yml"].freeze
+CONFIG_FILES = %w(config/database.yml config/secrets.yml).freeze
+ENV_FILES = %w(.env).freeze
 
 Dir.chdir APP_ROOT do
   header "Installing dependencies"
@@ -118,6 +132,9 @@ Dir.chdir APP_ROOT do
   header "Copying and configuring sample files"
   CONFIG_FILES.each do |config_file|
     copy_config_file(config_file)
+  end
+  ENV_FILES.each do |file|
+    copy_env_file(file)
   end
 
   header "Preparing database"

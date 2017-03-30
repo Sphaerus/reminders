@@ -39,12 +39,20 @@ module ProjectChecks
     end
 
     def notification
-      Liquid::Template.parse(notification_template)
+      Liquid::Template.parse(message_text)
                       .render(available_variables)
     end
 
-    def notification_template
+    def message_text
+      check.checked? ? message_when_checked : message_when_not_checked
+    end
+
+    def message_when_checked
       reminder.deadline_text
+    end
+
+    def message_when_not_checked
+      reminder.init_deadline_text
     end
 
     def available_variables

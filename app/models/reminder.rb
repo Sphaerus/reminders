@@ -1,8 +1,9 @@
 class Reminder < ActiveRecord::Base
   validates :name, presence: true, length: { minimum: 3 }
-  validates :deadline_text, :notification_text, presence: true,
-                                                length: { minimum: 10 }
-  validates :valid_for_n_days, numericality: true
+  validates :init_deadline_text, :deadline_text, :init_notification_text, :notification_text,
+            presence: true, length: { minimum: 10 }
+  validates :init_valid_for_n_days, :valid_for_n_days,
+            numericality: true
   validates :jira_issue_lead,
             numericality: {
               only_integer: true,

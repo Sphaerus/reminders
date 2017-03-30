@@ -121,8 +121,8 @@ def copy_env_file(file)
 end
 
 APP_ROOT = Pathname.new(File.expand_path("../../",  __FILE__))
-CONFIG_FILES = %w(config/database.yml config/secrets.yml).freeze
-ENV_FILES = %w(.env).freeze
+CONFIG_FILES = %w(config/database.yml config/secrets.yml).map(&:freeze).freeze
+ENV_FILES = %w(.env).map(&:freeze).freeze
 
 Dir.chdir APP_ROOT do
   header "Installing dependencies"

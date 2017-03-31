@@ -4,7 +4,10 @@ module Reminders
   class ProjectChecksTableRow < SitePrism::Section
     element :project, "td:first"
     element :last_check_date, "td:nth-child(2)"
-    element :days_to_deadline, "td:nth-child(3)"
+    section :deadline, "td:nth-child(3)" do
+      element :input, "input#project_check_days_left"
+      delegate :text, to: :root_element
+    end
     element :last_checker, "td:nth-child(5)"
     element :history_button, "td:nth-child(6)"
     element :complete_check_link, "td:nth-child(7) a"
@@ -22,10 +25,6 @@ module Reminders
 
     def disabled?
       evaluate_script("$('.toggle-switch').attr('checked')").nil?
-    end
-
-    def deadline_input
-      days_to_deadline.find("input#project_check_days_left")
     end
 
     def mark_as_checked!

@@ -6,26 +6,12 @@ class DueDatePolicy
     @reminder = project_check.reminder
   end
 
-  def due_on
-    date_to_count_from + valid_for_n_days
-  end
-
   def due_in
     (due_on - Time.zone.today).to_i
   end
 
   def overdue?
     due_in < 0
-  end
-
-  def remind_on
-    remind_after_days.map do |days|
-      date_to_count_from + days.to_i
-    end.sort
-  end
-
-  def remind_on?(date)
-    remind_on.include?(date.to_date)
   end
 
   def remind_today?
@@ -37,6 +23,20 @@ class DueDatePolicy
   end
 
   private
+
+  def due_on
+    date_to_count_from + valid_for_n_days
+  end
+
+  def remind_on
+    remind_after_days.map do |days|
+      date_to_count_from + days.to_i
+    end.sort
+  end
+
+  def remind_on?(date)
+    remind_on.include?(date.to_date)
+  end
 
   def date_to_count_from
     if checked_before?

@@ -6,11 +6,10 @@ class ProjectCheckedOnTimeJob
     @project_check_id = project_check_id
   end
 
-  # rubocop:disable Metrics/AbcSize
   def perform
-    if handler = select_handler
-      handler.new(project_check, policy.elapsed_days).call
-    end
+    handler = select_handler
+    return if handler.nil?
+    handler.new(project_check, policy.elapsed_days).call
   end
 
   private

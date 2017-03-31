@@ -72,8 +72,7 @@ describe ProjectChecksRepository do
 
   describe "#update" do
     let(:project_check) { create(:project_check) }
-    before { Timecop.freeze }
-    after { Timecop.return }
+    include_context "time frozen"
 
     it "updates given project check" do
       expect(project_check.last_check_user_id).to be nil
@@ -87,20 +86,21 @@ describe ProjectChecksRepository do
 
       shared_examples "setting enabled to true" do
         context "when you set enabled to true" do
-          it "calculates the last_check_date_without_disabled_period" do
+          before do
             repo.update(project_check, enabled: true)
+          end
+
+          it "calculates the last_check_date_without_disabled_period" do
             expect(project_check.last_check_date_without_disabled_period)
               .to eq(expected_last_check_date_without_disabled_period.try(:to_date))
           end
 
           it "calculates the created_at_without_disabled_period" do
-            repo.update(project_check, enabled: true)
             expect(project_check.created_at_without_disabled_period)
               .to eq(expected_created_at_without_disabled_period.try(:to_datetime))
           end
 
           it "sets disabled_date to nil" do
-            repo.update(project_check, enabled: true)
             expect(project_check.disabled_date).to eq(nil)
           end
         end

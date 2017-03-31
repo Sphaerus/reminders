@@ -6,9 +6,13 @@ feature "Due dates of project checks" do
   let(:reminder) do
     create :reminder,
            valid_for_n_days: 30,
+           init_valid_for_n_days: 30,
            remind_after_days: [],
+           init_remind_after_days: [],
            deadline_text: "Days ago: {{days_ago}}",
-           notification_text: "Days ago: {{days_ago}}"
+           init_deadline_text: "Days ago: {{days_ago}}",
+           notification_text: "Days ago: {{days_ago}}",
+           init_notification_text: "Days ago: {{days_ago}}"
   end
   let(:project) { create :project }
   let!(:project_check) do

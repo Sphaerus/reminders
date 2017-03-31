@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170329095336) do
+ActiveRecord::Schema.define(version: 20170324135327) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,7 +52,6 @@ ActiveRecord::Schema.define(version: 20170329095336) do
     t.date     "disabled_date"
     t.datetime "jira_issue_created_at"
     t.string   "jira_issue_key"
-    t.datetime "created_at_without_disabled_period"
     t.index ["project_id"], name: "index_project_checks_on_project_id", using: :btree
     t.index ["reminder_id"], name: "index_project_checks_on_reminder_id", using: :btree
   end
@@ -79,11 +78,11 @@ ActiveRecord::Schema.define(version: 20170329095336) do
     t.string   "supervisor_slack_channel"
     t.boolean  "notify_projects_channels", default: false, null: false
     t.integer  "jira_issue_lead",          default: 7
-    t.integer  "order",                    default: 0
     t.integer  "init_valid_for_n_days"
     t.text     "init_remind_after_days",   default: [],                 array: true
     t.text     "init_deadline_text"
     t.text     "init_notification_text"
+    t.integer  "order",                    default: 0
   end
 
   create_table "skills", force: :cascade do |t|

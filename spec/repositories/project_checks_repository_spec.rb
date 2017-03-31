@@ -72,7 +72,6 @@ describe ProjectChecksRepository do
 
   describe "#update" do
     let(:project_check) { create(:project_check) }
-    include_context "time frozen"
 
     it "updates given project check" do
       expect(project_check.last_check_user_id).to be nil
@@ -84,23 +83,16 @@ describe ProjectChecksRepository do
       let(:attrs) { {} }
       let(:project_check) { create(:project_check, attrs) }
 
-      shared_examples "setting enabled to true" do
+      shared_examples "setting enabled to true" do |expected_date|
         context "when you set enabled to true" do
-          before do
-            repo.update(project_check, enabled: true)
-          end
-
           it "calculates the last_check_date_without_disabled_period" do
+            repo.update(project_check, enabled: true)
             expect(project_check.last_check_date_without_disabled_period)
-              .to eq(expected_last_check_date_without_disabled_period.try(:to_date))
-          end
-
-          it "calculates the created_at_without_disabled_period" do
-            expect(project_check.created_at_without_disabled_period)
-              .to eq(expected_created_at_without_disabled_period.try(:to_datetime))
+              .to eq(expected_date.try(:to_date))
           end
 
           it "sets disabled_date to nil" do
+            repo.update(project_check, enabled: true)
             expect(project_check.disabled_date).to eq(nil)
           end
         end
@@ -112,10 +104,8 @@ describe ProjectChecksRepository do
             enabled: false,
             last_check_date: 3.weeks.ago }
         end
-        let(:expected_last_check_date_without_disabled_period) { 1.week.ago }
-        let(:expected_created_at_without_disabled_period) { nil }
 
-        include_examples "setting enabled to true"
+        include_examples "setting enabled to true", 1.week.ago
       end
 
       context "that was disabled and enabled before" do
@@ -125,10 +115,8 @@ describe ProjectChecksRepository do
             disabled_date: 1.week.ago,
             enabled: false }
         end
-        let(:expected_last_check_date_without_disabled_period) { 3.weeks.ago }
-        let(:expected_created_at_without_disabled_period) { nil }
 
-        include_examples "setting enabled to true"
+        include_examples "setting enabled to true", 3.weeks.ago
       end
 
       context "that was never checked" do
@@ -137,23 +125,13 @@ describe ProjectChecksRepository do
             disabled_date: 1.week.ago,
             enabled: false }
         end
-        let(:expected_last_check_date_without_disabled_period) { nil }
-        let(:expected_created_at_without_disabled_period) { 2.weeks.ago }
 
-        include_examples "setting enabled to true"
-      end
+        include_examples "setting enabled to true", nil
 
-      context "that was never checked and disabled before" do
-        let(:attrs) do
-          { created_at: 4.weeks.ago,
-            created_at_without_disabled_period: 3.weeks.ago,
-            disabled_date: 1.week.ago,
-            enabled: false }
+        it "moves created_at forward by the disabled period duration" do
+          repo.update(project_check, enabled: true)
+          expect(project_check.created_at.to_date).to eq(2.weeks.ago.to_date)
         end
-        let(:expected_last_check_date_without_disabled_period) { nil }
-        let(:expected_created_at_without_disabled_period) { 2.weeks.ago }
-
-        include_examples "setting enabled to true"
       end
     end
 

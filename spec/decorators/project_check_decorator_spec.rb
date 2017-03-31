@@ -129,4 +129,16 @@ describe ProjectCheckDecorator do
       it { is_expected.to eq "disabled" }
     end
   end
+
+  describe "#days_to_deadline_as_number" do
+    it "includes disabled period in the calculations" do
+      reminder = create(:reminder, valid_for_n_days: 30)
+      check = create(:project_check,
+                     reminder: reminder,
+                     last_check_date: 20.days.ago,
+                     last_check_date_without_disabled_period: 10.days.ago)
+      decorator = described_class.new(check)
+      expect(decorator.days_to_deadline_as_number).to eq 20
+    end
+  end
 end

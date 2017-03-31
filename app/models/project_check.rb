@@ -11,14 +11,6 @@ class ProjectCheck < ActiveRecord::Base
   scope :enabled, -> { where(enabled: true) }
   scope :without_jira_issue, -> { where(jira_issue_key: nil) }
 
-  def deadline
-    if checked?
-      real_last_check_date + reminder.valid_for_n_days.to_i
-    else
-      created_at.to_date + reminder.init_valid_for_n_days.to_i
-    end
-  end
-
   def checked?
     last_check_date.present?
   end

@@ -13,7 +13,6 @@ describe ProjectCheckedOnTimeJob do
   describe "#perform" do
     let(:creation_time) { Time.current }
     let(:last_check_date) { nil }
-    let(:checked) { false }
     let(:reminder) do
       double(:reminder,
              id: 1,
@@ -23,13 +22,12 @@ describe ProjectCheckedOnTimeJob do
              init_remind_after_days: init_daily_reminders)
     end
     let(:check) do
-      double(:project_check,
-             id: 1,
-             last_check_date: last_check_date,
-             created_at: creation_time,
-             checked?: checked,
-             last_check_date_without_disabled_period: nil,
-             reminder: reminder)
+      double(:project_check, id: 1,
+                             last_check_date: last_check_date,
+                             created_at: creation_time,
+                             created_at_without_disabled_period: nil,
+                             last_check_date_without_disabled_period: nil,
+                             reminder: reminder)
     end
 
     before do
@@ -41,8 +39,6 @@ describe ProjectCheckedOnTimeJob do
     end
 
     context "when project has not been checked yet" do
-      let(:checked) { false }
-
       context "when check is overdue" do
         let(:creation_time) { (reminder.init_valid_for_n_days + 1).days.ago }
 
@@ -53,7 +49,7 @@ describe ProjectCheckedOnTimeJob do
       end
 
       context "when check isn't overdue and has no notifications today" do
-        let(:last_check_date) { 4.days.ago.to_date }
+        let(:creation_time) { 4.days.ago.to_date }
 
         it "doesn't call any of ovedue and notification day services" do
           expect(ProjectChecks::HandleOverdue).to_not receive(:new)
@@ -62,7 +58,7 @@ describe ProjectCheckedOnTimeJob do
       end
 
       context "when today is notification day" do
-        let(:last_check_date) { 3.days.ago.to_date }
+        let(:creation_time) { 3.days.ago.to_date }
 
         it "check notification day service is called" do
           expect(ProjectChecks::HandleNotificationDay).to receive(:new)
@@ -72,11 +68,8 @@ describe ProjectCheckedOnTimeJob do
     end
 
     context "when project has been checked before" do
-      let(:checked) { true }
-
       context "when check is overdue" do
         let(:last_check_date) { (reminder.valid_for_n_days + 10).days.ago.to_date }
-        let(:checked) { true }
 
         it "check overdue service is called" do
           expect(ProjectChecks::HandleOverdue).to receive(:new)
@@ -95,7 +88,7 @@ describe ProjectCheckedOnTimeJob do
 
       context "when today is notification day" do
         let(:last_check_date) { 2.days.ago.to_date }
-        let(:checked) { true }
+
         it "check notification day service is called" do
           expect(ProjectChecks::HandleNotificationDay).to receive(:new)
             .with(check, 2) { double(call: true) }

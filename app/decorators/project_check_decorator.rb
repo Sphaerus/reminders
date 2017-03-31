@@ -37,7 +37,8 @@ class ProjectCheckDecorator < BaseDecorator
   end
 
   def days_to_deadline_as_number
-    (object.deadline - Time.zone.today).to_i
+    policy = DueDatePolicy.new(object)
+    policy.due_in
   end
 
   def days_to_deadline

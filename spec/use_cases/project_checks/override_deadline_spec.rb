@@ -17,10 +17,10 @@ describe ProjectChecks::OverrideDeadline do
 
   describe "#call" do
     context "when new days changed" do
-      it "updates project check created at field" do
+      it "updates project check created_at_without_disabled_period field" do
         Timecop.freeze(Time.zone.today - init_valid_for_n_days.days) do
-          expect { subject }.to change { check.created_at }
-            .from(Time.current)
+          expect { subject }.to change { check.created_at_without_disabled_period }
+            .from(nil)
             .to(Time.current + 10.days)
         end
       end

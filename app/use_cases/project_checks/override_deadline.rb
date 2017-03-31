@@ -12,7 +12,7 @@ module ProjectChecks
     def call
       return false unless allow_override?
       attrs = {
-        created_at: calc_new_created_at,
+        created_at_without_disabled_period: calc_new_created_at,
       }
       checks_repo.update(check, attrs)
     end

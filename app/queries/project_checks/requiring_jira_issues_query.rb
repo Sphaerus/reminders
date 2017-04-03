@@ -22,9 +22,13 @@ module ProjectChecks
 
     def dates_query
       <<-SQL
-        (last_check_date IS NULL
-          AND '#{date}' >= (date(project_checks.created_at) + reminders.init_valid_for_n_days
-                          - reminders.jira_issue_lead))
+        (last_check_date IS NULL AND created_at_without_disabled_period IS NOT NULL
+          AND '#{date}' >= (date(created_at_without_disabled_period)
+                           + reminders.init_valid_for_n_days - reminders.jira_issue_lead))
+        OR
+        (last_check_date IS NULL AND created_at_without_disabled_period IS NULL
+          AND '#{date}' >= (date(project_checks.created_at)
+                           + reminders.init_valid_for_n_days - reminders.jira_issue_lead))
         OR
         ((last_check_date IS NOT NULL OR last_check_date_without_disabled_period IS NOT NULL)
           AND '#{date}' >= (GREATEST(last_check_date, last_check_date_without_disabled_period)

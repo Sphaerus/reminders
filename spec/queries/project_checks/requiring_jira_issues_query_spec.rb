@@ -129,6 +129,32 @@ describe ProjectChecks::RequiringJiraIssuesQuery do
 
           it_behaves_like "no project checks"
         end
+
+        context "when deadline was changed manually" do
+          let(:jira_issue_lead) { 7 }
+          let!(:project_2_check) do
+            create(:project_check,
+                   project: project_2,
+                   reminder: reminder,
+                   created_at: nil,
+                   created_at_without_disabled_period: created_at_without_disabled)
+          end
+
+          context "when jira issue should be created" do
+            let(:created_at_without_disabled) { Time.current - 3.days }
+
+            it "returns 1 projeck check" do
+              expect(subject.count).to eq(1)
+              expect(subject.first).to eq(project_2_check)
+            end
+          end
+
+          context "when jira issue should not be created" do
+            let(:created_at_without_disabled) { Time.current + 1.day }
+
+            it_behaves_like "no project checks"
+          end
+        end
       end
     end
 

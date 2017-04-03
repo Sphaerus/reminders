@@ -164,5 +164,19 @@ describe ProjectChecks::RequiringJiraIssuesQuery do
         it_behaves_like "no project checks"
       end
     end
+
+    context "when project has been archived" do
+      let(:jira_issue_lead) { 7 }
+      let(:last_check_date) { Time.zone.today - 23.days }
+      let(:project_2) { create(:project, archived_at: Time.current) }
+      let!(:project_2_check) do
+        create(:project_check,
+               project: project_2,
+               reminder: reminder,
+               last_check_date: last_check_date)
+      end
+
+      it_behaves_like "no project checks"
+    end
   end
 end

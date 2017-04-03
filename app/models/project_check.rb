@@ -9,6 +9,7 @@ class ProjectCheck < ActiveRecord::Base
   validate :project_enabled?
 
   scope :enabled, -> { where(enabled: true) }
+  scope :not_archived, -> { joins(:project).where(projects: { archived_at: nil }) }
   scope :without_jira_issue, -> { where(jira_issue_key: nil) }
 
   def checked?

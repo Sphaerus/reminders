@@ -79,11 +79,11 @@ ActiveRecord::Schema.define(version: 20170329095336) do
     t.string   "supervisor_slack_channel"
     t.boolean  "notify_projects_channels", default: false, null: false
     t.integer  "jira_issue_lead",          default: 7
-    t.integer  "order",                    default: 0
     t.integer  "init_valid_for_n_days"
     t.text     "init_remind_after_days",   default: [],                 array: true
     t.text     "init_deadline_text"
     t.text     "init_notification_text"
+    t.integer  "order",                    default: 0
   end
 
   create_table "skills", force: :cascade do |t|

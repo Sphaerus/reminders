@@ -10,6 +10,7 @@ module ProjectChecks
         .includes(:reminder)
         .includes(:project)
         .enabled
+        .not_archived
         .without_jira_issue
         .where.not(reminders: { jira_issue_lead: nil })
         .where(dates_query)

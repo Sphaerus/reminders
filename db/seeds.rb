@@ -49,9 +49,13 @@ Reminder.delete_all
 reminders.each do |reminder|
   Reminder.create(name: reminder[:name],
                   valid_for_n_days: reminder[:valid_for_n_days] || 30,
+                  init_valid_for_n_days: reminder[:init_valid_for_n_days] || 7,
                   remind_after_days: reminder[:remind_after_days],
+                  init_remind_after_days: reminder[:init_remind_after_days] || [3, 5, 7],
                   deadline_text: reminder[:deadline_text],
+                  init_deadline_text: reminder[:deadline_text],
                   notification_text: reminder[:notification_text],
+                  init_notification_text: reminder[:notification_text],
                  )
 end
 

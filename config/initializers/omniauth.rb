@@ -10,5 +10,6 @@ Rails.application.config.middleware.use OmniAuth::Builder do
            AppConfig.omniauth_provider_key,
            AppConfig.omniauth_provider_secret,
            hd: AppConfig.domain,
-           scope: google_scope
+           scope: google_scope,
+           jwt: false
 end

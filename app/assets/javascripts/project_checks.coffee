@@ -20,6 +20,10 @@ ready = ->
   $('input.js-toggle-switch-project-check').change (e) ->
     $(this).parent().submit()
 
+  ('.js-assign-person').on 'click', (e) ->
+    $('.js-assign-person').addClass 'disabled'
+    $(e.target).text 'In progress...'
+
   dataTable.columns([-1]).search('enabled').draw()
 
 $(document).on 'page:load', ready

@@ -1,4 +1,8 @@
 ready = ->
+  ('.js-assign-person').on 'click', (e) ->
+    $('.js-assign-person').addClass 'disabled'
+    $(e.target).text 'In progress...'
+
   return if $('.project-checks-datatable').size() == 0
 
   dataTable = $('.project-checks-datatable').DataTable
@@ -19,10 +23,6 @@ ready = ->
 
   $('input.js-toggle-switch-project-check').change (e) ->
     $(this).parent().submit()
-
-  ('.js-assign-person').on 'click', (e) ->
-    $('.js-assign-person').addClass 'disabled'
-    $(e.target).text 'In progress...'
 
   dataTable.columns([-1]).search('enabled').draw()
 

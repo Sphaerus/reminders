@@ -36,7 +36,4 @@ class Notifier
       icon_emoji: ":loudspeaker:",
     }
   end
-
-  def log_result
-  end
 end

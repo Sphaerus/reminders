@@ -8,7 +8,9 @@ class ProjectRemindersMatrixController < ApplicationController
   end
   expose(:projects_repository) { ProjectsRepository.new }
   expose(:projects) do
-    ProjectDecorator.decorate_collection(projects_repository.all).select { |p| p.enabled && p.archived_at.nil? }
+    ProjectDecorator.decorate_collection(projects_repository.all).select do |project|
+      project.enabled && project.archived_at.nil?
+    end
   end
   expose(:project_checks_repo) { ProjectChecksRepository.new }
 

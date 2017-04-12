@@ -3,7 +3,6 @@ class CheckReminderJob
   # interface to enqueue all the smaller jobs for a given reminder
   attr_writer :reminders_repository, :project_checks_repository
 
-  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
   def perform(reminder_id)
     reminder = reminders_repository.find reminder_id
     checks_for_reminder(reminder).each do |project_check|
@@ -16,7 +15,6 @@ class CheckReminderJob
       end
     end
   end
-  # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
   private
 

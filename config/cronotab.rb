@@ -1,4 +1,4 @@
-# cronotab.rb — Crono configuration file
+# cronotab.rb > Crono configuration file
 
 require "rake"
 

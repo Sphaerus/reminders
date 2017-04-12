@@ -26,6 +26,7 @@ test:
 
 staging:
   <<: *default
+  default_from_email: projects-staging@netguru.pl
 
 production:
   <<: *default

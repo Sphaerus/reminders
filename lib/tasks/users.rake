@@ -5,8 +5,9 @@ namespace :users do
   task :archive, [:email] => :environment do |_task, args|
     email = args[:email]
     validate_email_presence(args[:email])
-
     user = find_user_by_email(email)
+    raise "ERROR: can't find user with email: '#{email}'!" if user.blank?
+
     Users::Archive.new(user).call
     puts "SUCCESS: User #{user} (#{email}) archived."
   end
@@ -32,7 +33,5 @@ namespace :users do
 
   def find_user_by_email(email)
     user = UsersRepository.new.find_by(email: email)
-  rescue ActiveRecord::RecrodNotFound
-    raise "ERROR: can't find user with email: '#{email}'!"
   end
 end

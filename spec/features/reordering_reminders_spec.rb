@@ -13,8 +13,8 @@ feature "Reordering reminders", type: :feature do
 
   scenario "Admin clicks a button with arrow pointing up" do
     page.load
-    order_before = %w{Reminder1 Reminder2 Reminder3}
-    order_after = %w{Reminder2 Reminder1 Reminder3}
+    order_before = %w(Reminder1 Reminder2 Reminder3)
+    order_after = %w(Reminder2 Reminder1 Reminder3)
 
     expect(page.names).to eq(order_before)
     page.reminder_rows.second.move_up_button.click
@@ -23,8 +23,8 @@ feature "Reordering reminders", type: :feature do
 
   scenario "Admin clicks a button with arrow pointing down" do
     page.load
-    order_before = %w{Reminder1 Reminder2 Reminder3}
-    order_after = %w{Reminder1 Reminder3 Reminder2}
+    order_before = %w(Reminder1 Reminder2 Reminder3)
+    order_after = %w(Reminder1 Reminder3 Reminder2)
 
     expect(page.names).to eq(order_before)
     page.reminder_rows.second.move_down_button.click

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "Reordering reminders" do
+feature "Reordering reminders", type: :feature do
   let(:user) { create(:admin) }
   let(:page) { Reminders::RemindersPage.new }
 

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "filtering projects", js: true do
+feature "filtering projects", type: :feature, js: true do
   let(:user) { create(:admin) }
   let(:projects_page) { Projects::ProjectsPage.new }
   let!(:project_active) { create(:project) }

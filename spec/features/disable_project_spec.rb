@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "toggling project state" do
+feature "toggling project state", type: :feature do
   let(:user) { create(:admin) }
   let(:projects_page) { Projects::ProjectsPage.new }
   let(:reminder_page) { Reminders::ReminderPage.new }

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "Due dates of project checks" do
+feature "Due dates of project checks", type: :feature do
   let(:user) { create(:admin) }
   let(:reminder_page) { Reminders::ReminderPage.new }
   let(:reminder) do

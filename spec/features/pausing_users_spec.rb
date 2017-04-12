@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "pausing users" do
+feature "pausing users", type: :feature do
   let(:user) do
     create(:user,
            uid: "12331", provider: "google_oauth2",

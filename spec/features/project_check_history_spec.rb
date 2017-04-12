@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "project checks history" do
+feature "project checks history", type: :feature do
   let(:project) { create(:project) }
   let(:reminder) { create(:reminder) }
   let!(:project_check) do

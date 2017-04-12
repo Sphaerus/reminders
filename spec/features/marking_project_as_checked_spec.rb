@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "marking project as checked" do
+feature "marking project as checked", type: :feature do
   let(:project) { create(:project) }
   let(:reminder) { create(:reminder) }
   let!(:project_check) do

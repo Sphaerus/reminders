@@ -4,7 +4,7 @@ gem "rails", "~> 5"
 gem "dotenv-rails", groups: [:development, :test], require: "dotenv/rails-now"
 gem "app_konfig"
 gem "bootstrap-datepicker-rails"
-gem 'bootstrap-toggle-rails'
+gem "bootstrap-toggle-rails"
 gem "coffee-rails"
 gem "crono"
 gem "data_guru"

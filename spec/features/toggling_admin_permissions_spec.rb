@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "toggling admin permissions" do
+feature "toggling admin permissions", type: :feature do
   let(:user) do
     create(:user,
            uid: "12331", provider: "google_oauth2",

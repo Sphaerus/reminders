@@ -20,6 +20,7 @@ module ProjectChecks
 
     attr_reader :date, :relation
 
+    # rubocop:disable Metrics/MethodLength
     def dates_query
       <<-SQL
         (last_check_date IS NULL AND created_at_without_disabled_period IS NOT NULL
@@ -35,5 +36,6 @@ module ProjectChecks
                            + reminders.valid_for_n_days - reminders.jira_issue_lead))
       SQL
     end
+    # rubocop:enable Metrics/MethodLength
   end
 end

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "reassign user to perform check" do
+feature "reassign user to perform check", type: :feature do
   let(:project) { create(:project) }
   let(:reminder) { create(:reminder) }
   let!(:project_check) do

@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class ProjectCheckDecorator < BaseDecorator
   delegate_all
 

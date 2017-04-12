@@ -24,6 +24,10 @@ class UsersRepository
     User.find_by(attrs)
   end
 
+  def find_by!(attrs)
+    User.find_by!(attrs)
+  end
+
   def toggle_admin(id)
     user = find(id)
     user.update_column(:admin, !user.admin)

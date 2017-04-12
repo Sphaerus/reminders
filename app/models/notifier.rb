@@ -11,24 +11,29 @@ class Notifier
   end
 
   def notify_slack(message, options)
-    channels = options.fetch(:channels, [])
-    msg = {
-      text: message,
-      username: "Reminders App",
-      icon_emoji: ":loudspeaker:",
-    }
-    channels.each do |channel|
-      if slack_enabled?
-        responses << client.chat_postMessage(msg.merge(channel: "##{channel}"))
-      else
-        Rails.logger.info "##{channel}: #{message}"
+    options.fetch(:channels, []).each do |channel|
+      Rails.logger.info "##{channel}: #{message}"
+      unless slack_enabled?
         responses << { ok: true }
+        next
       end
+
+      responses << client.chat_postMessage(
+        notifier_message(message: message, channel: "##{channel}"),
+      )
     end
-    @result = responses.all? { |r| r["ok"] }
   end
 
   def slack_enabled?
     @slack_enabled || AppConfig.slack_enabled.to_s == "true"
+  end
+
+  def notifier_message(message:, channel:)
+    {
+      text: message,
+      channel: channel,
+      username: "Reminders App",
+      icon_emoji: ":loudspeaker:",
+    }
   end
 end

@@ -23,8 +23,7 @@ module CheckAssignments
 
     def complete_assignment(options)
       assignments_repository.update(
-        assignment,
-        options.merge(completion_date: completion_date, user_id: checker.id),
+        assignment, options.merge(completion_date: completion_date, user_id: checker.id)
       )
       project_check_update.call(
         last_check_date: assignment.completion_date,

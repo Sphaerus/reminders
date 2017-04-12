@@ -1,8 +1,4 @@
 ready = ->
-  ('.js-assign-person').on 'click', (e) ->
-    $('.js-assign-person').addClass 'disabled'
-    $(e.target).text 'In progress...'
-
   return if $('.project-checks-datatable').size() == 0
 
   dataTable = $('.project-checks-datatable').DataTable

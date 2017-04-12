@@ -32,6 +32,6 @@ namespace :users do
   end
 
   def find_user_by_email(email)
-    user = UsersRepository.new.find_by(email: email)
+    UsersRepository.new.find_by(email: email)
   end
 end

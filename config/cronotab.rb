@@ -29,3 +29,8 @@ Crono.perform(CronRemindersCreateJiraIssues).every 1.week, on: :tuesday, at: { h
 Crono.perform(CronRemindersCreateJiraIssues).every 1.week, on: :wednesday, at: { hour: 9, min: 45 }
 Crono.perform(CronRemindersCreateJiraIssues).every 1.week, on: :thursday, at: { hour: 9, min: 45 }
 Crono.perform(CronRemindersCreateJiraIssues).every 1.week, on: :friday, at: { hour: 9, min: 45 }
+Crono.perform(CronRemindersCheckAll).every 1.week, on: :monday, at: {hour: 9, min: 30}
+Crono.perform(CronRemindersCheckAll).every 1.week, on: :tuesday, at: {hour: 9, min: 30}
+Crono.perform(CronRemindersCheckAll).every 1.week, on: :wednesday, at: {hour: 9, min: 30}
+Crono.perform(CronRemindersCheckAll).every 1.week, on: :thursday, at: {hour: 9, min: 30}
+Crono.perform(CronRemindersCheckAll).every 1.week, on: :friday, at: {hour: 9, min: 30}

@@ -28,6 +28,7 @@ gem "slack-api"
 gem "slim-rails"
 gem "turbolinks"
 gem "uglifier"
+gem "crono"
 
 # deployment
 group :deployment do

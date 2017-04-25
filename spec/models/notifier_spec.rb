@@ -25,7 +25,7 @@ describe Notifier do
 
     context "when options contain one channel" do
       context "when channel provided as array with one item" do
-        let(:options) { { channels: %w[chan] } }
+        let(:options) { { channels: %w(chan) } }
 
         it "sends one message to client" do
           expect(client).to receive(:chat_postMessage)
@@ -49,7 +49,7 @@ describe Notifier do
 
     context "when options contain 3 channels" do
       context "when channels provided as array with three items" do
-        let(:options) { { channels: %w[chan1 chan2 chan3] } }
+        let(:options) { { channels: %w(chan1 chan2 chan3) } }
 
         it "sends 3 messages to client" do
           expect(client).to receive(:chat_postMessage)

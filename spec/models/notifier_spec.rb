@@ -24,30 +24,62 @@ describe Notifier do
     end
 
     context "when options contain one channel" do
-      let(:options) { { channels: %w(chan) } }
+      context "when channel provided as array with one item" do
+        let(:options) { { channels: %w[chan] } }
 
-      it "sends one message to client" do
-        expect(client).to receive(:chat_postMessage)
-          .with(default_message.merge(channel: "#chan"))
-          .and_return(ok: true)
-        notifier.send_message message, options
+        it "sends one message to client" do
+          expect(client).to receive(:chat_postMessage)
+            .with(default_message.merge(channel: "#chan"))
+            .and_return(ok: true)
+          notifier.send_message message, options
+        end
+      end
+
+      context "when channel provided as string" do
+        let(:options) { { channels: "chan" } }
+
+        it "sends one message to client" do
+          expect(client).to receive(:chat_postMessage)
+            .with(default_message.merge(channel: "#chan"))
+            .and_return(ok: true)
+          notifier.send_message message, options
+        end
       end
     end
 
     context "when options contain 3 channels" do
-      let(:options) { { channels: %w(chan1 chan2 chan3) } }
+      context "when channels provided as array with three items" do
+        let(:options) { { channels: %w[chan1 chan2 chan3] } }
 
-      it "sends 3 messages to client" do
-        expect(client).to receive(:chat_postMessage)
-          .with(default_message.merge(channel: "#chan1"))
-          .and_return(ok: true)
-        expect(client).to receive(:chat_postMessage)
-          .with(default_message.merge(channel: "#chan2"))
-          .and_return(ok: true)
-        expect(client).to receive(:chat_postMessage)
-          .with(default_message.merge(channel: "#chan3"))
-          .and_return(ok: true)
-        notifier.send_message message, options
+        it "sends 3 messages to client" do
+          expect(client).to receive(:chat_postMessage)
+            .with(default_message.merge(channel: "#chan1"))
+            .and_return(ok: true)
+          expect(client).to receive(:chat_postMessage)
+            .with(default_message.merge(channel: "#chan2"))
+            .and_return(ok: true)
+          expect(client).to receive(:chat_postMessage)
+            .with(default_message.merge(channel: "#chan3"))
+            .and_return(ok: true)
+          notifier.send_message message, options
+        end
+      end
+
+      context "when channels provided as string" do
+        let(:options) { { channels: "chan1 chan2 chan3" } }
+
+        it "sends 3 messages to client" do
+          expect(client).to receive(:chat_postMessage)
+            .with(default_message.merge(channel: "#chan1"))
+            .and_return(ok: true)
+          expect(client).to receive(:chat_postMessage)
+            .with(default_message.merge(channel: "#chan2"))
+            .and_return(ok: true)
+          expect(client).to receive(:chat_postMessage)
+            .with(default_message.merge(channel: "#chan3"))
+            .and_return(ok: true)
+          notifier.send_message message, options
+        end
       end
     end
   end

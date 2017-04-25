@@ -26,7 +26,7 @@ class Notifier
 
   def channels(options)
     channels = options.fetch(:channels, [])
-    channels = channels.split(" ") if channels.is_a?(String)
+    channels = channels.split if channels.is_a?(String)
     channels
   end
 

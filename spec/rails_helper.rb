@@ -49,4 +49,8 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
+
+  config.before(:each, js: true) do
+    Capybara.page.driver.browser.manage.window.maximize
+  end
 end

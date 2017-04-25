@@ -11,7 +11,7 @@ class Notifier
   end
 
   def notify_slack(message, options)
-    options.fetch(:channels, []).each do |channel|
+    channels(options).each do |channel|
       Rails.logger.info "##{channel}: #{message}"
       unless slack_enabled?
         responses << { ok: true }
@@ -22,6 +22,12 @@ class Notifier
         notifier_message(message: message, channel: "##{channel}"),
       )
     end
+  end
+
+  def channels(options)
+    channels = options.fetch(:channels, [])
+    channels = channels.split(" ") if channels.is_a?(String)
+    channels
   end
 
   def slack_enabled?

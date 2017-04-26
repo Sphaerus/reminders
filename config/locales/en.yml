@@ -17,7 +17,7 @@ en:
           If checked, both above slack channels and projects channels will be notified
           (projects channels will also be notified if above channels are empty despite this setting).
         supervisor_slack_channel: >
-          If present, slack notifications for completed assignments will go to this channel.
+          If present, slack notifications for completed assignments will go to this channel. If you want to define more channels than one, please seperate them with spaces.
         jira_issue_lead: >
           How many days before check day, should jira issue be created.
           Leave blank to disable issue creation

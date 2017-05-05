@@ -22,6 +22,7 @@ feature "project checks history", type: :feature do
 
     expect(page).not_to have_content user.name
     page.find(".btn", text: "I've done this!").click
+    page.fill_in("Note url", with: "some url")
     page.find(".btn").click
 
     expect(page).to have_content user.name

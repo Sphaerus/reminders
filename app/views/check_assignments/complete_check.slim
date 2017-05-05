@@ -11,14 +11,4 @@
 
       .form-actions
         = f.button :submit, "Add a note URL and mark as done", class: "btn btn-success", id: "mark-as-done"
-javascript:
-  $(document).ready(function(){
-    $('#mark-as-done').attr('disabled',true);
-    $('#check_assignment_note_url').keyup(function(){
-      if($(this).val().length !=0)
-        $('#mark-as-done').attr('disabled', false);            
-      else
-        $('#mark-as-done').attr('disabled',true);
-    })
-  });
 

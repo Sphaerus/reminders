@@ -36,13 +36,3 @@
             td
               = link_to admin_project_check_check_assignment_path(project_check, check), class: 'btn btn-danger', data: { confirm: 'Are you sure?' }, method: :delete do
                 | Delete
-javascript:
-  $(document).ready(function(){
-    $('#add-manual-check').attr('disabled',true);
-    $('#manual_check_note_url').keyup(function(){
-      if($(this).val().length !=0)
-        $('#add-manual-check').attr('disabled', false);            
-      else
-        $('#add-manual-check').attr('disabled',true);
-    })
-  });

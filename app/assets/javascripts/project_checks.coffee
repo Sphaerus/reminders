@@ -1,18 +1,18 @@
 ready = ->
-  
-  $('#add-manual-check').attr 'disabled', true
+
+  $('.js-add-manual-check').attr 'disabled', true
   $('#manual_check_note_url').keyup ->
     if $(this).val().length != 0
-      $('#add-manual-check').attr 'disabled', false
+      $('.js-add-manual-check').attr 'disabled', false
     else
-      $('#add-manual-check').attr 'disabled', true
+      $('.js-add-manual-check').attr 'disabled', true
 
-  $('#mark-as-done').attr 'disabled', true
+  $('.js-mark-as-done').attr 'disabled', true
   $('#check_assignment_note_url').keyup ->
     if $(this).val().length != 0
-      $('#mark-as-done').attr 'disabled', false
+      $('.js-mark-as-done').attr 'disabled', false
     else
-      $('#mark-as-done').attr 'disabled', true
+      $('.js-mark-as-done').attr 'disabled', true
 
   return if $('.project-checks-datatable').size() == 0
 

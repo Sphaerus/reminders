@@ -21,7 +21,7 @@ feature "manual check", type: :feature do
     page.find(".btn", text: "Show").click
     page.fill_in("Note url", with: "some url")
     page.find("#manual_check_user_id > option:nth-child(2)").click
-    page.find("#add-manual-check").click
+    page.find(".js-add-manual-check").click
     expect(page).to have_content "Manual entry added"
   end
 
@@ -30,7 +30,7 @@ feature "manual check", type: :feature do
     page.find(".btn", text: "Show").click
     page.fill_in("Note url", with: "")
     page.find("#manual_check_user_id > option:nth-child(2)").click
-    page.find("#add-manual-check").click
+    page.find(".js-add-manual-check").click
     expect(page).not_to have_content "Manual entry added"
   end
 end

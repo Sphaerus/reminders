@@ -4,10 +4,7 @@ feature "project checks history", type: :feature do
   let(:project) { create(:project) }
   let(:reminder) { create(:reminder) }
   let!(:project_check) do
-    create(:project_check,
-           project: project,
-           reminder: reminder,
-          )
+    create(:project_check, project: project, reminder: reminder)
   end
 
   let(:user) { create(:user, uid: "213312", provider: "google_oauth2") }
@@ -22,6 +19,11 @@ feature "project checks history", type: :feature do
 
     expect(page).not_to have_content user.name
     page.find(".btn", text: "I've done this!").click
+    page.find(".btn").click
+
+    expect(page).not_to have_content("All right")
+
+    page.fill_in("Note url", with: "some url")
     page.find(".btn").click
 
     expect(page).to have_content user.name

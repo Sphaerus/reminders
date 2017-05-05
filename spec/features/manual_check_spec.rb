@@ -16,12 +16,9 @@ feature "manual check", type: :feature do
     log_in(user)
   end
 
-  background do
+  scenario "admin adds manual check with note url", js: true do
     reminders_page.load reminder_id: reminder.id
     page.find(".btn", text: "Show").click
-  end
-
-  scenario "admin adds manual check with note url", js: true do
     page.fill_in("Note url", with: "some url")
     page.find("#manual_check_user_id > option:nth-child(2)").click
     page.find("#add-manual-check").click
@@ -29,6 +26,9 @@ feature "manual check", type: :feature do
   end
 
   scenario "admin adds manual check without note url", js: true do
+    reminders_page.load reminder_id: reminder.id
+    page.find(".btn", text: "Show").click
+    page.fill_in("Note url", with: "")
     page.find("#manual_check_user_id > option:nth-child(2)").click
     page.find("#add-manual-check").click
     expect(page).not_to have_content "Manual entry added"

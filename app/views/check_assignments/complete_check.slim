@@ -10,15 +10,15 @@
         = f.input :note_url
 
       .form-actions
-        = f.button :submit, "Add a note URL and mark as done", class: "btn btn-success", id: "mark_as_done"
+        = f.button :submit, "Add a note URL and mark as done", class: "btn btn-success", id: "mark-as-done"
 javascript:
   $(document).ready(function(){
-    $('#mark_as_done').attr('disabled',true);
+    $('#mark-as-done').attr('disabled',true);
     $('#check_assignment_note_url').keyup(function(){
       if($(this).val().length !=0)
-        $('#mark_as_done').attr('disabled', false);            
+        $('#mark-as-done').attr('disabled', false);            
       else
-        $('#mark_as_done').attr('disabled',true);
+        $('#mark-as-done').attr('disabled',true);
     })
   });
 

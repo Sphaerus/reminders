@@ -11,8 +11,9 @@
     .col-xs-12
       = simple_form_for(:manual_check, url: admin_project_check_check_assignments_path(project_check)) do |f|
         = f.input :completion_date, as: :date
+        = f.input :note_url
         = f.input :user_id, collection: users
-        = f.submit 'Add manual check', class: 'btn btn-primary'
+        = f.submit 'Add manual check', class: 'btn btn-primary', id: 'add-manual-check'
 
 .row
   .col-xs-12
@@ -35,3 +36,13 @@
             td
               = link_to admin_project_check_check_assignment_path(project_check, check), class: 'btn btn-danger', data: { confirm: 'Are you sure?' }, method: :delete do
                 | Delete
+javascript:
+  $(document).ready(function(){
+    $('#add-manual-check').attr('disabled',true);
+    $('#manual_check_note_url').keyup(function(){
+      if($(this).val().length !=0)
+        $('#add-manual-check').attr('disabled', false);            
+      else
+        $('#add-manual-check').attr('disabled',true);
+    })
+  });

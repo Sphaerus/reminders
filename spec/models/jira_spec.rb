@@ -24,7 +24,7 @@ RSpec.describe Jira do
     let(:response) { double :response, body: { key: "RD-X" }.to_json, code: 201 }
     let(:jira_username) { "jira_user" }
     let(:jira_password) { "jira_pass" }
-    let(:jira_project_key) { "JRX" }
+    let(:jira_project_key) { "AAA" }
     let(:authorization) { "Basic #{Base64.strict_encode64("#{jira_username}:#{jira_password}")}" }
 
     let(:params) do
@@ -68,7 +68,7 @@ RSpec.describe Jira do
       end
 
       context "when jira_project_key is set in reminder" do
-        let(:reminder) { double :reminder, jira_project_key: "RMD" }
+        let(:reminder) { double :reminder, jira_project_key: "BBB" }
         let(:params) do
           {
             fields: {

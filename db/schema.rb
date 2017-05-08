@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170329095336) do
+ActiveRecord::Schema.define(version: 20170505121138) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 20170329095336) do
     t.text     "init_deadline_text"
     t.text     "init_notification_text"
     t.integer  "order",                    default: 0
+    t.string   "jira_project_key"
   end
 
   create_table "skills", force: :cascade do |t|

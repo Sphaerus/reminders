@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Jira do
   let(:project) { double :project, id: 3, name: "Unique project" }
   let(:reminder) { double :reminder, jira_project_key: nil }
-  let(:jira) { Jira.new(project: project, reminder: reminder) }
+  let(:jira) { described_class.new(project: project, reminder: reminder) }
 
   describe ".create_issue_from_project" do
     it "creates instance and calls create_issue_from_project method" do

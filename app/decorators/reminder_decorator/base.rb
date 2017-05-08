@@ -2,7 +2,8 @@ module ReminderDecorator
   class Base < BaseDecorator
     delegate :id, :name, :valid_for_n_days, :deadline_text, :notification_text,
              :persisted?, :slack_channel, :supervisor_slack_channel, :notify_projects_channels,
-             :jira_issue_lead, :init_valid_for_n_days, :init_deadline_text, :init_notification_text
+             :jira_issue_lead, :init_valid_for_n_days, :init_deadline_text, :init_notification_text,
+             :jira_project_key
     decorates :reminder
 
     def init_remind_after_days

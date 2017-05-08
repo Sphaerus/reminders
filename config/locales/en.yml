@@ -21,6 +21,7 @@ en:
         jira_issue_lead: >
           How many days before check day, should jira issue be created.
           Leave blank to disable issue creation
+        jira_project_key: If not specified, jira issue will be created in RND project.
   project_checks:
     not_checked_yet: not checked yet
   reminders:

@@ -29,7 +29,8 @@ describe CreateJiraIssuesJob do
 
     context "when there is 1 project check requiring jira issue" do
       let(:project) { double :project, name: "Project 1" }
-      let(:project_check) { double :project_check, id: 3, project: project }
+      let(:reminder) { double :reminder, jira_project_key: "AAA" }
+      let(:project_check) { double :project_check, id: 3, project: project, reminder: reminder }
       let(:zone) { ActiveSupport::TimeZone.new("Kuwait") }
       let(:time) { zone.now }
 
@@ -40,7 +41,8 @@ describe CreateJiraIssuesJob do
       end
 
       it "creates 1 jira issue" do
-        expect(Jira).to receive(:create_issue_from_project).once.with(project: project)
+        expect(Jira).to receive(:create_issue_from_project)
+          .once.with(project: project, reminder: reminder)
         expect(subject).to eq([project_check])
       end
 
@@ -48,7 +50,7 @@ describe CreateJiraIssuesJob do
         expect(Time).to receive(:zone).and_return(zone)
         expect(zone).to receive(:now).and_return(time)
         expect(Jira).to receive(:create_issue_from_project)
-          .once.with(project: project).and_return("key" => "RD-X")
+          .once.with(project: project, reminder: reminder).and_return("key" => "RD-X")
         expect(project_check).to receive(:update_columns)
           .with(jira_issue_key: "RD-X", jira_issue_created_at: time)
         expect(subject).to eq([project_check])

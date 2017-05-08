@@ -1,7 +1,7 @@
 class Jira
   class << self
-    def create_issue_from_project(project:)
-      new(project: project).create_issue_from_project
+    def create_issue_from_project(project:, reminder:)
+      new(project: project, reminder: reminder).create_issue_from_project
     end
   end
 
@@ -33,7 +33,7 @@ class Jira
   def jira_params
     {
       fields: {
-        project: { key: settings.project_key },
+        project: { key: jira_project_key },
         issuetype: { name: settings.issue_type },
         summary: "#{settings.summary} #{options.fetch(:project).name}",
       },
@@ -42,6 +42,10 @@ class Jira
 
   def settings
     @settings ||= AppConfig.jira
+  end
+
+  def jira_project_key
+    @jira_project_key ||= options.fetch(:reminder).jira_project_key || settings.project_key
   end
 
   def headers

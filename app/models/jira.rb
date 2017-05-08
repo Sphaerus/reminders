@@ -45,7 +45,8 @@ class Jira
   end
 
   def jira_project_key
-    @jira_project_key ||= options.fetch(:reminder).jira_project_key || settings.jira_project_key
+    binding.pry
+    @jira_project_key ||= options.fetch(:reminder).jira_project_key || settings.project_key
   end
 
   def headers

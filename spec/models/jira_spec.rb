@@ -7,7 +7,10 @@ RSpec.describe Jira do
 
   describe ".create_issue_from_project" do
     it "creates instance and calls create_issue_from_project method" do
-      expect(described_class).to receive(:new).with(project: project, reminder: reminder).and_return(jira)
+      expect(described_class).to receive(:new)
+        .with(project: project,
+              reminder: reminder)
+        .and_return(jira)
       expect_any_instance_of(described_class).to receive(:create_issue_from_project).with(no_args)
       described_class.create_issue_from_project(project: project, reminder: reminder)
     end

@@ -21,7 +21,10 @@ en:
         jira_issue_lead: >
           How many days before check day, should jira issue be created.
           Leave blank to disable issue creation
-        jira_project_key: If not specified, jira issue will be created in RND project.
+        jira_project_key: >
+          If not specified, jira issue will be created in RND (RD) project. 
+          For example: if you want to create jira issue in project internalIOS (IOSS), you should provide "IOSS" (without double quotes) as jira project key.
+          Please also make sure that "Story" issue type is available in project where you want to create issue.
   project_checks:
     not_checked_yet: not checked yet
   reminders:

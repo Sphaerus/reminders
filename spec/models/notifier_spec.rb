@@ -1,7 +1,19 @@
 require "rails_helper"
 
 describe Notifier do
-  let(:client) { double(send_message: true) }
+  let(:channels_list) do 
+    { 
+      "channels" =>
+        [
+          { "id" => "AA1", "name" => "chan", "previous_names" => [] },
+          { "id" => "AA2", "name" => "chan1", "previous_names" => [] },
+          { "id" => "AA3", "name" => "chan2", "previous_names" => []  },
+          { "id" => "AA4", "name" => "chan3", "previous_names" => []  },
+          { "id" => "AA5", "name" => "new_name", "previous_names" => ["old_name"]  },
+        ]
+    }
+  end
+  let(:client) { double(send_message: true, channels_list: channels_list) }
   let(:notifier) { described_class.new(client) }
 
   before do
@@ -31,6 +43,7 @@ describe Notifier do
           expect(client).to receive(:chat_postMessage)
             .with(default_message.merge(channel: "#chan"))
             .and_return(ok: true)
+          expect(client).to receive(:channels_list).and_return(channels_list)
           notifier.send_message message, options
         end
       end
@@ -80,6 +93,28 @@ describe Notifier do
             .and_return(ok: true)
           notifier.send_message message, options
         end
+      end
+    end
+
+    context "when channel changed name" do
+      let(:options) { { channels: %w(old_name) } }
+
+      it "sends one message to client using ID of channel" do
+        expect(client).to receive(:chat_postMessage)
+          .with(default_message.merge(channel: "AA5"))
+          .and_return(ok: true)
+        expect(client).to receive(:channels_list).and_return(channels_list)
+        notifier.send_message message, options
+      end
+    end
+
+    context "when channel does not exist" do
+      let(:options) { { channels: %w(non_existing_channel) } }
+
+      it "does not send any messages" do
+        expect(client).not_to receive(:any)
+        expect(client).to receive(:channels_list).and_return(channels_list)
+        notifier.send_message message, options
       end
     end
   end

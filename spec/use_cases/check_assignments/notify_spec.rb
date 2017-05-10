@@ -51,6 +51,7 @@ describe CheckAssignments::Notify do
         before do
           allow_any_instance_of(Notifier).to receive(:notify_slack)
             .and_return(false)
+          allow_any_instance_of(Notifier).to receive(:result).and_return(false)
         end
 
         it "returns fail message" do

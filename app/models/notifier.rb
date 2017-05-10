@@ -23,9 +23,9 @@ class Notifier
           notifier_message(message: message, channel: "##{channel}"),
         )
       elsif channel_changed_name?(channel)
-        channel = get_channel_id(channel)
+        channel_id = get_channel_id(channel)
         responses << client.chat_postMessage(
-          notifier_message(message: message, channel: "#{channel}"),
+          notifier_message(message: message, channel: channel_id),
         )
       end
     end

@@ -18,9 +18,16 @@ class Notifier
         next
       end
 
-      responses << client.chat_postMessage(
-        notifier_message(message: message, channel: "##{channel}"),
-      )
+      if channel_exists?(channel)
+        responses << client.chat_postMessage(
+          notifier_message(message: message, channel: "##{channel}"),
+        )
+      elsif channel_changed_name?(channel)
+        channel_id = get_channel_id(channel)
+        responses << client.chat_postMessage(
+          notifier_message(message: message, channel: channel_id),
+        )
+      end
     end
   end
 
@@ -41,5 +48,21 @@ class Notifier
       username: "Reminders App",
       icon_emoji: ":loudspeaker:",
     }
+  end
+
+  def channels_list
+    @channels_list ||= client.channels_list["channels"]
+  end
+
+  def channel_exists?(name)
+    channels_list.select { |c| c["name"] == name }.any?
+  end
+
+  def channel_changed_name?(name)
+    channels_list.select { |c| c["previous_names"].include?(name) }.any?
+  end
+
+  def get_channel_id(name)
+    channels_list.select { |c| c["previous_names"].include?(name) }.first["id"]
   end
 end

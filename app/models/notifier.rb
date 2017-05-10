@@ -50,12 +50,12 @@ class Notifier
     }
   end
 
-  def channel_exists?(name)
-    channels_list.select { |c| c["name"] == name }.any?
-  end
-
   def channels_list
     @channels_list ||= client.channels_list["channels"]
+  end
+
+  def channel_exists?(name)
+    channels_list.select { |c| c["name"] == name }.any?
   end
 
   def channel_changed_name?(name)

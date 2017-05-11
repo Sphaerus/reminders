@@ -22,16 +22,14 @@ class Notifier
         responses << client.chat_postMessage(
           notifier_message(message: message, channel: "##{channel}"),
         )
-        @result = true
       elsif channel_changed_name?(channel)
         channel_id = get_channel_id(channel)
         responses << client.chat_postMessage(
           notifier_message(message: message, channel: channel_id),
         )
-        @result = true
-      else
-        @result = false
       end
+
+      @result = responses.all? { |r| r["ok"] }
     end
   end
 

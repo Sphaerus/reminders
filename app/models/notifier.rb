@@ -28,6 +28,8 @@ class Notifier
           notifier_message(message: message, channel: channel_id),
         )
       end
+
+      @result = responses.all? { |r| r["ok"] }
     end
   end
 

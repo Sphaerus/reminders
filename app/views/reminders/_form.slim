@@ -23,7 +23,7 @@
         = f.input :notify_projects_channels, as: :boolean
         = f.input :supervisor_slack_channel, required: false
         = f.input :jira_issue_lead, required: false
-        = f.input :jira_project_key
+        = f.input :jira_project_key, required: false
 
       .form-actions
         = f.button :submit

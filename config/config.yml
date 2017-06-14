@@ -20,6 +20,7 @@ development: &default
     project_key: RD
     issue_type: Story
     summary: "Review:"
+    label: review
 
 test:
   <<: *default

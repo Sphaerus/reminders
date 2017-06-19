@@ -33,6 +33,7 @@ RSpec.describe Jira do
           project: { key: config.project_key },
           issuetype: { name: config.issue_type },
           summary: "#{config.summary} #{project.name}",
+          labels: [config.label],
         },
       }
     end
@@ -75,6 +76,7 @@ RSpec.describe Jira do
               project: { key: reminder.jira_project_key },
               issuetype: { name: config.issue_type },
               summary: "#{config.summary} #{project.name}",
+              labels: [config.label],
             },
           }
         end
